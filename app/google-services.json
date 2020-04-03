@@ -1,0 +1,196 @@
+{
+  "project_info": {
+    "project_number": "317085352909",
+    "firebase_url": "https://snowleopard-b3c1c.firebaseio.com",
+    "project_id": "snowleopard-b3c1c",
+    "storage_bucket": "snowleopard-b3c1c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:317085352909:android:5de4540d85754f944dfa84",
+        "android_client_info": {
+          "package_name": "com.example.kwfapp2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "317085352909-s8gu0feco7e92853b8qvvls4t0j91ccn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.kwfapp2",
+            "certificate_hash": "c3aa249bb89eeaca141be02edba6d74d4417415a"
+          }
+        },
+        {
+          "client_id": "317085352909-ac69spgnvfd8kfli4hk85io3sv4i6asd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCweWxS3eq3qDYxtGrfK1sSAOpw3GspfV4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "317085352909-ac69spgnvfd8kfli4hk85io3sv4i6asd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:317085352909:android:4040d0e4622c74c04dfa84",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "317085352909-bv13fumfb8et6m2ljoqhgt7033781lb6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.myapplication",
+            "certificate_hash": "c3aa249bb89eeaca141be02edba6d74d4417415a"
+          }
+        },
+        {
+          "client_id": "317085352909-ac69spgnvfd8kfli4hk85io3sv4i6asd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCweWxS3eq3qDYxtGrfK1sSAOpw3GspfV4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "317085352909-ac69spgnvfd8kfli4hk85io3sv4i6asd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:317085352909:android:0cea41961d8bdafb4dfa84",
+        "android_client_info": {
+          "package_name": "com.example.snowleopardapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "317085352909-1g72hdl126qq1sp15qnd4hfvfj6s54nr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.snowleopardapp",
+            "certificate_hash": "b1a6ff413e78d58fd335555b3c738f3073745a58"
+          }
+        },
+        {
+          "client_id": "317085352909-ac69spgnvfd8kfli4hk85io3sv4i6asd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCweWxS3eq3qDYxtGrfK1sSAOpw3GspfV4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "317085352909-ac69spgnvfd8kfli4hk85io3sv4i6asd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:317085352909:android:c70038be4111fbae4dfa84",
+        "android_client_info": {
+          "package_name": "com.example.test1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "317085352909-vdn8rq1cou2hggna9md2vm5513gcit3u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.test1",
+            "certificate_hash": "c3aa249bb89eeaca141be02edba6d74d4417415a"
+          }
+        },
+        {
+          "client_id": "317085352909-ac69spgnvfd8kfli4hk85io3sv4i6asd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCweWxS3eq3qDYxtGrfK1sSAOpw3GspfV4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "317085352909-ac69spgnvfd8kfli4hk85io3sv4i6asd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:317085352909:android:944fd0d82c2f21644dfa84",
+        "android_client_info": {
+          "package_name": "org.kashmirworldfoundation.snowleopard"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "317085352909-stknl8uosbvr9na1va765i8fbcpdtevu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.kashmirworldfoundation.snowleopard",
+            "certificate_hash": "b1a6ff413e78d58fd335555b3c738f3073745a58"
+          }
+        },
+        {
+          "client_id": "317085352909-ac69spgnvfd8kfli4hk85io3sv4i6asd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCweWxS3eq3qDYxtGrfK1sSAOpw3GspfV4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "317085352909-ac69spgnvfd8kfli4hk85io3sv4i6asd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

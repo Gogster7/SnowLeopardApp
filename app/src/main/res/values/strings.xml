@@ -1,3 +1,38 @@
 <resources>
-    <string name="app_name">Snow Leopard App</string>
+
+    <string name="app_name">KWFapp2</string>
+
+
+    <string-array name="Countries">
+
+    <item>Country</item>
+
+    <item>Afghanistan</item>
+
+    <item> Bhutan</item>
+
+    <item>China </item>
+
+    <item>India </item>
+
+    <item>Kashmir </item>
+
+    <item>Kazakhstan </item>
+
+    <item>Kyrgyzstan </item>
+
+    <item>Mongolia </item>
+
+    <item>Nepal </item>
+
+    <item>Pakistan </item>
+
+    <item>Russia </item>
+
+    <item> Tajikistan </item>
+
+    <item>Uzbekistan </item>
+
+</string-array>
+
 </resources>

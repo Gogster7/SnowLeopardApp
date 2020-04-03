@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context="org.kashmirworldfoundation.snowleopardapp.RegisterOrg">
+
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="274dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="88dp"
+        android:elegantTextHeight="true"
+        android:fontFamily="@font/aclonica"
+        android:shadowColor="#B4B1B1"
+        android:text="Register New Organization"
+        android:textColor="#FFFF8D"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="288dp"
+        android:layout_height="45dp"
+        android:elegantTextHeight="true"
+        android:fontFamily="@font/aclonica"
+        android:shadowColor="#B4B1B1"
+        android:text="Snow Leopard"
+        android:textColor="#FFFFFF"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.050000012" />
+
+    <EditText
+        android:id="@+id/region"
+        android:layout_width="300dp"
+        android:layout_height="51dp"
+        android:layout_marginBottom="10dp"
+        android:ems="10"
+        android:hint="Region"
+        android:inputType="text"
+        android:fontFamily="@font/aclonica"
+        android:textColorHint="#F8F8F8"
+        app:layout_constraintBottom_toTopOf="@+id/orgwebsite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Spinner
+        android:id="@+id/countries"
+        android:layout_width="300dp"
+        android:layout_height="51dp"
+        android:layout_marginBottom="10dp"
+        android:spinnerMode="dropdown"
+        app:layout_constraintBottom_toTopOf="@+id/region"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/orgwebsite"
+        android:layout_width="300dp"
+        android:layout_height="51dp"
+        android:layout_marginBottom="8dp"
+        android:ems="10"
+        android:fontFamily="@font/aclonica"
+        android:hint="Organization Website"
+        android:inputType="text"
+        android:textColorHint="#F8F8F8"
+        app:layout_constraintBottom_toTopOf="@+id/registerB"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/Orgname"
+        android:layout_width="300dp"
+        android:layout_height="51dp"
+        android:ems="10"
+        android:hint="Orgname"
+        android:inputType="text"
+        android:fontFamily="@font/aclonica"
+        android:textColorHint="#F8F8F8"
+        app:layout_constraintBottom_toTopOf="@+id/orgEmail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.9" />
+
+    <EditText
+        android:id="@+id/Orgphone"
+        android:layout_width="300dp"
+        android:layout_height="51dp"
+        android:layout_marginBottom="10dp"
+        android:ems="10"
+        android:hint="Phone Number"
+        android:inputType="phone"
+        android:fontFamily="@font/aclonica"
+        android:textColorHint="#F8F8F8"
+        app:layout_constraintBottom_toTopOf="@+id/countries"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/opassword"
+        android:layout_width="300dp"
+        android:layout_height="51dp"
+        android:layout_marginBottom="10dp"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:fontFamily="@font/aclonica"
+        android:textColorHint="#F8F8F8"
+        app:layout_constraintBottom_toTopOf="@+id/Orgphone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/orgEmail"
+        android:layout_width="300dp"
+        android:layout_height="51dp"
+        android:layout_marginBottom="10dp"
+        android:ems="10"
+        android:hint="Organization Email"
+        android:inputType="text"
+        android:fontFamily="@font/aclonica"
+        android:textColorHint="#F8F8F8"
+        app:layout_constraintBottom_toTopOf="@+id/opassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/logindr"
+        android:layout_width="290dp"
+        android:layout_height="42dp"
+        android:layout_marginBottom="52dp"
+        android:fontFamily="@font/aclonica"
+        android:text="Already Registered Org? Click Here"
+        android:textColor="#FAF5F7"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/registerB"
+        android:layout_width="125dp"
+        android:layout_height="44dp"
+        android:layout_marginBottom="10dp"
+        android:background="#FFFF8D"
+        android:fontFamily="@font/aclonica"
+        android:text="REGISTER"
+        android:textColor="#1B1A1A"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/logindr"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
