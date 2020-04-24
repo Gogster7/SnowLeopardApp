@@ -2,6 +2,7 @@ package com.example.snowleopardapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import org.kashmirworldfoundation.snowleopardapp.R
 
 class MainActivity : AppCompatActivity() {
 
@@ -10,3 +11,4 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
     }
 }
+

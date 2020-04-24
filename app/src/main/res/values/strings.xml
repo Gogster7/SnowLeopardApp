@@ -5,34 +5,37 @@
 
     <string-array name="Countries">
 
-    <item>Country</item>
+        <item>Country</item>
 
-    <item>Afghanistan</item>
+        <item>Afghanistan</item>
 
-    <item> Bhutan</item>
+        <item> Bhutan</item>
 
-    <item>China </item>
+        <item>China </item>
 
-    <item>India </item>
+        <item>India </item>
 
-    <item>Kashmir </item>
+        <item>Kashmir </item>
 
-    <item>Kazakhstan </item>
+        <item>Kazakhstan </item>
 
-    <item>Kyrgyzstan </item>
+        <item>Kyrgyzstan </item>
 
-    <item>Mongolia </item>
+        <item>Mongolia </item>
 
-    <item>Nepal </item>
+        <item>Nepal </item>
 
-    <item>Pakistan </item>
+        <item>Pakistan </item>
 
-    <item>Russia </item>
+        <item>Russia </item>
 
-    <item> Tajikistan </item>
+        <item> Tajikistan </item>
 
-    <item>Uzbekistan </item>
+        <item>Uzbekistan </item>
 
-</string-array>
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
