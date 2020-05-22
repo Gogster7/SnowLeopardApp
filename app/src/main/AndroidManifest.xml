@@ -3,6 +3,7 @@
     package="org.kashmirworldfoundation.snowleopardapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -14,6 +15,7 @@
         <activity android:name=".PostActivity"></activity>
         <activity android:name=".RegisterOrg" />
         <activity android:name=".Login" />
+        <activity android:name=".CreateStation" />
         <activity android:name=".Register">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
