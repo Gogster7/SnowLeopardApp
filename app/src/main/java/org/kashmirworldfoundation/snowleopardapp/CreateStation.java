@@ -14,6 +14,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,10 +26,30 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Calendar;
 import java.util.Date;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+
+
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.protocol.HttpContext;
 
 public class CreateStation extends AppCompatActivity {
     private static final String TAG = "Activity";
@@ -44,7 +65,7 @@ public class CreateStation extends AppCompatActivity {
     private String watershedid;
     private String latitudeS;
     private String longitudeS;
-    private String altitude;
+    private double altitude;
     private String cameraId;
 
     private String terrain;
@@ -53,6 +74,7 @@ public class CreateStation extends AppCompatActivity {
     private String substrate;
     private String potential;
 
+    private static final String ELEVATION_API_KEY="AIzaSyBh-rFSAH9QqPtUrLXcT5Z0c2ZQiJUWkTc";
     private static final int LOCATION_REQUEST = 111;
     //private boolean isEmpty;
     private FusedLocationProviderClient mFusedLocationClient;
@@ -61,6 +83,10 @@ public class CreateStation extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_station);
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
 
         stationIdInput=findViewById(R.id.stationId);
         WatershedInput=findViewById(R.id.watershedid);
@@ -88,7 +114,6 @@ public class CreateStation extends AppCompatActivity {
         watershedid=WatershedInput.getText().toString();
         latitudeS=LatitudeInput.getText().toString();
         longitudeS=LatitudeInput.getText().toString();
-        altitude=ElevationInput.getText().toString();
         cameraId=cameraIDInput.getText().toString();
     }
 
@@ -258,21 +283,65 @@ public class CreateStation extends AppCompatActivity {
 
     }
 
+
+    private double getElevationFromGoogleMaps(double longitude, double latitude) {
+        double result = Double.NaN;
+        HttpClient httpClient = new DefaultHttpClient();
+        HttpContext localContext = new BasicHttpContext();
+        String url = "https://maps.googleapis.com/maps/api/elevation/"
+                + "xml?locations=" + String.valueOf(latitude)
+                + "," + String.valueOf(longitude)
+                + "&key="
+                + ELEVATION_API_KEY;
+        HttpGet httpGet = new HttpGet(url);
+        try {
+            HttpResponse response = httpClient.execute(httpGet, localContext);
+            HttpEntity entity = response.getEntity();
+            if (entity != null) {
+                InputStream instream = entity.getContent();
+                int r = -1;
+                StringBuffer respStr = new StringBuffer();
+                while ((r = instream.read()) != -1)
+                    respStr.append((char) r);
+                String tagOpen = "<elevation>";
+                String tagClose = "</elevation>";
+                if (respStr.indexOf(tagOpen) != -1) {
+                    int start = respStr.indexOf(tagOpen) + tagOpen.length();
+                    int end = respStr.indexOf(tagClose);
+                    String value = respStr.substring(start, end);
+                    //result = (double)(Double.parseDouble(value)*3.2808399); // convert from meters to feet
+                    result=(double)Double.parseDouble(value);
+                }
+                instream.close();
+            }
+        } catch (ClientProtocolException e) {}
+        catch (IOException e) {}
+
+        return result;
+    }
+
+
     private void determineLocation() {
-        Log.d(TAG, "determineLocation: !!!!"+checkPermission());
         if (checkPermission()) {
-            Log.d(TAG, "determineLocation: 22222");
             mFusedLocationClient.getLastLocation()
                     .addOnSuccessListener(this, new OnSuccessListener<Location>() {
                         @Override
                         public void onSuccess(Location location) {
+
+                            // Got last known location. In some rare situations this can be null.
                             if (location != null) {
+                                // Add a marker at current location
                                 latitude=location.getLatitude();
                                 longitude=location.getLongitude();
                                 LatitudeInput.setText(String.valueOf(latitude));
-                                Log.d(TAG, "determineLocation: 333"+latitude);
                                 LongitudeInput.setText(String.valueOf(longitude));
-                                Log.d(TAG, "determineLocation: 44444"+longitude);
+                                altitude=location.getAltitude();
+
+                               /*data from excel for testing
+                               double tempAltitude= getElevationFromGoogleMaps(74.74472,36.17607);
+                               */
+                                double tempAltitude= getElevationFromGoogleMaps(longitude,latitude);
+                                ElevationInput.setText(String.valueOf(tempAltitude));
                             }
                         }
                     });
