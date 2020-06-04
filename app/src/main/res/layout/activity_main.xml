@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,49 +7,28 @@
     android:background="@drawable/background"
     tools:context=".MainActivity">
 
-    <FrameLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/bottom"
-        android:id="@+id/fragment_container"/>
-
-
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:id="@+id/bottom"
-        android:layout_alignParentBottom="true"
         android:layout_height="wrap_content">
 
-        <android.support.design.widget.BottomNavigationView
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/bottom_navigation"
-            app:itemIconTint="@color/selector"
-            app:labelVisibilityMode="unlabeled"
-            android:background="?android:attr/windowBackground"
-            app:menu="@menu/bottom_navigation"/>
+            android:layout_height="?attr/actionBarSize"
+            android:background="@android:color/white"
+            />
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
+        </com.google.android.material.tabs.TabLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        />
 
-    </android.support.design.widget.AppBarLayout>
-
-<!--    <TextView-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Welcome to your Profile!"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintLeft_toLeftOf="parent"-->
-<!--        app:layout_constraintRight_toRightOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
-<!--    <Button-->
-<!--        android:id="@+id/button"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:onClick="logout"-->
-<!--        android:text="Logout"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintVertical_bias="0.69" />-->
-
-</RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

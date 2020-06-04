@@ -1,14 +1,1829 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="org.kashmirworldfoundation.snowleopardapp.Fragment.AddFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Add" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/scrollView3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="162dp" />
+
+
+            <androidx.constraintlayout.widget.Guideline
+
+
+                android:id="@+id/guideline2"
+
+
+                android:layout_width="wrap_content"
+
+
+                android:layout_height="wrap_content"
+
+
+                android:orientation="horizontal"
+
+
+                app:layout_constraintGuide_begin="471dp" />
+
+
+
+
+
+            <TextView
+
+
+                android:id="@+id/watershedIdLabel"
+
+
+                android:layout_width="wrap_content"
+
+
+                android:layout_height="wrap_content"
+
+
+                android:layout_marginStart="32dp"
+
+
+                android:layout_marginTop="32dp"
+
+
+                android:fontFamily="@font/aclonica"
+
+
+                android:text="Watershed"
+
+
+                android:textColor="#FFFFFF"
+
+
+                android:textSize="21sp"
+
+
+                app:layout_constraintStart_toStartOf="parent"
+
+
+                app:layout_constraintTop_toBottomOf="@+id/stationPIdLabel" />
+
+
+
+
+
+            <TextView
+
+
+                android:id="@+id/cameraIdLabel"
+
+
+                android:layout_width="wrap_content"
+
+
+                android:layout_height="wrap_content"
+
+
+                android:layout_marginStart="44dp"
+
+
+                android:layout_marginTop="32dp"
+
+
+                android:fontFamily="@font/aclonica"
+
+
+                android:text="Camera ID"
+
+
+                android:textColor="#FFFFFF"
+
+
+                android:textSize="21dp"
+
+
+                app:layout_constraintEnd_toStartOf="@+id/cameraId"
+
+
+                app:layout_constraintHorizontal_bias="0.0"
+
+
+                app:layout_constraintStart_toStartOf="parent"
+
+
+                app:layout_constraintTop_toBottomOf="@+id/elevationIdLabel" />
+
+
+
+
+
+            <TextView
+
+
+                android:id="@+id/lureTypeIdLabel"
+
+
+                android:layout_width="wrap_content"
+
+
+                android:layout_height="wrap_content"
+
+
+                android:layout_marginStart="44dp"
+
+
+                android:layout_marginTop="56dp"
+
+
+                android:fontFamily="@font/aclonica"
+
+
+                android:text="LURE TYPE"
+
+
+                android:textColor="#FFFFFF"
+
+
+                android:textSize="21dp"
+
+
+                app:layout_constraintEnd_toStartOf="@+id/radioGroup02"
+
+
+                app:layout_constraintHorizontal_bias="0.0"
+
+
+                app:layout_constraintStart_toStartOf="parent"
+
+
+                app:layout_constraintTop_toTopOf="@+id/guideline2" />
+
+
+
+
+
+            <TextView
+
+
+                android:id="@+id/habitatIdLabel"
+
+
+                android:layout_width="wrap_content"
+
+
+                android:layout_height="wrap_content"
+
+
+                android:layout_marginStart="48dp"
+
+
+                android:layout_marginTop="64dp"
+
+
+                android:fontFamily="@font/aclonica"
+
+
+                android:text="HABITAT"
+
+
+                android:textColor="#FFFFFF"
+
+
+                android:textSize="21dp"
+
+
+                app:layout_constraintStart_toStartOf="parent"
+
+
+                app:layout_constraintTop_toTopOf="@+id/guideline4" />
+
+
+
+
+
+            <TextView
+
+
+                android:id="@+id/TerrainIdLabel"
+
+
+                android:layout_width="wrap_content"
+
+
+                android:layout_height="wrap_content"
+
+
+                android:layout_marginStart="48dp"
+
+
+                android:layout_marginTop="90dp"
+
+
+                android:fontFamily="@font/aclonica"
+
+
+                android:text="TERRAIN"
+
+
+                android:textColor="#FFFFFF"
+
+
+                android:textSize="21dp"
+
+
+                app:layout_constraintStart_toStartOf="parent"
+
+
+                app:layout_constraintTop_toTopOf="@+id/guideline5" />
+
+
+
+
+
+            <TextView
+
+
+                android:id="@+id/substrateIdLabel"
+
+
+                android:layout_width="wrap_content"
+
+
+                android:layout_height="wrap_content"
+
+
+                android:layout_marginStart="25dp"
+
+
+                android:layout_marginTop="75dp"
+
+
+                android:fontFamily="@font/aclonica"
+
+
+                android:text="SUBSTRATE"
+
+
+                android:textColor="#FFFFFF"
+
+
+                android:textSize="21dp"
+
+
+                app:layout_constraintStart_toStartOf="parent"
+
+
+                app:layout_constraintTop_toTopOf="@+id/guideline6" />
+
+
+
+
+
+            <TextView
+
+
+                android:id="@+id/stationP2IdLabel"
+
+
+                android:layout_width="115dp"
+
+
+                android:layout_height="44dp"
+
+
+                android:layout_marginStart="45dp"
+
+
+                android:layout_marginTop="30dp"
+
+
+                android:fontFamily="@font/aclonica"
+
+
+                android:text="Station"
+
+
+                android:textColor="#FFFFFF"
+
+
+                android:textSize="21dp"
+
+
+                app:layout_constraintStart_toStartOf="parent"
+
+
+                app:layout_constraintTop_toTopOf="@+id/guideline7" />
+
+
+
+
+
+            <TextView
+
+
+                android:id="@+id/potentialIdLabel"
+
+
+                android:layout_width="wrap_content"
+
+
+                android:layout_height="wrap_content"
+
+
+                android:layout_marginStart="35dp"
+
+
+                android:layout_marginTop="60dp"
+
+
+                android:fontFamily="@font/aclonica"
+
+
+                android:text="potential"
+
+
+                android:textColor="#FFFFFF"
+
+
+                android:textSize="21dp"
+
+
+                app:layout_constraintStart_toStartOf="parent"
+
+
+                app:layout_constraintTop_toTopOf="@+id/guideline7" />
+
+
+
+
+
+            <EditText
+
+
+                android:id="@+id/nId"
+
+
+                android:layout_width="199dp"
+
+
+                android:layout_height="29dp"
+
+
+                android:layout_marginTop="28dp"
+
+
+                android:background="#FFFFFF"
+
+
+                android:ems="10"
+
+
+                android:inputType="numberDecimal"
+
+
+                app:layout_constraintEnd_toEndOf="parent"
+
+
+                app:layout_constraintHorizontal_bias="0.558"
+
+
+                app:layout_constraintStart_toEndOf="@+id/LatitudeIdLabel"
+
+
+                app:layout_constraintTop_toBottomOf="@+id/watershedid" />
+
+
+
+
+
+            <EditText
+
+
+                android:id="@+id/eId"
+
+
+                android:layout_width="199dp"
+
+
+                android:layout_height="29dp"
+
+
+                android:layout_marginTop="32dp"
+
+
+                android:background="#FFFFFF"
+
+
+                android:ems="10"
+
+
+                android:inputType="numberDecimal"
+
+
+                app:layout_constraintEnd_toEndOf="parent"
+
+
+                app:layout_constraintHorizontal_bias="0.508"
+
+
+                app:layout_constraintStart_toEndOf="@+id/LongitudeIdLabel"
+
+
+                app:layout_constraintTop_toBottomOf="@+id/nId" />
+
+
+
+
+
+            <EditText
+
+
+                android:id="@+id/elevationId"
+
+
+                android:layout_width="199dp"
+
+
+                android:layout_height="29dp"
+
+
+                android:layout_marginTop="32dp"
+
+
+                android:background="#FFFFFF"
+
+
+                android:ems="10"
+
+
+                android:inputType="numberDecimal"
+
+
+                app:layout_constraintEnd_toEndOf="parent"
+
+
+                app:layout_constraintHorizontal_bias="0.491"
+
+
+                app:layout_constraintStart_toEndOf="@+id/elevationIdLabel"
+
+
+                app:layout_constraintTop_toBottomOf="@+id/eId" />
+
+
+
+
+
+            <EditText
+
+
+                android:id="@+id/stationId"
+
+
+                android:layout_width="199dp"
+
+
+                android:layout_height="29dp"
+
+
+                android:layout_marginTop="36dp"
+
+
+                android:alpha="50"
+
+
+                android:background="#FDFBFB"
+
+
+                android:ems="10"
+
+
+                android:inputType="textPersonName"
+
+
+                android:textSize="18sp"
+
+
+                app:layout_constraintEnd_toEndOf="parent"
+
+
+                app:layout_constraintHorizontal_bias="0.448"
+
+
+                app:layout_constraintStart_toEndOf="@+id/stationPIdLabel"
+
+
+                app:layout_constraintTop_toBottomOf="@+id/createStationLabel" />
+
+
+
+
+
+            <TextView
+
+
+                android:id="@+id/LongitudeIdLabel"
+
+
+                android:layout_width="wrap_content"
+
+
+                android:layout_height="wrap_content"
+
+
+                android:layout_marginStart="36dp"
+
+
+                android:layout_marginTop="36dp"
+
+
+                android:fontFamily="@font/aclonica"
+
+
+                android:text="Longitude"
+
+
+                android:textColor="#FFFFFF"
+
+
+                android:textSize="21dp"
+
+
+                app:layout_constraintStart_toStartOf="parent"
+
+
+                app:layout_constraintTop_toBottomOf="@+id/LatitudeIdLabel" />
+
+
+
+
+
+            <EditText
+
+
+                android:id="@+id/cameraId"
+
+
+                android:layout_width="199dp"
+
+
+                android:layout_height="29dp"
+
+
+                android:layout_marginTop="28dp"
+
+
+                android:layout_marginEnd="28dp"
+
+
+                android:alpha="50"
+
+
+                android:background="#FDFBFB"
+
+
+                android:ems="10"
+
+
+                android:inputType="textPersonName"
+
+
+                android:textSize="18sp"
+
+
+                app:layout_constraintEnd_toEndOf="parent"
+
+
+                app:layout_constraintTop_toBottomOf="@+id/elevationId" />
+
+
+
+
+
+            <TextView
+
+
+                android:id="@+id/createStationLabel"
+
+
+                android:layout_width="wrap_content"
+
+
+                android:layout_height="wrap_content"
+
+
+                android:layout_marginTop="24dp"
+
+
+                android:fontFamily="@font/aclonica"
+
+
+                android:text="Create Station"
+
+
+                android:textColor="#FFFFFF"
+
+
+                android:textSize="24dp"
+
+
+                app:layout_constraintEnd_toEndOf="parent"
+
+
+                app:layout_constraintStart_toStartOf="parent"
+
+
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+
+
+
+            <TextView
+
+
+                android:id="@+id/stationPIdLabel"
+
+
+                android:layout_width="wrap_content"
+
+
+                android:layout_height="wrap_content"
+
+
+                android:layout_marginStart="32dp"
+
+
+                android:layout_marginTop="36dp"
+
+
+                android:fontFamily="@font/aclonica"
+
+
+                android:text="STATION ID"
+
+
+                android:textColor="#FFFFFF"
+
+
+                android:textSize="20sp"
+
+
+                app:layout_constraintStart_toStartOf="parent"
+
+
+                app:layout_constraintTop_toBottomOf="@+id/createStationLabel" />
+
+
+
+
+
+            <EditText
+
+
+                android:id="@+id/watershedid"
+
+
+                android:layout_width="199dp"
+
+
+                android:layout_height="29dp"
+
+
+                android:layout_marginTop="28dp"
+
+
+                android:alpha="50"
+
+
+                android:background="#FDFBFB"
+
+
+                android:ems="10"
+
+
+                android:inputType="textPersonName"
+
+
+                android:textSize="18sp"
+
+
+                app:layout_constraintEnd_toEndOf="parent"
+
+
+                app:layout_constraintHorizontal_bias="0.481"
+
+
+                app:layout_constraintStart_toEndOf="@+id/watershedIdLabel"
+
+
+                app:layout_constraintTop_toBottomOf="@+id/stationId" />
+
+
+
+
+
+            <TextView
+
+
+                android:id="@+id/elevationIdLabel"
+
+
+                android:layout_width="wrap_content"
+
+
+                android:layout_height="wrap_content"
+
+
+                android:layout_marginStart="48dp"
+
+
+                android:layout_marginTop="32dp"
+
+
+                android:fontFamily="@font/aclonica"
+
+
+                android:text="Elevation"
+
+
+                android:textColor="#FFFFFF"
+
+
+                android:textSize="21dp"
+
+
+                app:layout_constraintStart_toStartOf="parent"
+
+
+                app:layout_constraintTop_toBottomOf="@+id/LongitudeIdLabel" />
+
+
+
+
+
+            <TextView
+
+
+                android:id="@+id/LatitudeIdLabel"
+
+
+                android:layout_width="wrap_content"
+
+
+                android:layout_height="wrap_content"
+
+
+                android:layout_marginStart="48dp"
+
+
+                android:layout_marginTop="32dp"
+
+
+                android:fontFamily="@font/aclonica"
+
+
+                android:text="Latitude"
+
+
+                android:textColor="#FFFFFF"
+
+
+                android:textSize="21dp"
+
+
+                app:layout_constraintStart_toStartOf="parent"
+
+
+                app:layout_constraintTop_toBottomOf="@+id/watershedIdLabel" />
+
+
+
+
+
+            <RadioGroup
+
+
+                android:id="@+id/radioGroup01"
+
+
+                android:layout_width="wrap_content"
+
+
+                android:layout_height="wrap_content"
+
+
+                android:layout_marginStart="16dp"
+
+
+                app:layout_constraintEnd_toEndOf="parent"
+
+
+                app:layout_constraintStart_toStartOf="@+id/guideline3"
+
+
+                app:layout_constraintTop_toTopOf="@+id/guideline2">
+
+
+
+
+
+                <RadioButton
+
+
+                    android:id="@+id/radioButtonSkunkId"
+
+
+                    android:layout_width="match_parent"
+
+
+                    android:layout_height="wrap_content"
+
+
+                    android:buttonTint="#FFFFFF"
+
+
+                    android:checked="false"
+
+
+                    android:fontFamily="@font/aclonica"
+
+
+                    android:onClick="radioClicked_SkunkFishOil"
+
+
+                    android:text="skunk + fish oil"
+
+
+                    android:textColor="#FFFFFF"
+
+
+                    android:textSize="18sp" />
+
+
+
+
+
+                <RadioButton
+
+
+                    android:id="@+id/radioButtonCastorId"
+
+
+                    android:layout_width="match_parent"
+
+
+                    android:layout_height="wrap_content"
+
+
+                    android:buttonTint="#FFFFFF"
+
+
+                    android:fontFamily="@font/aclonica"
+
+
+                    android:onClick="radioClicked_CastorFishOil"
+
+
+                    android:text="castor +fish oil"
+
+
+                    android:textColor="#FFFFFF"
+
+
+                    android:textSize="18sp" />
+
+
+
+
+
+                <RadioButton
+
+
+                    android:id="@+id/radioButtonFishId"
+
+
+                    android:layout_width="210dp"
+
+
+                    android:layout_height="38dp"
+
+
+                    android:buttonTint="#FFFFFF"
+
+
+                    android:fontFamily="@font/aclonica"
+
+
+                    android:onClick="radioClicked_FishOil"
+
+
+                    android:text="fish oil"
+
+
+                    android:textColor="#FFFFFF"
+
+
+                    android:textSize="18sp" />
+
+
+
+
+
+                <RadioButton
+
+
+                    android:id="@+id/radioButtonNoneId"
+
+
+                    android:layout_width="match_parent"
+
+
+                    android:layout_height="wrap_content"
+
+
+                    android:buttonTint="#FFFFFF"
+
+
+                    android:fontFamily="@font/aclonica"
+
+
+                    android:onClick="radioClicked_None"
+
+
+                    android:text="none"
+
+
+                    android:textColor="#FFFFFF"
+
+
+                    android:textSize="18sp" />
+
+
+            </RadioGroup>
+
+
+
+
+
+            <androidx.constraintlayout.widget.Guideline
+
+
+                android:id="@+id/guideline4"
+
+
+                android:layout_width="wrap_content"
+
+
+                android:layout_height="wrap_content"
+
+
+                android:orientation="horizontal"
+
+
+                app:layout_constraintGuide_begin="629dp" />
+
+
+
+
+
+            <androidx.constraintlayout.widget.Guideline
+
+
+                android:id="@+id/guideline5"
+
+
+                android:layout_width="wrap_content"
+
+
+                android:layout_height="wrap_content"
+
+
+                android:orientation="horizontal"
+
+
+                app:layout_constraintGuide_begin="819dp" />
+
+
+
+
+
+            <androidx.constraintlayout.widget.Guideline
+
+
+                android:id="@+id/guideline6"
+
+
+                android:layout_width="wrap_content"
+
+
+                android:layout_height="wrap_content"
+
+
+                android:orientation="horizontal"
+
+
+                app:layout_constraintGuide_begin="1050dp" />
+
+
+
+
+
+            <RadioGroup
+
+
+                android:id="@+id/radioGroup05"
+
+
+                android:layout_width="212dp"
+
+
+                android:layout_height="175dp"
+
+
+                android:layout_marginStart="16dp"
+
+
+                app:layout_constraintEnd_toEndOf="parent"
+
+
+                app:layout_constraintStart_toStartOf="@+id/guideline3"
+
+
+                app:layout_constraintTop_toTopOf="@+id/guideline6">
+
+
+
+
+
+                <RadioButton
+
+
+                    android:id="@+id/radioButtonSandId"
+
+
+                    android:layout_width="match_parent"
+
+
+                    android:layout_height="wrap_content"
+
+
+                    android:buttonTint="#FFFFFF"
+
+
+                    android:fontFamily="@font/aclonica"
+
+
+                    android:onClick="radioClicked_sand"
+
+
+                    android:text="sand"
+
+
+                    android:textColor="#FFFFFF"
+
+
+                    android:textSize="18sp" />
+
+
+
+
+
+                <RadioButton
+
+
+                    android:id="@+id/radioButtonSoilId"
+
+
+                    android:layout_width="match_parent"
+
+
+                    android:layout_height="wrap_content"
+
+
+                    android:buttonTint="#FFFFFF"
+
+
+                    android:fontFamily="@font/aclonica"
+
+
+                    android:onClick="radioClicked_soil"
+
+
+                    android:text="soil"
+
+
+                    android:textColor="#FFFFFF"
+
+
+                    android:textSize="18sp" />
+
+
+
+
+
+                <RadioButton
+
+
+                    android:id="@+id/radioButtonRockId"
+
+
+                    android:layout_width="match_parent"
+
+
+                    android:layout_height="wrap_content"
+
+
+                    android:buttonTint="#FFFFFF"
+
+
+                    android:fontFamily="@font/aclonica"
+
+
+                    android:onClick="radioClicked_rock"
+
+
+                    android:text="rock/gravel"
+
+
+                    android:textColor="#FFFFFF"
+
+
+                    android:textSize="18sp" />
+
+
+
+
+
+                <RadioButton
+
+
+                    android:id="@+id/radioButtonSnowId"
+
+
+                    android:layout_width="match_parent"
+
+
+                    android:layout_height="wrap_content"
+
+
+                    android:buttonTint="#FFFFFF"
+
+
+                    android:fontFamily="@font/aclonica"
+
+
+                    android:onClick="radioClicked_snow"
+
+
+                    android:text="snow"
+
+
+                    android:textColor="#FFFFFF"
+
+
+                    android:textSize="18sp" />
+
+
+
+
+
+                <RadioButton
+
+
+                    android:id="@+id/radioButtonVegetationId"
+
+
+                    android:layout_width="match_parent"
+
+
+                    android:layout_height="wrap_content"
+
+
+                    android:buttonTint="#FFFFFF"
+
+
+                    android:fontFamily="@font/aclonica"
+
+
+                    android:onClick="radioClicked_vegetation"
+
+
+                    android:text="vegetation"
+
+
+                    android:textColor="#FFFFFF"
+
+
+                    android:textSize="18sp" />
+
+
+            </RadioGroup>
+
+
+
+
+
+            <androidx.constraintlayout.widget.Guideline
+
+
+                android:id="@+id/guideline7"
+
+
+                android:layout_width="wrap_content"
+
+
+                android:layout_height="wrap_content"
+
+
+                android:orientation="horizontal"
+
+
+                app:layout_constraintGuide_begin="1250dp" />
+
+
+
+
+
+            <androidx.constraintlayout.widget.Guideline
+
+
+                android:id="@+id/guideline8"
+
+
+                android:layout_width="wrap_content"
+
+
+                android:layout_height="wrap_content"
+
+
+                android:orientation="horizontal"
+
+
+                app:layout_constraintGuide_begin="1370dp" />
+
+
+
+
+
+            <RadioGroup
+
+
+                android:id="@+id/radioGroup06"
+
+
+                android:layout_width="212dp"
+
+
+                android:layout_height="175dp"
+
+
+                android:layout_marginStart="16dp"
+
+
+                android:layout_marginTop="16dp"
+
+
+                app:layout_constraintEnd_toEndOf="parent"
+
+
+                app:layout_constraintStart_toStartOf="@+id/guideline3"
+
+
+                app:layout_constraintTop_toTopOf="@+id/guideline7">
+
+
+
+
+
+                <RadioButton
+
+
+                    android:id="@+id/radioButtonGoodId"
+
+
+                    android:layout_width="match_parent"
+
+
+                    android:layout_height="wrap_content"
+
+
+                    android:buttonTint="#FFFFFF"
+
+
+                    android:fontFamily="@font/aclonica"
+
+
+                    android:onClick="radioClicked_Good"
+
+
+                    android:text="good"
+
+
+                    android:textColor="#FFFFFF"
+
+
+                    android:textSize="18sp" />
+
+
+
+
+
+                <RadioButton
+
+
+                    android:id="@+id/radioButtonMediumId"
+
+
+                    android:layout_width="match_parent"
+
+
+                    android:layout_height="wrap_content"
+
+
+                    android:buttonTint="#FFFFFF"
+
+
+                    android:fontFamily="@font/aclonica"
+
+
+                    android:onClick="radioClicked_Medium"
+
+
+                    android:text="medium"
+
+
+                    android:textColor="#FFFFFF"
+
+
+                    android:textSize="18sp" />
+
+
+
+
+
+                <RadioButton
+
+
+                    android:id="@+id/radioButtonPoorId"
+
+
+                    android:layout_width="match_parent"
+
+
+                    android:layout_height="wrap_content"
+
+
+                    android:buttonTint="#FFFFFF"
+
+
+                    android:fontFamily="@font/aclonica"
+
+
+                    android:onClick="radioClicked_Poor"
+
+
+                    android:text="poor"
+
+
+                    android:textColor="#FFFFFF"
+
+
+                    android:textSize="18sp" />
+
+
+            </RadioGroup>
+
+
+
+
+
+            <RadioGroup
+
+
+
+
+
+                android:id="@+id/radioGroup02"
+
+
+                android:layout_width="212dp"
+
+
+                android:layout_height="168dp"
+
+
+                android:layout_marginStart="16dp"
+
+
+                app:layout_constraintEnd_toEndOf="parent"
+
+
+                app:layout_constraintStart_toStartOf="@+id/guideline3"
+
+
+                app:layout_constraintTop_toTopOf="@+id/guideline4">
+
+
+
+
+
+                <RadioButton
+
+
+                    android:id="@+id/radioButtonScrubId"
+
+
+                    android:layout_width="match_parent"
+
+
+                    android:layout_height="wrap_content"
+
+
+                    android:buttonTint="#FFFFFF"
+
+
+                    android:fontFamily="@font/aclonica"
+
+
+                    android:onClick="radioClicked_Scrub"
+
+
+                    android:text="scrub"
+
+
+                    android:textColor="#FFFFFF"
+
+
+                    android:textSize="18sp" />
+
+
+
+
+
+                <RadioButton
+
+
+                    android:id="@+id/radioButtonForestId"
+
+
+                    android:layout_width="match_parent"
+
+
+                    android:layout_height="wrap_content"
+
+
+                    android:buttonTint="#FFFFFF"
+
+
+                    android:fontFamily="@font/aclonica"
+
+
+                    android:onClick="radioClicked_Forest"
+
+
+                    android:text="forest"
+
+
+                    android:textColor="#FFFFFF"
+
+
+                    android:textSize="18sp" />
+
+
+
+
+
+                <RadioButton
+
+
+                    android:id="@+id/radioButtonPastureId"
+
+
+                    android:layout_width="match_parent"
+
+
+                    android:layout_height="wrap_content"
+
+
+                    android:buttonTint="#FFFFFF"
+
+
+                    android:fontFamily="@font/aclonica"
+
+
+                    android:onClick="radioClicked_Pasture"
+
+
+                    android:text="pasture"
+
+
+                    android:textColor="#FFFFFF"
+
+
+                    android:textSize="18sp" />
+
+
+
+
+
+                <RadioButton
+
+
+                    android:id="@+id/radioButtonBarrenId"
+
+
+                    android:layout_width="match_parent"
+
+
+                    android:layout_height="wrap_content"
+
+
+                    android:buttonTint="#FFFFFF"
+
+
+                    android:fontFamily="@font/aclonica"
+
+
+                    android:onClick="radioClicked_Barren"
+
+
+                    android:text="barren"
+
+
+                    android:textColor="#FFFFFF"
+
+
+                    android:textSize="18sp" />
+
+
+
+
+
+                <RadioButton
+
+
+                    android:id="@+id/radioButtonAgricId"
+
+
+                    android:layout_width="match_parent"
+
+
+                    android:layout_height="wrap_content"
+
+
+                    android:buttonTint="#FFFFFF"
+
+
+                    android:fontFamily="@font/aclonica"
+
+
+                    android:onClick="radioClicked_Agric"
+
+
+                    android:text="agric"
+
+
+                    android:textColor="#FFFFFF"
+
+
+                    android:textSize="18sp" />
+
+
+
+
+
+            </RadioGroup>
+
+
+
+
+
+            <RadioGroup
+
+
+                android:layout_width="210dp"
+
+
+                android:layout_height="206dp"
+
+
+                android:layout_marginStart="16dp"
+
+
+                app:layout_constraintEnd_toEndOf="parent"
+
+
+                app:layout_constraintStart_toStartOf="@+id/guideline3"
+
+
+                app:layout_constraintTop_toTopOf="@+id/guideline5">
+
+
+
+
+
+                <RadioButton
+
+
+                    android:id="@+id/radioButtonRidgeId"
+
+
+                    android:layout_width="match_parent"
+
+
+                    android:layout_height="wrap_content"
+
+
+                    android:buttonTint="#FFFFFF"
+
+
+                    android:fontFamily="@font/aclonica"
+
+
+                    android:onClick="radioClicked_Ridge"
+
+
+                    android:text="ridge"
+
+
+                    android:textColor="#FFFFFF"
+
+
+                    android:textSize="18sp" />
+
+
+
+
+
+                <RadioButton
+
+
+                    android:id="@+id/radioButtonCliffBaseId"
+
+
+                    android:layout_width="match_parent"
+
+
+                    android:layout_height="wrap_content"
+
+
+                    android:buttonTint="#FFFFFF"
+
+
+                    android:fontFamily="@font/aclonica"
+
+
+                    android:onClick="radioClicked_Cliff"
+
+
+                    android:text="cliff base"
+
+
+                    android:textColor="#FFFFFF"
+
+
+                    android:textSize="18sp" />
+
+
+
+
+
+                <RadioButton
+
+
+                    android:id="@+id/radioButtonDrawId"
+
+
+                    android:layout_width="match_parent"
+
+
+                    android:layout_height="wrap_content"
+
+
+                    android:buttonTint="#FFFFFF"
+
+
+                    android:fontFamily="@font/aclonica"
+
+
+                    android:onClick="radioClicked_Draw"
+
+
+                    android:text="draw"
+
+
+                    android:textColor="#FFFFFF"
+
+
+                    android:textSize="18sp" />
+
+
+
+
+
+                <RadioButton
+
+
+                    android:id="@+id/radioButtonValleyId"
+
+
+                    android:layout_width="match_parent"
+
+
+                    android:layout_height="wrap_content"
+
+
+                    android:buttonTint="#FFFFFF"
+
+
+                    android:fontFamily="@font/aclonica"
+
+
+                    android:onClick="radioClicked_Vally"
+
+
+                    android:text="valley"
+
+
+                    android:textColor="#FFFFFF"
+
+
+                    android:textSize="18sp" />
+
+
+
+
+
+                <RadioButton
+
+
+                    android:id="@+id/radioButtonSaddleId"
+
+
+                    android:layout_width="match_parent"
+
+
+                    android:layout_height="wrap_content"
+
+
+                    android:buttonTint="#FFFFFF"
+
+
+                    android:fontFamily="@font/aclonica"
+
+
+                    android:onClick="radioClicked_Saddle"
+
+
+                    android:text="saddle"
+
+
+                    android:textColor="#FFFFFF"
+
+
+                    android:textSize="18sp" />
+
+
+
+
+
+                <RadioButton
+                    android:id="@+id/radioButtonPlateauId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="#FFFFFF"
+                    android:fontFamily="@font/aclonica"
+                    android:onClick="radioClicked_plateau"
+                    android:text="plateau"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp" />
+
+            </RadioGroup>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
 
 </FrameLayout>
