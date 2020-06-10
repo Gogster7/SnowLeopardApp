@@ -32,6 +32,8 @@ import java.util.Date;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
+import org.kashmirworldfoundation.snowleopardapp.R;
+
 public class AddFragment extends Fragment {
 
     @Nullable
@@ -121,7 +123,7 @@ public class AddFragment extends Fragment {
     @Override
 
 
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
 
 
         super.onCreate(savedInstanceState);
