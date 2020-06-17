@@ -12,9 +12,7 @@ import android.view.ViewGroup;
 
 import org.kashmirworldfoundation.snowleopardapp.R;
 
-
 public class ListFragment extends Fragment {
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
