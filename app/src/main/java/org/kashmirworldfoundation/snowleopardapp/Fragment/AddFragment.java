@@ -88,6 +88,9 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
 
         return fragmentView;
     }
+    public static AddFragment newInstance() {
+        return new AddFragment();
+    }
 
 
     //onStart the fragment for set Text
@@ -102,6 +105,9 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
     @Override
     public void onResume(){
         super.onResume();
+        this.LongitudeInput.setText(longitudeS);
+        this.LatitudeInput.setText(latitudeS);
+        this.ElevationInput.setText(altitudeS);
     }
 
     //refresh the fragment
@@ -122,19 +128,19 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
                 switch(checkedId) {
                     case R.id.radioButtonSkunkId:
                         lureType = "Skunk + Fish Oil";
-                        Toast.makeText(getActivity(), "Habitat You Selected Skunk + Fish Oil", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Lure Type You Selected Skunk + Fish Oil", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.radioButtonCastorId:
                         lureType = "Castor + Fish Oil";
-                        Toast.makeText(getActivity(), "Habitat You Selected Castor + Fish Oil", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Lure Type You Selected Castor + Fish Oil", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.radioButtonFishId:
                         lureType = "Fish Oil";
-                        Toast.makeText(getActivity(), "Habitat You Selected Fish Oil", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Lure Type You Selected Fish Oil", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.radioButtonNoneId:
                         lureType = "None";
-                        Toast.makeText(getActivity(), "Habitat You Selected None", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Lure Type You Selected None", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }

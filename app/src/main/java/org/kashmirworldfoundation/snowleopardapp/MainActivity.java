@@ -15,17 +15,26 @@ import androidx.viewpager.widget.ViewPager;
 import android.Manifest;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.maps.model.RoundCap;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
@@ -79,33 +88,29 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         viewPager = findViewById(R.id.view_pager);
         tabLayout = findViewById(R.id.tab_layout);
-
-        listFragment = new ListFragment();
         addFragment = new AddFragment();
-        profileFragment = new ProfileFragment();
-
         tabLayout.setupWithViewPager(viewPager);
 
-
         // Setting up Tabs
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), 0);
-        viewPagerAdapter.addFragment(listFragment, "List");
-        viewPagerAdapter.addFragment(addFragment, "Add");
-        viewPagerAdapter.addFragment(profileFragment, "Profile");
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+
+//        viewPagerAdapter.addFragment(listFragment, "List");
+//        viewPagerAdapter.addFragment(addFragment, "Add");
+//        viewPagerAdapter.addFragment(profileFragment, "Profile");
+
         viewPager.setAdapter(viewPagerAdapter);
         // Icons
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_list);
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_add);
         tabLayout.getTabAt(2).setIcon(R.drawable.ic_profile);
 
-
         tabLayout.getTabAt(0);
+
         // Badges
         //BadgeDrawable badgeDrawable = tabLayout.getTabAt(0).getOrCreateBadge();
         //badgeDrawable.setVisible(true);
@@ -118,9 +123,25 @@ public class MainActivity extends AppCompatActivity {
             StrictMode.setThreadPolicy(policy);
         }
 
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        determineLocation();
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                Log.d(TAG, "onTabSelected: " + tab.getContentDescription());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                Log.d(TAG, "onTabUnselected: " + tab.getContentDescription());
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                Log.d(TAG, "onTabReselected: " + tab.getContentDescription());
+            }
+        });
     }
+
 
 
 
@@ -134,38 +155,59 @@ public class MainActivity extends AppCompatActivity {
 
     private class ViewPagerAdapter extends FragmentPagerAdapter {
 
-        private List<Fragment> fragments = new ArrayList<>();
-        private List<String> fragmentTitle = new ArrayList<>();
-
-        public ViewPagerAdapter(@NonNull FragmentManager fm, int behavior) {
-            super(fm, behavior);
+        public ViewPagerAdapter(@NonNull FragmentManager fm) {
+            super(fm, FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         }
 
-        public void addFragment(Fragment fragment, String title) {
-            fragments.add(fragment);
-            fragmentTitle.add(title);
-        }
+        private org.kashmirworldfoundation.snowleopardapp.Fragment.ListFragment fragmentOne;
+        private ProfileFragment fragmentThree;
+
 
         @NonNull
         @Override
         public Fragment getItem(int position) {
-            return fragments.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return fragments.size();
+            switch (position) {
+                case 0:
+                    if (fragmentOne == null) {
+                        fragmentOne = org.kashmirworldfoundation.snowleopardapp.Fragment.ListFragment.newInstance();
+                    }
+                    return fragmentOne;
+                case 1:
+                    determineLocation();
+                    return addFragment;
+                case 2:
+                default:
+                    if (fragmentThree == null) {
+                        fragmentThree = ProfileFragment.newInstance();
+                    }
+                    return fragmentThree;
+            }
         }
 
         @Nullable
         @Override
         public CharSequence getPageTitle(int position) {
-            return fragmentTitle.get(position);
+            switch (position) {
+                case 0:
+                    return "First";
+                case 1:
+                    return "Second";
+                case 2:
+                    return "Third";
+                default:
+                    return "";
+            }
+        }
+
+        @Override
+        public int getCount() {
+            return 3;
         }
     }
 
 
     private void determineLocation() {
+
         if (checkPermission()) {
             mFusedLocationClient.getLastLocation()
                     .addOnSuccessListener(this, new OnSuccessListener<Location>() {
@@ -186,6 +228,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+
 
     private double getElevationFromGoogleMaps(double longitude, double latitude) {
         double result = Double.NaN;
@@ -247,6 +291,8 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     }
+
+
 
 
 
