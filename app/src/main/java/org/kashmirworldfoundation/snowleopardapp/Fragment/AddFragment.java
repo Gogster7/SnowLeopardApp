@@ -88,6 +88,9 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
 
         return fragmentView;
     }
+    public static AddFragment newInstance() {
+        return new AddFragment();
+    }
 
 
     //onStart the fragment for set Text
@@ -102,6 +105,9 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
     @Override
     public void onResume(){
         super.onResume();
+        this.LongitudeInput.setText(longitudeS);
+        this.LatitudeInput.setText(latitudeS);
+        this.ElevationInput.setText(altitudeS);
     }
 
     //refresh the fragment
