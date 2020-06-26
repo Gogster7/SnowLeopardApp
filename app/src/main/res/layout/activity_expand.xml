@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="org.kashmirworldfoundation.snowleopardapp.Expand">
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/kwflogo"
+        android:layout_marginTop="150dp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/expand_imageView"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/titleText"
+        android:text="Title Text"
+        android:textColor="@color/blackColor"
+        android:textSize="28sp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:layout_below="@id/expand_imageView"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/dateText"
+        android:text="Date Text"
+        android:textSize="26sp"
+        android:gravity="center"
+        android:textStyle="italic"
+        android:fontFamily="sans-serif-light"
+        android:layout_below="@id/titleText"
+        />
+
+
+</RelativeLayout>
