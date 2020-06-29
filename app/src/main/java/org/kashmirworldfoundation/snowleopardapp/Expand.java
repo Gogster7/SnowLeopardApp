@@ -31,7 +31,20 @@ public class Expand extends AppCompatActivity {
         title = findViewById(R.id.titleText);
         date = findViewById(R.id.dateText);
 
-        if (position == 0) {
+        Intent intent = getIntent();
+
+        Bundle bundle = this.getIntent().getExtras();
+        int pic = bundle.getInt("image");
+        String aTitle = intent.getStringExtra("title");
+        String aDate = intent.getStringExtra("date");
+
+        imageView.setImageResource(pic);
+        title.setText(aTitle);
+        date.setText(aDate);
+
+        //actionBar.setTitle(aTitle);
+
+/*        if (position == 0) {
             Intent intent = getIntent();
 
             Bundle bundle = this.getIntent().getExtras();
@@ -43,7 +56,7 @@ public class Expand extends AppCompatActivity {
             title.setText(aTitle);
             date.setText(aDate);
 
-            actionBar.setTitle(aTitle);
+            //actionBar.setTitle(aTitle);
         }
 
         if (position == 1) {
@@ -58,7 +71,7 @@ public class Expand extends AppCompatActivity {
             title.setText(aTitle);
             date.setText(aDate);
 
-            actionBar.setTitle(aTitle);
+            //actionBar.setTitle(aTitle);
         }
 
         if (position == 2) {
@@ -73,7 +86,7 @@ public class Expand extends AppCompatActivity {
             title.setText(aTitle);
             date.setText(aDate);
 
-            actionBar.setTitle(aTitle);
+            //actionBar.setTitle(aTitle);
         }
 
         if (position == 3) {
@@ -88,8 +101,8 @@ public class Expand extends AppCompatActivity {
             title.setText(aTitle);
             date.setText(aDate);
 
-            actionBar.setTitle(aTitle);
-        }
+            //actionBar.setTitle(aTitle);
+        }*/
     }
 
 }

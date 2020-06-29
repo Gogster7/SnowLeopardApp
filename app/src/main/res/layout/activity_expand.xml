@@ -33,6 +33,7 @@
         android:id="@+id/dateText"
         android:text="Date Text"
         android:textSize="26sp"
+        android:textColor="@color/blackColor"
         android:gravity="center"
         android:textStyle="italic"
         android:fontFamily="sans-serif-light"
