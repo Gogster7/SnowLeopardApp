@@ -33,6 +33,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import org.kashmirworldfoundation.snowleopardapp.Expand;
 import org.kashmirworldfoundation.snowleopardapp.R;
 
@@ -52,6 +56,8 @@ public class ListFragment extends Fragment {
     private ArrayList<String> mTitle = new ArrayList<String>();
     private ArrayList<String> mDate = new ArrayList<String>();
     private int images[] = {R.drawable.kwflogo};
+    private static final String TAG = "ListFragment";
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,42 +67,10 @@ public class ListFragment extends Fragment {
 
         listView = ListFragment.findViewById(R.id.ListView);
 
-        MyAdapter adapter = new MyAdapter(getActivity(), mTitle, mDate, images);
-        listView.setAdapter(adapter);
 
         // Add data from Firebase on the the Arrays
-        try {
-            firebaseFirestore = FirebaseFirestore.getInstance();
-            collectionReference = firebaseFirestore.collection("CameraStation");
-        }
-        catch (Exception e){
-            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
+        new StationAsyncTask(this).execute();
 
-        try{
-            collectionReference.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                @Override
-                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                    for (DocumentSnapshot objectDocumentSnapshot:queryDocumentSnapshots)
-                    {
-                        String stationId = objectDocumentSnapshot.getString("StationId");
-                        String date = objectDocumentSnapshot.getString("SDate");
-
-                        mTitle.add(stationId);
-                        mDate.add(date);
-                    }
-                }
-            })
-            .addOnFailureListener(new OnFailureListener() {
-                 @Override
-                 public void onFailure(@NonNull Exception e) {
-                     Toast.makeText(getActivity(),"Fails to retrieve Camera Station", Toast.LENGTH_LONG).show();
-                 }
-             });
-        }
-        catch (Exception e){
-            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -172,6 +146,22 @@ public class ListFragment extends Fragment {
         });
 
         return ListFragment;
+    }
+
+    //SationAsyncTask would update this
+    public void updateTitle(ArrayList<String> t) {
+        mTitle.addAll(t);
+    }
+
+    //SationAsyncTask would update this
+    public void updateDate(ArrayList<String> d) {
+        mDate.addAll(d);
+    }
+
+    //after list was already update, it create the adapter, put the list and show
+    public void updateList(){
+        MyAdapter adapter = new MyAdapter(getActivity(), mTitle, mDate, images);
+        listView.setAdapter(adapter);
     }
 
     @Override

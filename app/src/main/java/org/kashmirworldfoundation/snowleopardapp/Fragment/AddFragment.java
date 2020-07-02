@@ -4,6 +4,8 @@ package org.kashmirworldfoundation.snowleopardapp.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -53,6 +55,8 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
     private Button save;
     private Date currentTime;
 
+    private TextView  netStatus;
+
 
 
     @Nullable
@@ -65,6 +69,7 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
         LongitudeInput=fragmentView.findViewById(R.id.eId);
         ElevationInput=fragmentView.findViewById(R.id.elevationId);
         cameraIDInput=fragmentView.findViewById(R.id.cameraId);
+        netStatus=fragmentView.findViewById(R.id.createStationNetStatusId);
         save=fragmentView.findViewById(R.id.saveButtonId);
         save.setOnClickListener(new Button.OnClickListener() {
             @Override
@@ -85,6 +90,9 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
 
         //initial the radiobutton Group
         onClick(fragmentView);
+
+        //check net status
+        doNetCheck();
 
         return fragmentView;
     }
@@ -289,9 +297,35 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
         return true;
     }
 
+    //check internet status
+    private Boolean doNetCheck() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm == null) {
+            return false;
+        }
+
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnected()) {
+            netStatus.setText("On");
+            return true;
+        } else {
+            netStatus.setText("Off");
+            return false;
+        }
+    }
+
     public void saveDialog(){
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setIcon(R.drawable.kwflogo);
+        builder.setTitle("Save the Station?");
+        if(doNetCheck()){
+            builder.setMessage("Internet : On");
+        }else{
+            builder.setMessage("Internet: Off , it will upload data later.");
+        }
+
         currentTime = Calendar.getInstance().getTime();
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
@@ -310,7 +344,6 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
             }
         });
 
-        builder.setTitle("Save the Station?");
         AlertDialog dialog = builder.create();
         dialog.show();
     }
