@@ -1,15 +1,19 @@
 package org.kashmirworldfoundation.snowleopardapp;
 
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.storage.StorageReference;
+
 public class Member {
     private String Email;
-    private String Password;
     private String Fullname;
     private String Job;
-    private String phone;
-    private boolean Admin;
-
-
+    private String Phone;
+    private Boolean Admin;
+    private DocumentReference Org;
+    private String Profile;
     public Member(){
+
+
 
     }
 
@@ -21,13 +25,7 @@ public class Member {
         Email = email;
     }
 
-    public String getPassword() {
-        return Password;
-    }
 
-    public void setPassword(String password) {
-        Password = password;
-    }
 
     public String getFullname() {
         return Fullname;
@@ -46,18 +44,36 @@ public class Member {
     }
 
     public String getPhone() {
-        return phone;
+        return Phone;
     }
 
     public void setPhone(String phone) {
-        this.phone = phone;
+        this.Phone = phone;
     }
 
-    public boolean isAdmin() {
+
+    public void setAdmin(Boolean admin) {
+        Admin = admin;
+    }
+
+    public Boolean getAdmin() {
         return Admin;
     }
 
-    public void setAdmin(boolean admin) {
-        Admin = admin;
+    public DocumentReference getOrg() {
+        return Org;
+    }
+
+    public void setOrg(DocumentReference org) {
+        Org = org;
+    }
+
+    public String getProfile() {
+        return Profile;
+    }
+
+    public void setProfile(String profile) {
+        Profile = profile;
     }
 }
+
