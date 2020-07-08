@@ -1,39 +1,31 @@
 package org.kashmirworldfoundation.snowleopardapp;
 
+import com.google.firebase.firestore.Exclude;
+
 import java.util.ArrayList;
 
 public class Org {
     private  String OrgEmail;
     private String OrgWebsite;
-    private String Orgname;
-    private String Orgphone;
-    private String Country;
-    private String Region;
-    private ArrayList<Member> members;
+    private String OrgName;
+    private String OrgPhone;
+    private String OrgCountry;
+    private String OrgRegion;
 
 
-
+    public Org(String orgEmail, String orgWebsite, String orgName, String orgPhone, String orgCountry, String orgRegion) {
+        OrgEmail = orgEmail;
+        OrgWebsite = orgWebsite;
+        OrgName = orgName;
+        OrgPhone = orgPhone;
+        OrgCountry = orgCountry;
+        OrgRegion = orgRegion;
+    }
 
     public Org(){
 
     }
 
-
-    public String getCountry() {
-        return Country;
-    }
-
-    public void setCountry(String country) {
-        Country = country;
-    }
-
-    public String getRegion() {
-        return Region;
-    }
-
-    public void setRegion(String region) {
-        Region = region;
-    }
     public String getOrgEmail() {
         return OrgEmail;
     }
@@ -41,7 +33,6 @@ public class Org {
     public void setOrgEmail(String orgEmail) {
         OrgEmail = orgEmail;
     }
-
 
     public String getOrgWebsite() {
         return OrgWebsite;
@@ -51,31 +42,35 @@ public class Org {
         OrgWebsite = orgWebsite;
     }
 
-    public String getOrgname() {
-        return Orgname;
+    public String getOrgName() {
+        return OrgName;
     }
 
-    public void setOrgname(String orgname) {
-        Orgname = orgname;
+    public void setOrgName(String orgName) {
+        OrgName = orgName;
     }
 
-    public String getOrgphone() {
-        return Orgphone;
+    public String getOrgPhone() {
+        return OrgPhone;
     }
 
-    public void setOrgphone(String orgphone) {
-        Orgphone = orgphone;
+    public void setOrgPhone(String orgPhone) {
+        OrgPhone = orgPhone;
     }
 
-    public ArrayList<Member> getMembers() {
-        return members;
+    public String getOrgCountry() {
+        return OrgCountry;
     }
 
-    public void setMembers() {
-        ArrayList<Member> list = new ArrayList<Member>();
-        this.members =list;
+    public void setOrgCountry(String orgCountry) {
+        OrgCountry = orgCountry;
     }
-    public void addMembers(Member member){
-        this.members.add(member);
+
+    public String getOrgRegion() {
+        return OrgRegion;
+    }
+
+    public void setOrgRegion(String orgRegion) {
+        OrgRegion = orgRegion;
     }
 }
