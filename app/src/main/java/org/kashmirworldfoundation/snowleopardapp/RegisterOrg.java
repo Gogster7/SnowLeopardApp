@@ -208,4 +208,3 @@ public class RegisterOrg extends AppCompatActivity implements AdapterView.OnItem
 
 }
 
-
