@@ -3,9 +3,11 @@ package org.kashmirworldfoundation.snowleopardapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,47 +18,60 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class RegisterOrg extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
-    EditText mEmail, mPassword, mOrgname, mPhone, mOrgWebsite, mRegion;
+    EditText mEmail, mOrgname, mPhone, mOrgWebsite, mRegion;
     Button mbRegister;
     TextView mbLogin;
     FirebaseAuth fAuth;
-    FirebaseDatabase fData;
-    DatabaseReference reff;
+    FirebaseFirestore db;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_org);
-        mOrgname = findViewById(R.id.Orgname);
-        mPhone = findViewById(R.id.Orgphone);
+        mOrgname = findViewById(R.id.OrgName);
+        mPhone = findViewById(R.id.OrgPhone);
         mOrgWebsite = findViewById(R.id.orgwebsite);
-        mEmail = findViewById(R.id.orgEmail);
-        mPassword = findViewById(R.id.opassword);
+        mEmail = findViewById(R.id.OrgEmail);
+
         mbLogin = findViewById(R.id.logindr);
-        mbRegister = findViewById(R.id.registerB);
-        mRegion = findViewById(R.id.region);
+        mbRegister = findViewById(R.id.RegisterB);
+        mRegion = findViewById(R.id.Region);
         fAuth = FirebaseAuth.getInstance();
-        fData = FirebaseDatabase.getInstance();
+
         final Spinner spinner = findViewById(R.id.countries);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource
                 (this,R.array.Countries,android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
+        mbLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), Login.class));
+
+            }
+        });
+
         mbRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String Orgname = mOrgname.getText().toString().trim();
                 String email = mEmail.getText().toString().trim();
-                String password = mPassword.getText().toString().trim();
                 String website = mOrgWebsite.getText().toString().trim();
                 String phone = mPhone.getText().toString().trim();
                 String country =spinner.getSelectedItem().toString().trim();
@@ -65,50 +80,95 @@ public class RegisterOrg extends AppCompatActivity implements AdapterView.OnItem
                     mEmail.setError("Email is Required.");
                     return;
                 }
-                if (TextUtils.isEmpty(password)){
-                    mPassword.setError("Password is Required.");
-                    return;
+
+                if (TextUtils.isEmpty(website)){
+                    mOrgWebsite.setError(("Website is required"));
                 }
                 if (country.equals("Country")){
                     Toast.makeText(RegisterOrg.this, "Need to select a country", Toast.LENGTH_SHORT).show();
                 }
 
+                db=FirebaseFirestore.getInstance();
 
+                final Org morg = new Org();
+                morg.setOrgCountry(country);
+                morg.setOrgRegion(region);
+                morg.setOrgName(Orgname);
+                morg.setOrgWebsite(website);
+                morg.setOrgPhone(phone);
+                morg.setOrgEmail(email);
+                Log.e("Tag", email);
 
-                if (password.length()<8){
-                    mPassword.setError("Password needs to be at least 8 chars.");
-                    return;
-                }
-                fAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                Toast.makeText(RegisterOrg.this,morg.getOrgEmail(),Toast.LENGTH_LONG).show();
+
+                final Intent i = new Intent(getApplicationContext(), RegisterOrgAdmin.class);
+//Create the bundle
+                Bundle bundle = new Bundle();
+
+//Add your data to bundle
+                bundle.putString("Orgname", Orgname);
+                bundle.putString("Country", country);
+                bundle.putString("Region", region);
+
+//Add the bundle to the intent
+                i.putExtras(bundle);
+
+                db.collection("Organization").whereEqualTo("Country",country).
+                        whereEqualTo("orgRegion",region).whereEqualTo("orgName",Orgname).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            Toast.makeText(RegisterOrg.this,"User Created", Toast.LENGTH_SHORT).show();
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()){
+                                if (task.getResult().isEmpty()){
+                                    db.collection("Organization").add(morg).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<DocumentReference> task) {
+                                            if (task.isSuccessful()) {
+                                                Toast.makeText(RegisterOrg.this,"Organization Sucesfully Created",Toast.LENGTH_LONG).show();
+
+                                                startActivity(i);
+                                            }
+                                            else{
+                                                Toast.makeText(RegisterOrg.this,"Error submitting Organization",Toast.LENGTH_LONG).show();
+                                                recreate();
+                                            }
+                                        }
+                                    });
+                                }
+                                else{
+                                    Toast.makeText(RegisterOrg.this,"Error Organization already registered",Toast.LENGTH_LONG).show();
+                                    recreate();
+                                }
                         }
                         else{
-                            Toast.makeText(RegisterOrg.this, "Error" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterOrg.this,"Error checking for duplicate Organizations",Toast.LENGTH_LONG).show();
                         }
                     }
                 });
-                reff = fData.getReference().child("NewOrganization");
-                Org Myorg = new Org();
-                Myorg.setOrgEmail(email);
-                Myorg.setMembers();
-                Myorg.setOrgname(Orgname);
-                Myorg.setOrgphone(phone);
-                Myorg.setOrgWebsite(website);
-                reff.push().setValue(Myorg);
+
+
+
+//Fire that second activity
+                //sendMessage(Orgname,phone,website,country);
+
+
 
             }
+
+
+
+
+
+
         });
 
-        mbLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), Login.class));
-                finish();
-            }
-        });
+
+
+
+
+    }
+    public String capitalizeFirstLetter(String string) {
+        string =string.toLowerCase();
+        return string.substring(0,1).toUpperCase() + string.substring(1);
     }
 
     @Override
@@ -120,21 +180,32 @@ public class RegisterOrg extends AppCompatActivity implements AdapterView.OnItem
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
-    public void sendafmail(String Orgname,
-                           String email,
-                           String website,
-                           String phone,
-                           String country,
-                           String region) throws Exception {
-        String Subject = Orgname + "requesting approval";
-        String From = "Adm1n1675@gmail.com";
-        String Password = "Chowder1675!";
-        String to = "matthewduypham0303@gmail.com";
-        String Body= "This" + Orgname + "requesting approval \n Orgmail:" + email;
-        Body = Body +"\nPhone number:" + phone + "\nWebsite:" + website + "\nCountry:" + country;
-        Body = Body + "\nRegion:" + region + "\n \n \n \n";
+    private void sendMessage(final String orgname, final String phone, final String website, final String country,final String region) {
+        final ProgressDialog dialog = new ProgressDialog(RegisterOrg.this);
+        dialog.setTitle("Sending Email");
+        dialog.setMessage("Please wait");
+        dialog.show();
+        Thread sender = new Thread(new Runnable() {
+            String Body="Orgname = " +orgname +" \n phone = " + phone+ "\n website =" + website + "\nCountry = " + country + "\nRegion = " + region;
+            String subject = orgname + " wants to register under KWF app ";
 
-
+            public void run() {
+                try {
+                    GMailSender sender = new GMailSender("adm1nkwf1675@gmail.com", "Chowder1675!");
+                    sender.sendMail(subject,
+                            Body,
+                            "adm1nkwf1675@gmail.com",
+                            "aliyah@kashmirworldfoundation.org");
+                    dialog.dismiss();
+                } catch (Exception e) {
+                    Log.e("mylog", "Error: " + e.getMessage());
+                }
+            }
+        });
+        sender.start();
     }
 
+
 }
+
+
