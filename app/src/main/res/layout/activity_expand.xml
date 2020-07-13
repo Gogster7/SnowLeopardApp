@@ -15,30 +15,233 @@
         android:layout_centerHorizontal="true"
         android:id="@+id/expand_imageView"
         />
+
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/titleText"
+        android:layout_width="382dp"
+        android:layout_height="47dp"
+        android:layout_below="@id/expand_imageView"
+        android:gravity="center"
         android:text="Title Text"
         android:textColor="@color/blackColor"
         android:textSize="28sp"
-        android:gravity="center"
-        android:textStyle="bold"
-        android:layout_below="@id/expand_imageView"
-        />
+        android:textStyle="bold" />
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/dateText"
-        android:text="Date Text"
-        android:textSize="26sp"
-        android:textColor="@color/blackColor"
-        android:gravity="center"
-        android:textStyle="italic"
-        android:fontFamily="sans-serif-light"
+        android:layout_width="251dp"
+        android:layout_height="37dp"
         android:layout_below="@id/titleText"
-        />
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="0dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:text="Date Text"
+        android:textAlignment="center"
+        android:textColor="@color/blackColor"
+        android:textSize="26sp"
+        android:textStyle="italic" />
+
+    <TextView
+        android:id="@+id/dateText2"
+        android:layout_width="142dp"
+        android:layout_height="37dp"
+        android:layout_below="@id/titleText"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="253dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:text="Date:"
+        android:textColor="@color/blackColor"
+        android:textSize="26sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/dateText5"
+        android:layout_width="143dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dateText4"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="252dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:text="LureType:"
+        android:textColor="@color/blackColor"
+        android:textSize="26sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/dateText6"
+        android:layout_width="144dp"
+        android:layout_height="43dp"
+        android:layout_below="@+id/dateText4"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="251dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:text="Potential:"
+        android:textColor="@color/blackColor"
+        android:textSize="26sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/dateText7"
+        android:layout_width="137dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dateText4"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="255dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:text="Terrain:"
+        android:textColor="@color/blackColor"
+        android:textSize="26sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/dateText8"
+        android:layout_width="142dp"
+        android:layout_height="43dp"
+        android:layout_below="@+id/dateText7"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="253dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:text="Watershed:"
+        android:textColor="@color/blackColor"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/dateText3"
+        android:layout_width="142dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dateText2"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="253dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:text="Camera ID:"
+        android:textColor="@color/blackColor"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/dateText4"
+        android:layout_width="144dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dateText3"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="251dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:text="Substrate:"
+        android:textColor="@color/blackColor"
+        android:textSize="26sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/cameraId"
+        android:layout_width="267dp"
+        android:layout_height="33dp"
+        android:layout_below="@+id/dateText"
+        android:layout_alignStart="@+id/dateText"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="-1dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="0dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:text="Camera ID Text"
+        android:textAlignment="center"
+        android:textColor="@color/blackColor"
+        android:textSize="26sp" />
+
+    <TextView
+        android:id="@+id/substrateId"
+        android:layout_width="262dp"
+        android:layout_height="35dp"
+        android:layout_below="@+id/cameraId"
+        android:layout_alignStart="@+id/cameraId"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="4dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:text="Substrate Text"
+        android:textAlignment="center"
+        android:textColor="@color/blackColor"
+        android:textSize="26sp" />
+
+    <TextView
+        android:id="@+id/lureTypeId"
+        android:layout_width="249dp"
+        android:layout_height="38dp"
+        android:layout_below="@+id/substrateId"
+        android:layout_alignStart="@+id/substrateId"
+        android:layout_marginStart="-3dp"
+        android:layout_marginTop="0dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:text="lureType Text"
+        android:textAlignment="center"
+        android:textColor="@color/blackColor"
+        android:textSize="26sp" />
+
+    <TextView
+        android:id="@+id/potentialid"
+        android:layout_width="246dp"
+        android:layout_height="38dp"
+        android:layout_below="@+id/lureTypeId"
+        android:layout_alignStart="@+id/lureTypeId"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="0dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:text="Potential Text"
+        android:textAlignment="center"
+        android:textColor="@color/blackColor"
+        android:textSize="26sp" />
+
+    <TextView
+        android:id="@+id/terrainId"
+        android:layout_width="249dp"
+        android:layout_height="41dp"
+        android:layout_below="@+id/potentialid"
+        android:layout_alignStart="@+id/potentialid"
+        android:layout_marginStart="-3dp"
+        android:layout_marginTop="0dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:text="Terrain Text"
+        android:textAlignment="center"
+        android:textColor="@color/blackColor"
+        android:textSize="26sp" />
+
+    <TextView
+        android:id="@+id/watershedid"
+        android:layout_width="247dp"
+        android:layout_height="38dp"
+        android:layout_below="@+id/terrainId"
+        android:layout_alignStart="@+id/terrainId"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="0dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:text="Watershedid Text"
+        android:textAlignment="center"
+        android:textColor="@color/blackColor"
+        android:textSize="26sp" />
 
 
 </RelativeLayout>
