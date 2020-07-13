@@ -49,6 +49,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 import org.kashmirworldfoundation.snowleopardapp.Fragment.AddFragment;
+import org.kashmirworldfoundation.snowleopardapp.Fragment.MapFragment;
 import org.kashmirworldfoundation.snowleopardapp.Fragment.ProfileFragment;
 
 import java.io.IOException;
@@ -108,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_list);
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_add);
         tabLayout.getTabAt(2).setIcon(R.drawable.ic_profile);
+        tabLayout.getTabAt(3).setIcon(R.drawable.ic_map);
 
         tabLayout.getTabAt(0);
 
@@ -159,41 +161,51 @@ public class MainActivity extends AppCompatActivity {
             super(fm, FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         }
 
-        private org.kashmirworldfoundation.snowleopardapp.Fragment.ListFragment fragmentOne;
-        private ProfileFragment fragmentThree;
-
+        private org.kashmirworldfoundation.snowleopardapp.Fragment.ListFragment listFragment;
+        private ProfileFragment profileFragment;
+        private MapFragment mapFragment;
 
         @NonNull
         @Override
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    if (fragmentOne == null) {
-                        fragmentOne = org.kashmirworldfoundation.snowleopardapp.Fragment.ListFragment.newInstance();
+                    if (listFragment == null) {
+                        listFragment = org.kashmirworldfoundation.snowleopardapp.Fragment.ListFragment.newInstance();
                     }
-                    return fragmentOne;
+                    return listFragment;
                 case 1:
                     determineLocation();
                     return addFragment;
                 case 2:
-                default:
-                    if (fragmentThree == null) {
-                        fragmentThree = ProfileFragment.newInstance();
+                    if (profileFragment == null) {
+                        profileFragment = ProfileFragment.newInstance();
                     }
-                    return fragmentThree;
+                    return profileFragment;
+                case 3:
+                default:
+                    if (mapFragment == null) {
+                        mapFragment = MapFragment.newInstance();
+                    }
+                    return mapFragment;
+
+
             }
         }
+
 
         @Nullable
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "First";
+                    return "List";
                 case 1:
-                    return "Second";
+                    return "Add";
                 case 2:
-                    return "Third";
+                    return "Profile";
+                case 3:
+                    return "Map";
                 default:
                     return "";
             }
@@ -201,7 +213,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return 3;
+            return 4;
         }
     }
 

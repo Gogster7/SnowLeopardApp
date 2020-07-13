@@ -5,14 +5,20 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class Expand extends AppCompatActivity {
+import java.io.Serializable;
+
+public class Expand extends AppCompatActivity{
 
     ImageView imageView;
-    TextView title, date;
+    TextView title, date,cameraid,substrate,lureType,potential,terrain,watershedid;
+//    TextView dateLabel;
     int position;
+    private static final String TAG = "Expand";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +36,13 @@ public class Expand extends AppCompatActivity {
         imageView = findViewById(R.id.expand_imageView);
         title = findViewById(R.id.titleText);
         date = findViewById(R.id.dateText);
+        cameraid =findViewById(R.id.cameraId);
+        substrate=findViewById(R.id.substrateId);
+        lureType=findViewById(R.id.lureTypeId);
+        potential=findViewById(R.id.potentialid);
+        terrain=findViewById(R.id.terrainId);
+        watershedid=findViewById(R.id.watershedid);
+
 
         Intent intent = getIntent();
 
@@ -37,10 +50,19 @@ public class Expand extends AppCompatActivity {
         int pic = bundle.getInt("image");
         String aTitle = intent.getStringExtra("title");
         String aDate = intent.getStringExtra("date");
-
         imageView.setImageResource(pic);
         title.setText(aTitle);
         date.setText(aDate);
+
+        //get data from station object
+        Station station=(Station)intent.getSerializableExtra("station");
+        cameraid.setText(station.getCameraId());
+        substrate.setText(station.getSubstrate());
+        lureType.setText(station.getLureType());
+        potential.setText(station.getPotential());
+        terrain.setText(station.getTerrain());
+        watershedid.setText(station.getWatershedid());
+
 
         //actionBar.setTitle(aTitle);
 

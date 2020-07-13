@@ -39,29 +39,33 @@ import androidx.fragment.app.Fragment;
 
 import org.kashmirworldfoundation.snowleopardapp.Expand;
 import org.kashmirworldfoundation.snowleopardapp.R;
+import org.kashmirworldfoundation.snowleopardapp.Station;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 
-public class ListFragment extends Fragment {
+public class ListFragment extends Fragment  {
 
     // objects
     private View ListFragment;
     private ListView listView;
     private FirebaseFirestore firebaseFirestore;
     private CollectionReference collectionReference;
-    private ArrayList<String> mTitle = new ArrayList<String>();
-    private ArrayList<String> mDate = new ArrayList<String>();
+    private ArrayList<Station> stations=new ArrayList<>();
     private int images[] = {R.drawable.kwflogo};
     private static final String TAG = "ListFragment";
+
+    private ArrayList<String> mTitle = new ArrayList<String>();
+    private ArrayList<String> mDate = new ArrayList<String>();
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {;
 
         ListFragment=inflater.inflate(R.layout.fragment_list, container, false);
 
@@ -81,11 +85,17 @@ public class ListFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putInt("image",images[0]);
                 intent.putExtras(bundle);
-                // now put title and description in expand activity
                 intent.putExtra("title",mTitle.get(position));
-                intent.putExtra("Date",mDate.get(position));
+                intent.putExtra("date",mDate.get(position));
+                intent.putExtra("station",stations.get(position));
+                // now put title and description in expand activity
+//                intent.putExtra("stationId",stations.get(position).getStationId());
+//                intent.putExtra("posted",stations.get(position).getPosted().toString());
+
                 // also put your postion
                 intent.putExtra("position",""+position);
+
+
                 startActivity(intent);
                 //Toast.makeText(getActivity(), "Station One Date", Toast.LENGTH_SHORT).show();
 
@@ -158,11 +168,17 @@ public class ListFragment extends Fragment {
         mDate.addAll(d);
     }
 
+    //SationAsyncTask would update this
+    public void updateStationList(ArrayList<Station> s){
+        stations.addAll(s);
+    }
+
     //after list was already update, it create the adapter, put the list and show
     public void updateList(){
-        MyAdapter adapter = new MyAdapter(getActivity(), mTitle, mDate, images);
+        MyAdapter adapter = new MyAdapter(getActivity(),mTitle, mDate,stations, images);
         listView.setAdapter(adapter);
     }
+
 
     @Override
     public void onResume(){
@@ -179,15 +195,18 @@ public class ListFragment extends Fragment {
         Context context;
         ArrayList<String> rTitle = new ArrayList<String>();
         ArrayList<String> rDate = new ArrayList<>();
+        ArrayList<Station> stations=new ArrayList<>();
         int rImgs[];
 
-        MyAdapter (Context c, ArrayList<String> title, ArrayList<String> date, int imgs[]) {
+        MyAdapter (Context c, ArrayList<String> title, ArrayList<String> date, ArrayList<Station> s,int imgs[]) {
             super(c, R.layout.row, R.id.textView1, title);
             this.context = c;
             this.rTitle = title;
             this.rDate = date;
             this.rImgs = imgs;
+            this.stations=s;
         }
+
 
         @NonNull
         @Override
@@ -201,7 +220,7 @@ public class ListFragment extends Fragment {
             images.setImageResource(rImgs[0]);
             myTitle.setText(rTitle.get(position));
             myDate.setText(rDate.get(position));
-
+            Log.d(TAG, "getView: !"+stations.get(position).getStationId());
             return row;
         }
     }

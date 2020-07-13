@@ -15,11 +15,16 @@
         android:theme="@style/AppTheme">
         <activity android:name=".Expand"
             android:parentActivityName=".MainActivity"></activity>
+        <activity android:name=".MapCreateList"/>
+        <activity android:name=".MapCreateActivity"/>
         <activity android:name=".PostActivity" />
         <activity android:name=".RegisterOrg" />
         <activity android:name=".Login" />
         <activity android:name=".CreateStation" />
         <activity android:name=".Register">
+
+
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
