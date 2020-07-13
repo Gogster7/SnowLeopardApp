@@ -1,40 +1,48 @@
 package org.kashmirworldfoundation.snowleopardapp;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Register extends AppCompatActivity {
 
-    private Spinner spinner;
 
-    EditText mFullName, mJobTitle, mOrganization, mEmail, mPassword, mReEnter, mPhonenumber;
+    Org Forg;
+    EditText mFullName, mJobTitle, mOrganization, mEmail, mPassword, mReEnter, mPhonenumber,mRegion;
     Button mRegisterBtn;
-    TextView mLoginBtn;
+    TextView mLoginBtn,mRegisterOrgB;
     FirebaseAuth fAuth;
     ProgressBar progressBar;
-    Spinner mCountry;
-
+    FirebaseFirestore db;
+    Boolean mUser=false;
+    StorageReference fStore;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,75 +51,27 @@ public class Register extends AppCompatActivity {
         mFullName         = findViewById(R.id.fullName);
         mJobTitle         = findViewById(R.id.jobTitle);
         mEmail            = findViewById(R.id.email);
-        mOrganization     = findViewById(R.id.organization);
         mPhonenumber      = findViewById(R.id.phone);
         mPassword         = findViewById(R.id.password);
         mReEnter          = findViewById(R.id.reEnter);
         mRegisterBtn      = findViewById(R.id.registrationBtn);
         mLoginBtn         = findViewById(R.id.createText);
-
+        mRegisterOrgB = findViewById(R.id.RegisterOrgB);
         fAuth = FirebaseAuth.getInstance();
         progressBar = findViewById(R.id.progressBar2);
+        fStore = FirebaseStorage.getInstance().getReference();
 
-        spinner     = findViewById(R.id.counrty);
 
-        List<String> categories = new ArrayList<>();
-        categories.add(0, "Choose Country");
-        categories.add("Afghanistan");
-        categories.add("Bhutan");
-        categories.add("China");
-        categories.add("India");
-        categories.add("Kashmir");
-        categories.add("Kazakhstan");
-        categories.add("Kyrgyzstan");
-        categories.add("Mongolia");
-        categories.add("Nepal");
-        categories.add("Pakistan");
-        categories.add("Russia");
-        categories.add("Tajikistan");
-        categories.add("Uzbekistan");
 
-        //Style and populate the spinner
-        ArrayAdapter<String> dataAdapter;
-        dataAdapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, categories);
 
-        //Dropdown layout style
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        //attaching data adapter to spinner
-        spinner.setAdapter(dataAdapter);
 
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        mRegisterOrgB.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (parent.getItemAtPosition(position).equals("Choose Country"))
-                {
-                    // do nothing
-                }
-                else
-                {
-                    // selecting a spinner item
-                    String item = parent.getItemAtPosition(position).toString();
-
-                    //show selected spinner item
-                    Toast.makeText(parent.getContext(), "Country: " +item, Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // TODO Auto-generated method stub
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), RegisterOrg.class));
             }
         });
-
-
-
-
-        if(fAuth.getCurrentUser() != null){
-            startActivity(new Intent(getApplicationContext(),MainActivity.class));
-            finish();
-        }
-
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
@@ -122,13 +82,17 @@ public class Register extends AppCompatActivity {
         mRegisterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = mEmail.getText().toString().trim();
-                String password = mPassword.getText().toString().trim();
-                String reEnter = mReEnter.getText().toString().trim();
-                String fullName = mFullName.getText().toString().trim();
-                String organization = mOrganization.getText().toString().trim();
-                String phoneNumber = mPhonenumber.getText().toString().trim();
-
+                Intent i=getIntent();
+                db = FirebaseFirestore.getInstance();
+                final String email = mEmail.getText().toString().trim();
+                final String password = mPassword.getText().toString().trim();
+                final String reEnter = mReEnter.getText().toString().trim();
+                final String fullName = mFullName.getText().toString().trim();
+                final String organization = i.getStringExtra("OrgName");
+                final String phoneNumber = mPhonenumber.getText().toString().trim();
+                final String job = mJobTitle.getText().toString().trim();
+                final String region =i.getStringExtra("Region");
+                final String country = i.getStringExtra("Country");
                 if(TextUtils.isEmpty(fullName)){
                     mFullName.setError("Full name is Required.");
                     return;
@@ -153,31 +117,113 @@ public class Register extends AppCompatActivity {
                     mPassword.setError("Password must be at least 6 Characters");
                     return;
                 }
-                if(!password.equals(reEnter)){
-                    mReEnter.setError("Passwords must Match");
-                }
-
-                progressBar.setVisibility(View.VISIBLE);
-
-                // register the user in firebase
-
+                final Member mem =new Member();
                 fAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            Toast.makeText(Register.this, "User Created", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                        if (task.isSuccessful()){
+                            db.collection("Organization").whereEqualTo("orgName",organization).
+                                    whereEqualTo("orgCountry", country).whereEqualTo("orgRegion",region).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()){
+                                        for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
+                                            mem.setOrg(documentSnapshot.getReference());
+                                            Org org = documentSnapshot.toObject(Org.class);
+                                            Forg = org;
 
-                            
+                                        }
+                                        mem.setAdmin(Boolean.FALSE);
+                                        mem.setEmail(email);
+                                        mem.setFullname(fullName);
+                                        mem.setJob(job);
+                                        mem.setPhone(phoneNumber);
+                                        mem.setProfile("profile/kwflogo.jpg");
+                                        FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
+                                        db.collection("Member").document(user.getUid()).set(mem).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                       
+                                            }
 
-                        }else{
-                            Toast.makeText(Register.this, "Error ! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+
+                                        });
+
+                                    }
+
+
+                                }
+                            });
                         }
                     }
                 });
+                db.collection("Organization").whereEqualTo("orgName",organization).
+                        whereEqualTo("orgCountry", country).whereEqualTo("orgRegion",region).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()){
+                            for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
+                                mem.setOrg(documentSnapshot.getReference());
+                                Org org = documentSnapshot.toObject(Org.class);
+                                Forg = org;
+
+                            }
+                            mem.setAdmin(Boolean.FALSE);
+                            mem.setEmail(email);
+                            mem.setFullname(fullName);
+                            mem.setJob(job);
+                            mem.setPhone(phoneNumber);
+                            mem.setProfile("profile/kwflogo.jpg");
+                            db.collection("Member").add(mem).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentReference> task) {
+                                    if (task.isSuccessful()){
+                                        fAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                                sendMessage(fullName,phoneNumber,email,job,Forg.getOrgEmail());
+                                                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+
+                        }
+
+
+                    }
+                });
+
+
+
 
             }
         });
 
+    }
+    private void sendMessage(final String name, final String phone, final String email, final String job,final String receive) {
+        final ProgressDialog dialog = new ProgressDialog(Register.this);
+        dialog.setTitle("Sending Email");
+        dialog.setMessage("Please wait");
+        dialog.show();
+        Thread sender = new Thread(new Runnable() {
+            String Body="name = " +name +" \n phone = " + phone+ "\n email =" + email + "\njob = " + job;
+            String subject = name + " wants to join your organization";
+
+            public void run() {
+                try {
+                    GMailSender sender = new GMailSender("adm1nkwf1675@gmail.com", "Chowder1675!");
+                    sender.sendMail(subject,
+                            Body,
+                            "adm1nkwf1675@gmail.com",
+                            receive);
+                    dialog.dismiss();
+                } catch (Exception e) {
+                    Log.e("mylog", "Error: " + e.getMessage());
+                }
+            }
+        });
+        sender.start();
     }
 }
