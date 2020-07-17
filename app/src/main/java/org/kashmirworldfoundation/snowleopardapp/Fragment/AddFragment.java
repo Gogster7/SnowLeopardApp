@@ -28,6 +28,35 @@ import org.kashmirworldfoundation.snowleopardapp.R;
 import java.util.Calendar;
 import java.util.Date;
 
+import android.content.SharedPreferences;
+
+
+import android.provider.ContactsContract;
+
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.common.reflect.TypeToken;
+import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import org.kashmirworldfoundation.snowleopardapp.CameraStation;
+import org.kashmirworldfoundation.snowleopardapp.Member;
+import org.kashmirworldfoundation.snowleopardapp.MyDateTypeAdapter;
+import org.kashmirworldfoundation.snowleopardapp.R;
+
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class AddFragment  extends Fragment implements View.OnClickListener{
     private static final String TAG = "Add fragment";
@@ -75,6 +104,32 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
             @Override
             public void onClick(View v) {
                 saveDialog();
+                Member me = loaduser();
+                saveDialog();
+                getInput();
+                CameraStation cam = new CameraStation();
+                Date currentTime = Calendar.getInstance().getTime();
+                cam.setPotential(potential);
+                cam.setLureType(lureType);
+                cam.setAltitude(altitudeS);
+                cam.setLongitudeS(longitudeS);
+                cam.setLatitudeS(latitudeS);
+                cam.setStationId(stationId);
+                cam.setSubstrate(substrate);
+                cam.setTerrain(terrain);
+                cam.setWatershedid(watershedid);
+                cam.setHabitat(habitat);
+                cam.setOrg(me.getOrg());
+                cam.setAuthor(loaduid());
+                cam.setCameraId(cameraId);
+                cam.setPosted(new Timestamp(currentTime));
+                cam.setPic(me.getProfile());
+
+                ArrayList<CameraStation> list = load();
+
+                list.add(cam);
+                save(list);
+                refresh();
             }
         });
 
@@ -347,7 +402,7 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
         AlertDialog dialog = builder.create();
         dialog.show();
     }
-
+    
     public static void createToast(Context context, String message, int time) {
         Toast toast = Toast.makeText(context, "" + message, time);
         View toastView = toast.getView();
@@ -356,6 +411,66 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
         tv.setPadding(140, 75, 140, 75);
         tv.setTextColor(0xFFFFFFFF);
         toast.show();
+    }
+    private void save(ArrayList<CameraStation> list){
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("camstations",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        Gson gson = new GsonBuilder().registerTypeAdapter(Timestamp.class,new MyDateTypeAdapter()).create();;
+        String json =gson.toJson(list);
+
+        editor.putString("station",json);
+        editor.apply();
+    }
+    private ArrayList<CameraStation> load(){
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("camstations",Context.MODE_PRIVATE);
+        Gson gson = new GsonBuilder().registerTypeAdapter(Timestamp.class,new MyDateTypeAdapter()).create();;
+        String json =sharedPreferences.getString("station",null);
+        if (json==null){
+            return new ArrayList<CameraStation>();
+        }
+        Type type = new TypeToken<ArrayList<CameraStation>>() {}.getType();
+        return gson.fromJson(json,type);
+    }
+    private String loaduid(){
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("user",Context.MODE_PRIVATE);
+        return sharedPreferences.getString("uid",null);
+    }
+    private Member loaduser(){
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("user",Context.MODE_PRIVATE);
+        Gson gson= new Gson();
+        String json = sharedPreferences.getString("user", null);
+        Type type =new TypeToken<Member>(){}.getType();
+        return gson.fromJson(json,type);
+    }
+    private void Fireload(final ArrayList<CameraStation> list){
+        final Iterator<CameraStation> iter= list.iterator();
+       Integer remain =list.size();
+        while(iter.hasNext()){
+            CameraStation station= iter.next();
+            db.collection("CameraStation").add(station).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentReference> task) {
+                    if(task.isSuccessful()){
+                        iter.remove();
+                        counter+=1;
+
+                    }
+                    else{
+
+                    }
+                }
+            });
+            String count = counter.toString();
+            String rem =remain.toString();
+            createToast(getActivity(),count + " stations sent to firebase" +rem +"stations remain",Toast.LENGTH_SHORT);
+        }
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("camstations",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new GsonBuilder().registerTypeAdapter(Timestamp.class,new MyDateTypeAdapter()).create();;
+        String json =gson.toJson(list);
+        editor.putString("station",json);
+        editor.apply();
     }
 
 }
