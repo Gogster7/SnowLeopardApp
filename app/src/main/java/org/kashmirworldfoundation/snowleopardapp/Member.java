@@ -1,7 +1,6 @@
 package org.kashmirworldfoundation.snowleopardapp;
 
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.storage.StorageReference;
+
 
 public class Member {
     private String Email;
@@ -9,7 +8,7 @@ public class Member {
     private String Job;
     private String Phone;
     private Boolean Admin;
-    private DocumentReference Org;
+    private String Org;
     private String Profile;
     public Member(){
 
@@ -60,11 +59,11 @@ public class Member {
         return Admin;
     }
 
-    public DocumentReference getOrg() {
+    public String getOrg() {
         return Org;
     }
 
-    public void setOrg(DocumentReference org) {
+    public void setOrg(String org) {
         Org = org;
     }
 
@@ -76,4 +75,3 @@ public class Member {
         Profile = profile;
     }
 }
-
