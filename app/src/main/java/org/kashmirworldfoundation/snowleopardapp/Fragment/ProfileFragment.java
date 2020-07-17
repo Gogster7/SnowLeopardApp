@@ -182,4 +182,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
         Type type =new TypeToken<Member>(){}.getType();
         return gson.fromJson(json,type);
     }
+    public static ProfileFragment newInstance() {
+        return new ProfileFragment();
+    }
 }

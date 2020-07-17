@@ -85,6 +85,8 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
     private Date currentTime;
 
     private TextView  netStatus;
+    private FirebaseFirestore db;
+    private Integer counter=0;
 
 
 
@@ -402,7 +404,7 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
         AlertDialog dialog = builder.create();
         dialog.show();
     }
-    
+
     public static void createToast(Context context, String message, int time) {
         Toast toast = Toast.makeText(context, "" + message, time);
         View toastView = toast.getView();
@@ -445,7 +447,7 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
     }
     private void Fireload(final ArrayList<CameraStation> list){
         final Iterator<CameraStation> iter= list.iterator();
-       Integer remain =list.size();
+        Integer remain =list.size();
         while(iter.hasNext()){
             CameraStation station= iter.next();
             db.collection("CameraStation").add(station).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
