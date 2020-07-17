@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context="org.kashmirworldfoundation.snowleopardapp.RegisterOrgAdmin">
+
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="274dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="88dp"
+        android:elegantTextHeight="true"
+        android:fontFamily="@font/aclonica"
+        android:shadowColor="#B4B1B1"
+        android:text="            Register Admin"
+        android:textColor="#FFFF8D"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="288dp"
+        android:layout_height="45dp"
+        android:elegantTextHeight="true"
+        android:fontFamily="@font/aclonica"
+        android:shadowColor="#B4B1B1"
+        android:text="Snow Leopard"
+        android:textColor="#FFFFFF"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.050000012" />
+
+    <EditText
+        android:id="@+id/AdminJob"
+        android:layout_width="300dp"
+        android:layout_height="51dp"
+        android:layout_marginBottom="32dp"
+        android:ems="10"
+        android:fontFamily="@font/aclonica"
+        android:hint="Job:"
+        android:inputType="text"
+        android:textColorHint="#F8F8F8"
+        app:layout_constraintBottom_toTopOf="@+id/AdminRegisterB"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/AdminName"
+        android:layout_width="300dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="136dp"
+        android:ems="10"
+        android:fontFamily="@font/aclonica"
+        android:hint="Name:"
+        android:inputType="text"
+        android:textColorHint="#F8F8F8"
+        app:layout_constraintBottom_toTopOf="@+id/AdminEmail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.51"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.9" />
+
+    <EditText
+        android:id="@+id/AdminPhone"
+        android:layout_width="300dp"
+        android:layout_height="51dp"
+        android:layout_marginBottom="10dp"
+        android:ems="10"
+        android:fontFamily="@font/aclonica"
+        android:hint="Phone Number:"
+        android:inputType="phone"
+        android:textColorHint="#F8F8F8"
+        app:layout_constraintBottom_toTopOf="@+id/AdminJob"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/AdminPassword"
+        android:layout_width="300dp"
+        android:layout_height="51dp"
+        android:layout_marginBottom="10dp"
+        android:ems="10"
+        android:fontFamily="@font/aclonica"
+        android:hint="Password:"
+        android:inputType="textPassword"
+        android:textColorHint="#F8F8F8"
+        app:layout_constraintBottom_toTopOf="@+id/AdminPhone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/AdminEmail"
+        android:layout_width="300dp"
+        android:layout_height="51dp"
+        android:layout_marginBottom="10dp"
+        android:ems="10"
+        android:fontFamily="@font/aclonica"
+        android:hint="Email:"
+        android:inputType="text"
+        android:textColorHint="#F8F8F8"
+        app:layout_constraintBottom_toTopOf="@+id/AdminPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/AdminRegisterB"
+        android:layout_width="175dp"
+        android:layout_height="41dp"
+        android:layout_marginBottom="32dp"
+        android:background="#FFFF8D"
+        android:fontFamily="@font/aclonica"
+        android:text="REGISTER"
+        android:textColor="#1B1A1A"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

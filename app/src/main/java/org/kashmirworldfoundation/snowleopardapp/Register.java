@@ -73,11 +73,11 @@ public class Register extends AppCompatActivity {
             }
         });
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View v) {
-                 startActivity(new Intent(getApplicationContext(), Login.class));
-             }
-         });
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), Login.class));
+            }
+        });
 
         mRegisterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,7 +128,7 @@ public class Register extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                     if (task.isSuccessful()){
                                         for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
-                                            mem.setOrg(documentSnapshot.getReference());
+                                            mem.setOrg(documentSnapshot.getReference().getPath());
                                             Org org = documentSnapshot.toObject(Org.class);
                                             Forg = org;
 
@@ -143,57 +143,23 @@ public class Register extends AppCompatActivity {
                                         db.collection("Member").document(user.getUid()).set(mem).addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
-                                                       
-                                            }
-
-
-                                        });
-
-                                    }
-
-
-                                }
-                            });
-                        }
-                    }
-                });
-                db.collection("Organization").whereEqualTo("orgName",organization).
-                        whereEqualTo("orgCountry", country).whereEqualTo("orgRegion",region).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()){
-                            for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
-                                mem.setOrg(documentSnapshot.getReference());
-                                Org org = documentSnapshot.toObject(Org.class);
-                                Forg = org;
-
-                            }
-                            mem.setAdmin(Boolean.FALSE);
-                            mem.setEmail(email);
-                            mem.setFullname(fullName);
-                            mem.setJob(job);
-                            mem.setPhone(phoneNumber);
-                            mem.setProfile("profile/kwflogo.jpg");
-                            db.collection("Member").add(mem).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                                @Override
-                                public void onComplete(@NonNull Task<DocumentReference> task) {
-                                    if (task.isSuccessful()){
-                                        fAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<AuthResult> task) {
                                                 sendMessage(fullName,phoneNumber,email,job,Forg.getOrgEmail());
                                                 startActivity(new Intent(getApplicationContext(),MainActivity.class));
+
                                             }
+
+
                                         });
+
                                     }
+
+
                                 }
                             });
-
                         }
-
-
                     }
                 });
+
 
 
 
@@ -210,7 +176,6 @@ public class Register extends AppCompatActivity {
         Thread sender = new Thread(new Runnable() {
             String Body="name = " +name +" \n phone = " + phone+ "\n email =" + email + "\njob = " + job;
             String subject = name + " wants to join your organization";
-
             public void run() {
                 try {
                     GMailSender sender = new GMailSender("adm1nkwf1675@gmail.com", "Chowder1675!");
