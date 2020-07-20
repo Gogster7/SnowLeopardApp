@@ -14,7 +14,7 @@ import java.io.Serializable;
 public class Expand extends AppCompatActivity{
 
     ImageView imageView;
-    TextView title, date,cameraid,substrate,lureType,potential,terrain,watershedid;
+    TextView title, date,cameraid,substrate,lureType,potential,terrain,watershedid,author;
 //    TextView dateLabel;
     int position;
     private static final String TAG = "Expand";
@@ -42,89 +42,23 @@ public class Expand extends AppCompatActivity{
         potential=findViewById(R.id.potentialid);
         terrain=findViewById(R.id.terrainId);
         watershedid=findViewById(R.id.watershedid);
+        author=findViewById(R.id.authorId);
 
+        Station station = (Station) getIntent().getSerializableExtra("station");
 
-        Intent intent = getIntent();
-
-        Bundle bundle = this.getIntent().getExtras();
-        int pic = bundle.getInt("image");
-        String aTitle = intent.getStringExtra("title");
-        String aDate = intent.getStringExtra("date");
-        imageView.setImageResource(pic);
-        title.setText(aTitle);
-        date.setText(aDate);
-
-        //get data from station object
-        Station station=(Station)intent.getSerializableExtra("station");
+        title.setText(station.getStationId());
+        date.setText(station.getPosted());
         cameraid.setText(station.getCameraId());
         substrate.setText(station.getSubstrate());
         lureType.setText(station.getLureType());
         potential.setText(station.getPotential());
         terrain.setText(station.getTerrain());
         watershedid.setText(station.getWatershedid());
+        author.setText(station.getAuthor());
 
+        //need to change later
+        imageView.setImageResource(R.drawable.kwflogo);
 
-        //actionBar.setTitle(aTitle);
-
-/*        if (position == 0) {
-            Intent intent = getIntent();
-
-            Bundle bundle = this.getIntent().getExtras();
-            int pic = bundle.getInt("image");
-            String aTitle = intent.getStringExtra("title");
-            String aDate = intent.getStringExtra("date");
-
-            imageView.setImageResource(pic);
-            title.setText(aTitle);
-            date.setText(aDate);
-
-            //actionBar.setTitle(aTitle);
-        }
-
-        if (position == 1) {
-            Intent intent = getIntent();
-
-            Bundle bundle = this.getIntent().getExtras();
-            int pic = bundle.getInt("image");
-            String aTitle = intent.getStringExtra("title");
-            String aDate = intent.getStringExtra("date");
-
-            imageView.setImageResource(pic);
-            title.setText(aTitle);
-            date.setText(aDate);
-
-            //actionBar.setTitle(aTitle);
-        }
-
-        if (position == 2) {
-            Intent intent = getIntent();
-
-            Bundle bundle = this.getIntent().getExtras();
-            int pic = bundle.getInt("image");
-            String aTitle = intent.getStringExtra("title");
-            String aDate = intent.getStringExtra("date");
-
-            imageView.setImageResource(pic);
-            title.setText(aTitle);
-            date.setText(aDate);
-
-            //actionBar.setTitle(aTitle);
-        }
-
-        if (position == 3) {
-            Intent intent = getIntent();
-
-            Bundle bundle = this.getIntent().getExtras();
-            int pic = bundle.getInt("image");
-            String aTitle = intent.getStringExtra("title");
-            String aDate = intent.getStringExtra("date");
-
-            imageView.setImageResource(pic);
-            title.setText(aTitle);
-            date.setText(aDate);
-
-            //actionBar.setTitle(aTitle);
-        }*/
     }
 
 }

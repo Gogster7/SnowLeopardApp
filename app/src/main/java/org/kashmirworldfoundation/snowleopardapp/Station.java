@@ -26,6 +26,7 @@ public class Station implements Serializable {
     private String terrain;
     private String watershedid;
 
+
     public Station() {
         this.altitude ="null";
         this.author = "null";

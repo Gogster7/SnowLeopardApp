@@ -102,6 +102,7 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
         cameraIDInput=fragmentView.findViewById(R.id.cameraId);
         netStatus=fragmentView.findViewById(R.id.createStationNetStatusId);
         save=fragmentView.findViewById(R.id.saveButtonId);
+        db=FirebaseFirestore.getInstance();
         save.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
