@@ -8,18 +8,18 @@
     tools:context="org.kashmirworldfoundation.snowleopardapp.Expand">
 
     <ImageView
+        android:id="@+id/expand_imageView"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:src="@drawable/kwflogo"
-        android:layout_marginTop="150dp"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:id="@+id/expand_imageView"
-        />
+        android:layout_marginTop="121dp"
+        android:src="@drawable/kwflogo" />
 
     <TextView
         android:id="@+id/titleText"
-        android:layout_width="382dp"
-        android:layout_height="47dp"
+        android:layout_width="380dp"
+        android:layout_height="39dp"
         android:layout_below="@id/expand_imageView"
         android:gravity="center"
         android:text="Title Text"
@@ -56,7 +56,7 @@
         android:gravity="center"
         android:text="Date:"
         android:textColor="@color/blackColor"
-        android:textSize="26sp"
+        android:textSize="24sp"
         android:textStyle="bold" />
 
     <TextView
@@ -115,6 +115,23 @@
         android:fontFamily="sans-serif-light"
         android:gravity="center"
         android:text="Watershed:"
+        android:textColor="@color/blackColor"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/author"
+        android:layout_width="142dp"
+        android:layout_height="42dp"
+        android:layout_below="@+id/dateText8"
+        android:layout_alignStart="@+id/dateText8"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="253dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:text="Author:"
         android:textColor="@color/blackColor"
         android:textSize="24sp"
         android:textStyle="bold" />
@@ -239,6 +256,21 @@
         android:fontFamily="sans-serif-light"
         android:gravity="center"
         android:text="Watershedid Text"
+        android:textAlignment="center"
+        android:textColor="@color/blackColor"
+        android:textSize="26sp" />
+
+    <TextView
+        android:id="@+id/authorId"
+        android:layout_width="247dp"
+        android:layout_height="38dp"
+        android:layout_below="@+id/watershedid"
+        android:layout_alignStart="@+id/terrainId"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="6dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:text="Author Text"
         android:textAlignment="center"
         android:textColor="@color/blackColor"
         android:textSize="26sp" />

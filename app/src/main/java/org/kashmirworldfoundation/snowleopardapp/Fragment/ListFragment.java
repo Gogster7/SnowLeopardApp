@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.icu.text.CaseMap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,8 +19,6 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -39,7 +36,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 
 import org.kashmirworldfoundation.snowleopardapp.Expand;
 import org.kashmirworldfoundation.snowleopardapp.R;
@@ -56,11 +52,9 @@ public class ListFragment extends Fragment  {
 
     // objects
     private View ListFragment;
-    private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager layoutManager;
-    //private FirebaseFirestore firebaseFirestore;
-    // private CollectionReference collectionReference;
+    private ListView listView;
+    private FirebaseFirestore firebaseFirestore;
+    private CollectionReference collectionReference;
     private ArrayList<Station> stations=new ArrayList<>();
     private int images[] = {R.drawable.kwflogo};
     private static final String TAG = "ListFragment";
@@ -75,14 +69,14 @@ public class ListFragment extends Fragment  {
 
         ListFragment=inflater.inflate(R.layout.fragment_list, container, false);
 
-        recyclerView = ListFragment.findViewById(R.id.recyclerView);
+        listView = ListFragment.findViewById(R.id.ListView);
 
 
         // Add data from Firebase on the the Arrays
         new StationAsyncTask(this).execute();
 
 
-        recyclerView.setOnClickListener(new AdapterView.OnClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -182,7 +176,7 @@ public class ListFragment extends Fragment  {
     //after list was already update, it create the adapter, put the list and show
     public void updateList(){
         MyAdapter adapter = new MyAdapter(getActivity(),mTitle, mDate,stations, images);
-        recyclerView.setAdapter(adapter);
+        listView.setAdapter(adapter);
     }
 
 
@@ -196,27 +190,16 @@ public class ListFragment extends Fragment  {
         return new ListFragment();
     }
 
-    public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ListViewHolder> {
+    class MyAdapter extends ArrayAdapter<String> {
+
         Context context;
-        ArrayList<String> rTitle;
-        ArrayList<String> rDate;
-        ArrayList<Station> stations;
+        ArrayList<String> rTitle = new ArrayList<String>();
+        ArrayList<String> rDate = new ArrayList<>();
+        ArrayList<Station> stations=new ArrayList<>();
         int rImgs[];
 
-        public class ListViewHolder extends RecyclerView.ViewHolder {
-            ImageView myImages;
-            TextView myTitle;
-            TextView myDate;
-
-            public ListViewHolder(View row) {
-                super(row);
-                myImages = row.findViewById(R.id.image);
-                myTitle = row.findViewById(R.id.textView1);
-                myDate = row.findViewById(R.id.textView2);
-            }
-        }
-
         MyAdapter (Context c, ArrayList<String> title, ArrayList<String> date, ArrayList<Station> s,int imgs[]) {
+            super(c, R.layout.row, R.id.textView1, title);
             this.context = c;
             this.rTitle = title;
             this.rDate = date;
@@ -224,39 +207,23 @@ public class ListFragment extends Fragment  {
             this.stations=s;
         }
 
+
+        @NonNull
         @Override
-        public ListViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.row, parent, false);
-            ListViewHolder lvh = new ListViewHolder(v);
-            return lvh;
+        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+            LayoutInflater layoutInflater = (LayoutInflater) context.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View row = layoutInflater.inflate(R.layout.row, parent, false);
+            ImageView images = row.findViewById(R.id.image);
+            TextView myTitle = row.findViewById(R.id.textView1);
+            TextView myDate = row.findViewById(R.id.textView2);
+
+            images.setImageResource(rImgs[0]);
+            myTitle.setText(rTitle.get(position));
+            myDate.setText(rDate.get(position));
+            Log.d(TAG, "getView: !"+stations.get(position).getStationId());
+            return row;
         }
-
-        @Override
-        public void onBindViewHolder(ListViewHolder holder, int position) {
-
-        }
-
-        @Override
-        public int getItemCount() {
-            return 0;
-        }
-
     }
 
-    public class ListItem {
-        private int mImg;
-        private String mTitle;
-        private String mDate;
 
-        public ListItem(int img, String title, String date) {
-            mImg = img;
-            mTitle = title;
-            mDate = date;
-        }
-
-        public int getImg() {return mImg;}
-        public String getTitle() {return mTitle;}
-        public String getDate() {return mDate;}
-        }
-    }
 }

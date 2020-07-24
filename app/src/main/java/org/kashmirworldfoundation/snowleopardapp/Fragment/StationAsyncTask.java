@@ -26,8 +26,7 @@ public class StationAsyncTask extends AsyncTask<String, Void, String> {
     private FirebaseFirestore firebaseFirestore;
     private CollectionReference collectionReference;
     private ArrayList<Station> stations=new ArrayList<>();
-    private ArrayList<String> mTitle = new ArrayList<String>();
-    private ArrayList<String> mDate = new ArrayList<String>();
+
 
     private static final String TAG = "StationAsyncTask";
     private int count;
@@ -39,8 +38,6 @@ public class StationAsyncTask extends AsyncTask<String, Void, String> {
 
     protected void update(){
         listFragment.updateStationList(stations);
-        listFragment.updateTitle(mTitle);
-        listFragment.updateDate(mDate);
         listFragment.updateList();
     }
 
@@ -80,7 +77,9 @@ public class StationAsyncTask extends AsyncTask<String, Void, String> {
                         newStation.setLureType(objectDocumentSnapshot.getString("lureType"));
                         newStation.setOrg(objectDocumentSnapshot.getString("org"));
                         newStation.setPic(objectDocumentSnapshot.getString("pic"));
+                        newStation.setAuthor(objectDocumentSnapshot.getString("author"));
                         Timestamp s =objectDocumentSnapshot.getTimestamp("posted");
+
 
                         if(s!=null){
                             newStation.setPosted(s.toDate().toString());
@@ -94,20 +93,21 @@ public class StationAsyncTask extends AsyncTask<String, Void, String> {
                         newStation.setTerrain(objectDocumentSnapshot.getString("terrain"));
                         newStation.setWatershedid(objectDocumentSnapshot.getString("watershedid"));
 
-                        stations.add(newStation);
-
-
+                        //this part is for getting data from firebase's different name
+                        //station id
                         String stationId = objectDocumentSnapshot.getString("StationId");
                         if(stationId==null){
                             stationId=objectDocumentSnapshot.getString("stationId");
                         }
-                        String date = objectDocumentSnapshot.getString("SDate");
+                        newStation.setStationId(stationId);
 
+                        //date
+                        String date = objectDocumentSnapshot.getString("SDate");
                         if(date==null){
                             date = objectDocumentSnapshot.getTimestamp("posted").toDate().toString();
                         }
-                        mTitle.add(stationId);
-                        mDate.add(date);
+                        newStation.setPosted(date);
+                        stations.add(newStation);
 
                         count++;
                         if(count==size){

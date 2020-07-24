@@ -19,20 +19,16 @@
         <activity android:name=".MapCreateActivity"/>
         <activity android:name=".PostActivity" />
         <activity android:name=".RegisterOrg" />
-
         <activity android:name=".CreateStation" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".Login" />
         <activity android:name=".Register">
-
-
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Login">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

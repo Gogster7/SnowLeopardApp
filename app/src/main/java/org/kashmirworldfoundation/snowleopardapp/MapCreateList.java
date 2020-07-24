@@ -111,8 +111,8 @@ class mapListViewholder extends RecyclerView.ViewHolder{
 
     public mapListViewholder(View view) {
         super(view);
-        mapName=view.findViewById(R.id.mapNameId);
-        mapContent=view.findViewById(R.id.mapListContentid);
+        mapName=view.findViewById(R.id.rowStationId2);
+        mapContent=view.findViewById(R.id.rowDateId2);
         mapLogo=view.findViewById(R.id.mapListLogoId);
     }
 
