@@ -20,7 +20,7 @@
         android:layout_width="80dp"
         android:layout_height="75dp"
         android:src="@drawable/kwflogo"
-        android:id="@+id/rowImgId2"
+        android:id="@+id/image"
         />
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,7 +36,7 @@
             android:textStyle="bold"
             android:layout_margin="5dp"
             android:textSize="20sp"
-            android:id="@+id/rowStationId"
+            android:id="@+id/textView1"
             />
 
         <TextView
@@ -47,7 +47,7 @@
             android:textStyle="bold"
             android:layout_margin="5dp"
             android:textSize="15sp"
-            android:id="@+id/rowDateId"
+            android:id="@+id/textView2"
             />
 
     </LinearLayout>
