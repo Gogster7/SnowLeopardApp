@@ -48,11 +48,29 @@ public class MapCreateList extends AppCompatActivity implements View.OnClickList
         pos =recyclerView.getChildLayoutPosition(v);
         Log.d(TAG, "in onClick Pos position" + pos);
         MapItem selectiion=m.get(pos);
-        String symbol=selectiion.getName();
-        Intent i= new Intent(getApplicationContext(),MapCreateActivity.class);
-        i.putExtra("Name",symbol);
+        if(pos!=2){
+            String symbol=selectiion.getName();
+            Intent i= new Intent(getApplicationContext(),MapCreateActivity.class);
+            i.putExtra("Name",symbol);
 
-        startActivity(i);
+            startActivity(i);
+        }else{
+            //current location
+            //Intent i= new Intent(getApplicationContext(),LocationComponentActivity.class);
+
+            //circle of the current location
+           // Intent i= new Intent(getApplicationContext(),LocationComponentBasicPulsingActivity.class);
+
+           // Intent i= new Intent(getApplicationContext(),LocationChangeListeningActivity.class);
+            //Intent i= new Intent(getApplicationContext(),SimpleOfflineMapActivity.class);
+           Intent i= new Intent(getApplicationContext(), OfflineManagerActivity.class);
+            //Intent i= new Intent(getApplicationContext(), ValueAnimatorIconAnimationActivity.class);
+            //Intent i= new Intent(getApplicationContext(), MarkerFollowingRouteActivity.class);
+            //Intent i= new Intent(getApplicationContext(), PlacesPluginActivity.class);
+
+
+            startActivity(i);
+        }
 
 
 
