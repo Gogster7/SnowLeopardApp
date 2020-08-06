@@ -38,7 +38,7 @@ public class ListFragment extends Fragment implements View.OnClickListener  {
     private CollectionReference collectionReference;
     private static final String TAG = "ListFragment";
 
-    //
+
     private RecyclerView recyclerView;
     private ListFragmentAdapter listFragmentAdapter;
     private ArrayList<Station> stationArrayList;
