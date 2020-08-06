@@ -133,8 +133,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
         StorageReference ref = FirebaseStorage.getInstance().getReference(location);
 
         GlideApp.with(this)
-                .load(ref)
-                .into(image);
+                .load(ref);
+                //.into(image);
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
