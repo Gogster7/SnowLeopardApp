@@ -10,6 +10,18 @@ import com.google.firebase.firestore.DocumentReference;
 
 import java.util.Date;
 
+package org.kashmirworldfoundation.snowleopardapp;
+
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.DocumentReference;
+
+import java.util.Date;
+
 public class CameraStation  {
     private String pic;
     private String stationId;
