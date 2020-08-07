@@ -23,19 +23,23 @@ public class Login extends AppCompatActivity {
     TextView mRegisterBtn,mRegisterOrgBtn;
     FirebaseAuth fAuth;
     ProgressBar progressBar;
+    FirebaseFirestore fStore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         fAuth= FirebaseAuth.getInstance();
+        fStore= FirebaseFirestore.getInstance();
         /*
-        if(fAuth.getCurrentUser() != null){
-            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+        if(fAuth.getCurrentUser() != null) {
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
             finish();
         }
 
+
          */
+
         mEmail      = findViewById(R.id.email);
         mPassword   = findViewById(R.id.password);
         mLoginBtn   = findViewById(R.id.LoginBtn);
@@ -67,8 +71,20 @@ public class Login extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            Toast.makeText(Login.this,"Welcome", Toast.LENGTH_LONG).show();
-                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+
+
+                            fStore.document("Member/"+fAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if (task.isSuccessful()){
+
+                                        saveMember(task.getResult().toObject(Member.class),fAuth.getUid());
+                                        saveCamNum();
+                                        Toast.makeText(Login.this,"Welcome", Toast.LENGTH_LONG).show();
+                                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                    }
+                                }
+                            });
                         }
                         else{
                             Toast.makeText(Login.this, "Error" + task.getException().getMessage(), Toast.LENGTH_LONG ).show();
@@ -80,4 +96,21 @@ public class Login extends AppCompatActivity {
         });
 
     }
+    private void saveMember (Member mem,String uid){
+        SharedPreferences sharedPreferences = Login.this.getSharedPreferences("user", Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json =gson.toJson(mem);
+        editor.putString("user",json);
+        editor.putString("uid",uid);
+        editor.apply();
+    }
+    private void saveCamNum(){
+        SharedPreferences sharedPreferences = Login.this.getSharedPreferences("camstations",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("CamNum",0);
+        editor.apply();
+    }
 }
+
