@@ -66,6 +66,8 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
     private EditText LongitudeInput;
     private EditText ElevationInput;
     private EditText cameraIDInput;
+    private EditText notesIdInput;
+    private String notesId;
     private String stationId;
     private String watershedid;
     private String latitudeS;
@@ -100,6 +102,7 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
         LongitudeInput=fragmentView.findViewById(R.id.eId);
         ElevationInput=fragmentView.findViewById(R.id.elevationId);
         cameraIDInput=fragmentView.findViewById(R.id.cameraId);
+        notesIdInput = fragmentView.findViewById(R.id.notesId);
         netStatus=fragmentView.findViewById(R.id.createStationNetStatusId);
         save=fragmentView.findViewById(R.id.saveButtonId);
         db=FirebaseFirestore.getInstance();
@@ -125,6 +128,7 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
                 cam.setOrg(me.getOrg());
                 cam.setAuthor(loaduid());
                 cam.setCameraId(cameraId);
+                //cam.setNotesId(notesId);
                 cam.setPosted(new Timestamp(currentTime));
                 cam.setPic(me.getProfile());
 
@@ -344,8 +348,9 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
         longitudeS=LongitudeInput.getText().toString().trim();
         altitude=ElevationInput.getText().toString().trim();
         cameraId=cameraIDInput.getText().toString().trim();
+        notesId=notesIdInput.getText().toString().trim();
         //for debug
-        Log.d(TAG, "getInput; station id :"+stationId+" watersheid:  "+watershedid+" latitude:  "+latitudeS+" longtitude:  "+longitudeS+" elevation:  "+altitude+" cameraId:  "+cameraId+" Time:  "+currentTime);
+        Log.d(TAG, "getInput; station id :"+stationId+" watersheid:  "+watershedid+" latitude:  "+latitudeS+" longtitude:  "+longitudeS+" elevation:  "+altitude+" cameraId:  "+cameraId+" Time:  "+currentTime+ "Notes:  "+notesId);
         Log.d(TAG, "getInput; terrain: "+terrain+" habitat :"+habitat+" lureType : "+lureType+" substrate: "+substrate+" potential station :"+potential);
 
         //prevent some blank

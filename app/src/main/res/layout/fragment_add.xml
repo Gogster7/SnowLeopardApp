@@ -116,24 +116,26 @@
                 android:textSize="21dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/guideline6" />
+
             <TextView
                 android:id="@+id/stationP2IdLabel"
                 android:layout_width="115dp"
                 android:layout_height="44dp"
-                android:layout_marginStart="45dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="32dp"
                 android:fontFamily="@font/aclonica"
                 android:text="Station"
                 android:textColor="#FFFFFF"
                 android:textSize="21dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/guideline7" />
+
             <TextView
                 android:id="@+id/potentialIdLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="35dp"
-                android:layout_marginTop="60dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="68dp"
                 android:fontFamily="@font/aclonica"
                 android:text="potential"
                 android:textColor="#FFFFFF"
@@ -434,11 +436,25 @@
                 app:layout_constraintGuide_begin="1300dp" />
 
             <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline8"
+                android:id="@+id/guideline7.5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 app:layout_constraintGuide_begin="1480dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="1650dp" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="2000dp" />
+
             <RadioGroup
                 android:id="@+id/radioGroup05"
                 android:layout_width="212dp"
@@ -448,6 +464,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline3"
                 app:layout_constraintTop_toTopOf="@+id/guideline7">
+
                 <RadioButton
                     android:id="@+id/radioButtonGoodId"
                     android:layout_width="match_parent"
@@ -458,6 +475,7 @@
                     android:text="good"
                     android:textColor="#FFFFFF"
                     android:textSize="18sp" />
+
                 <RadioButton
                     android:id="@+id/radioButtonMediumId"
                     android:layout_width="match_parent"
@@ -467,6 +485,7 @@
                     android:text="medium"
                     android:textColor="#FFFFFF"
                     android:textSize="18sp" />
+
                 <RadioButton
                     android:id="@+id/radioButtonPoorId"
                     android:layout_width="match_parent"
@@ -606,7 +625,7 @@
                 android:text="Save"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/guideline8" />
+                app:layout_constraintTop_toTopOf="@+id/guideline9" />
             <Button
                 android:id="@+id/postbuttonCam"
                 android:layout_width="wrap_content"
@@ -618,7 +637,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.493"
                 app:layout_constraintStart_toEndOf="@+id/saveButtonId"
-                app:layout_constraintTop_toTopOf="@+id/guideline8" />
+                app:layout_constraintTop_toTopOf="@+id/guideline9" />
 
             <TextView
                 android:id="@+id/createStationNetId"
@@ -645,6 +664,60 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/createStationLabel"
                 app:layout_constraintTop_toBottomOf="@+id/createStationNetId" />
+
+            <TextView
+                android:id="@+id/notesIdLabel"
+                android:layout_width="159dp"
+                android:layout_height="77dp"
+                android:fontFamily="@font/aclonica"
+                android:text="COMMENTS/  NOTES"
+                android:textColor="#FFFFFF"
+                android:textSize="21dp"
+                app:layout_constraintBottom_toTopOf="@+id/guideline8"
+                app:layout_constraintEnd_toStartOf="@+id/guideline3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/guideline7.5" />
+
+            <TextView
+                android:id="@+id/PicturesIdLabel"
+                android:layout_width="159dp"
+                android:layout_height="77dp"
+                android:fontFamily="@font/aclonica"
+                android:text="Pictures of Camera Surroundings"
+                android:textColor="#FFFFFF"
+                android:textSize="21dp"
+                app:layout_constraintBottom_toTopOf="@+id/guideline9"
+                app:layout_constraintEnd_toStartOf="@+id/guideline3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/guideline8" />
+
+            <EditText
+                android:id="@+id/notesId"
+                android:layout_width="219dp"
+                android:layout_height="82dp"
+                android:layout_marginStart="176dp"
+                android:layout_marginEnd="28dp"
+                android:alpha="50"
+                android:background="#FDFBFB"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/guideline8"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.142"
+                app:layout_constraintStart_toStartOf="@+id/notesIdLabel"
+                app:layout_constraintTop_toBottomOf="@+id/radioGroup05"
+                app:layout_constraintVertical_bias="0.402" />
+
+            <ImageView
+                android:id="@+id/imageInputId"
+                android:layout_width="134dp"
+                android:layout_height="139dp"
+                android:src="@drawable/ic_baseline_image_24"
+                app:layout_constraintBottom_toTopOf="@+id/guideline9"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/PicturesIdLabel"
+                app:layout_constraintTop_toTopOf="@+id/guideline8" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
