@@ -143,6 +143,8 @@ public class Register extends AppCompatActivity {
                                         db.collection("Member").document(user.getUid()).set(mem).addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
+                                                saveMember(mem, user.getUid());
+                                                saveCamNum();
                                                 sendMessage(fullName,phoneNumber,email,job,Forg.getOrgEmail());
                                                 startActivity(new Intent(getApplicationContext(),MainActivity.class));
 
@@ -190,5 +192,21 @@ public class Register extends AppCompatActivity {
             }
         });
         sender.start();
+    }
+    private void saveMember (Member mem,String uid){
+        SharedPreferences sharedPreferences = Register.this.getSharedPreferences("user", Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json =gson.toJson(mem);
+        editor.putString("user",json);
+        editor.putString("uid",uid);
+        editor.apply();
+    }
+    private void saveCamNum(){
+        SharedPreferences sharedPreferences = Register.this.getSharedPreferences("camstations",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("CamNum",0);
+        editor.apply();
     }
 }
