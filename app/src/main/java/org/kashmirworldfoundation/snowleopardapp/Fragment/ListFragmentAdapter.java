@@ -3,12 +3,18 @@ package org.kashmirworldfoundation.snowleopardapp.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import org.kashmirworldfoundation.snowleopardapp.CameraStation;
+import org.kashmirworldfoundation.snowleopardapp.GlideApp;
 import org.kashmirworldfoundation.snowleopardapp.R;
-import org.kashmirworldfoundation.snowleopardapp.Station;
+
 
 
 import java.util.ArrayList;
@@ -16,12 +22,13 @@ import java.util.ArrayList;
 
 public class ListFragmentAdapter extends RecyclerView.Adapter<ListFragmentViewholder> {
     ListFragment listFragment;
-    ArrayList<Station> stationList;
-    Station station;
 
-    ListFragmentAdapter(ArrayList<Station> stationList,ListFragment listFragment){
+
+    ArrayList<CameraStation> CstationList;
+    CameraStation Cstation;
+    ListFragmentAdapter(ArrayList<CameraStation> stationList,ListFragment listFragment){
         this.listFragment=listFragment;
-        this.stationList=stationList;
+        this.CstationList=stationList;
     }
 
     @NonNull
@@ -41,17 +48,17 @@ public class ListFragmentAdapter extends RecyclerView.Adapter<ListFragmentViewho
 
     @Override
     public void onBindViewHolder(@NonNull ListFragmentViewholder holder, int position) {
-        station=stationList.get(position);
+        Cstation=CstationList.get(position);
 
-        holder.stationId.setText(station.getStationId());
-        holder.dateId.setText(station.getPosted());
+        holder.stationId.setText(Cstation.getStationId());
+        holder.dateId.setText(Cstation.getPosted().toDate().toString());
         holder.imgId.setImageResource(R.drawable.kwflogo);
 
     }
 
     @Override
     public int getItemCount() {
-        return stationList.size();
+        return CstationList.size();
     }
 
 }
