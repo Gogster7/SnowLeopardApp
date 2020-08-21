@@ -1,18 +1,27 @@
 package org.kashmirworldfoundation.snowleopardapp.Fragment;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -20,11 +29,20 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+
+import org.kashmirworldfoundation.snowleopardapp.ProgressDialog;
 import org.kashmirworldfoundation.snowleopardapp.R;
+import org.kashmirworldfoundation.snowleopardapp.ImageFilePath;
 
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -40,11 +58,15 @@ import com.google.common.reflect.TypeToken;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -60,12 +82,15 @@ import java.util.Iterator;
 
 public class AddFragment  extends Fragment implements View.OnClickListener{
     private static final String TAG = "Add fragment";
+    private static final int PICK_IMAGE1 = 100;
+    private static final int PICK_IMAGE2 = 200;
     private EditText stationIdInput;
     private EditText WatershedInput;
     private EditText LatitudeInput;
     private EditText LongitudeInput;
     private EditText ElevationInput;
     private EditText cameraIDInput;
+    private EditText NotesInput;
     private String stationId;
     private String watershedid;
     private String latitudeS;
@@ -78,16 +103,20 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
     private String lureType;
     private String substrate;
     private String potential;
+    private String notes;
 
     private static final int LOCATION_REQUEST = 111;
     private View fragmentView ;
-    private Button save;
+    private Button save,post;
     private Date currentTime;
+    private ImageButton imgbtn1, imgbtn2;
 
     private TextView  netStatus;
     private FirebaseFirestore db;
+    private FirebaseStorage fStorage;
     private Integer counter=0;
-
+    private CameraStation current= new CameraStation();
+    private Boolean[] pic = {Boolean.FALSE,Boolean.FALSE};
 
 
     @Nullable
@@ -102,36 +131,74 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
         cameraIDInput=fragmentView.findViewById(R.id.cameraId);
         netStatus=fragmentView.findViewById(R.id.createStationNetStatusId);
         save=fragmentView.findViewById(R.id.saveButtonId);
+        imgbtn1 = fragmentView.findViewById(R.id.CamPic1);
+        imgbtn2 = fragmentView.findViewById(R.id.CamPic2);
+        post=fragmentView.findViewById(R.id.postbuttonCam);
         db=FirebaseFirestore.getInstance();
+        fStorage= FirebaseStorage.getInstance();
+        NotesInput =fragmentView.findViewById(R.id.NoteInput);
+        current.setCamerapic1("");
+        current.setCamerapic2("");
+
+        imgbtn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openGallery(PICK_IMAGE1);
+            }
+        });
+        imgbtn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openGallery(PICK_IMAGE2);
+            }
+        });
+        post.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                ArrayList<CameraStation> Clist= load();
+                if (Clist.size()==0){
+                    createToast(getContext(),"No Camerat stations saved", Toast.LENGTH_LONG);
+                }
+                else{
+                    Fireload(Clist);
+                }
+
+            }
+        });
         save.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
                 saveDialog();
-                Member me = loaduser();
-                saveDialog();
                 getInput();
-                CameraStation cam = new CameraStation();
-                Date currentTime = Calendar.getInstance().getTime();
-                cam.setPotential(potential);
-                cam.setLureType(lureType);
-                cam.setAltitude(altitudeS);
-                cam.setLongitudeS(longitudeS);
-                cam.setLatitudeS(latitudeS);
-                cam.setStationId(stationId);
-                cam.setSubstrate(substrate);
-                cam.setTerrain(terrain);
-                cam.setWatershedid(watershedid);
-                cam.setHabitat(habitat);
-                cam.setOrg(me.getOrg());
-                cam.setAuthor(loaduid());
-                cam.setCameraId(cameraId);
-                cam.setPosted(new Timestamp(currentTime));
-                cam.setPic(me.getProfile());
 
+
+                Member me = loaduser();
+
+
+
+                Date currentTime = Calendar.getInstance().getTime();
+                current.setPotential(potential);
+                current.setLureType(lureType);
+                current.setAltitude(altitudeS);
+                current.setLongitudeS(longitudeS);
+                current.setLatitudeS(latitudeS);
+                current.setStationId(stationId);
+                current.setSubstrate(substrate);
+                current.setTerrain(terrain);
+                current.setWatershedid(watershedid);
+                current.setHabitat(habitat);
+                current.setOrg(me.getOrg());
+                current.setAuthor("Member/" + loaduid());
+                current.setCameraId(cameraId);
+                current.setPosted(new Timestamp(currentTime));
+                current.setPic(me.getProfile());
+                current.setaName(me.getFullname());
+                current.setNotes(notes);
                 ArrayList<CameraStation> list = load();
 
-                list.add(cam);
+                list.add(current);
                 save(list);
+                current=new CameraStation();
                 refresh();
             }
         });
@@ -344,6 +411,9 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
         longitudeS=LongitudeInput.getText().toString().trim();
         altitude=ElevationInput.getText().toString().trim();
         cameraId=cameraIDInput.getText().toString().trim();
+        notes = NotesInput.getText().toString().trim();
+
+
         //for debug
         Log.d(TAG, "getInput; station id :"+stationId+" watersheid:  "+watershedid+" latitude:  "+latitudeS+" longtitude:  "+longitudeS+" elevation:  "+altitude+" cameraId:  "+cameraId+" Time:  "+currentTime);
         Log.d(TAG, "getInput; terrain: "+terrain+" habitat :"+habitat+" lureType : "+lureType+" substrate: "+substrate+" potential station :"+potential);
@@ -406,6 +476,7 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
         dialog.show();
     }
 
+
     public static void createToast(Context context, String message, int time) {
         Toast toast = Toast.makeText(context, "" + message, time);
         View toastView = toast.getView();
@@ -416,7 +487,7 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
         toast.show();
     }
     private void save(ArrayList<CameraStation> list){
-        SharedPreferences sharedPreferences = getContext().getSharedPreferences("camstations",Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("user",Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         Gson gson = new GsonBuilder().registerTypeAdapter(Timestamp.class,new MyDateTypeAdapter()).create();;
@@ -426,15 +497,24 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
         editor.apply();
     }
     private ArrayList<CameraStation> load(){
-        SharedPreferences sharedPreferences = getContext().getSharedPreferences("camstations",Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("user",Context.MODE_PRIVATE);
         Gson gson = new GsonBuilder().registerTypeAdapter(Timestamp.class,new MyDateTypeAdapter()).create();;
         String json =sharedPreferences.getString("station",null);
         if (json==null){
-            return new ArrayList<CameraStation>();
+            return new ArrayList<>();
         }
-        Type type = new TypeToken<ArrayList<CameraStation>>() {}.getType();
-        return gson.fromJson(json,type);
+        else{
+            createToast(getContext(), "CameraStations here",Toast.LENGTH_LONG);
+
+            Type type = new TypeToken<ArrayList<CameraStation>>() {}.getType();
+            return gson.fromJson(json,type);
+
+
+
+        }
+
     }
+
     private String loaduid(){
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("user",Context.MODE_PRIVATE);
         return sharedPreferences.getString("uid",null);
@@ -446,34 +526,121 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
         Type type =new TypeToken<Member>(){}.getType();
         return gson.fromJson(json,type);
     }
-    private void Fireload(final ArrayList<CameraStation> list){
-        final Iterator<CameraStation> iter= list.iterator();
-        Integer remain =list.size();
-        while(iter.hasNext()){
-            CameraStation station= iter.next();
-            db.collection("CameraStation").add(station).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+    private void Fireload(final ArrayList<CameraStation> list) {
+        final Iterator<CameraStation> iter = list.iterator();
+        CollectionReference collection = db.collection("CameraStation");
+        while (iter.hasNext()) {
+            CameraStation station = iter.next();
+            DocumentReference doc = collection.document();
+            String path = doc.getId();
+            if (station.getCamerapic1() != "") {
+                pic[0] = Boolean.TRUE;
+
+                try {
+
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), Uri.parse(station.getCamerapic1()));
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                    byte[] datan = baos.toByteArray();
+                    StorageReference profile = fStorage.getReference(path + "/image1");
+                    UploadTask uploadTask = profile.putBytes(datan);
+                    uploadTask.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                            if (task.isSuccessful()) {
+
+                            }
+
+                        }
+                    });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+            if (station.getCamerapic2() != "") {
+
+                try {
+                    pic[1] = Boolean.TRUE;
+
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), Uri.parse(station.getCamerapic2()));
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                    byte[] datan = baos.toByteArray();
+                    StorageReference profile = fStorage.getReference(path + "/image2");
+                    UploadTask uploadTask = profile.putBytes(datan);
+                    uploadTask.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                            if (task.isSuccessful()) {
+
+                            }
+
+                        }
+                    });
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (pic[0]) {
+                station.setCamerapic1(path + "/image1");
+            }
+            if (pic[1]) {
+                station.setCamerapic2(path + "/image2");
+            }
+            db.collection("CameraStation").document(path).set(station).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
-                public void onComplete(@NonNull Task<DocumentReference> task) {
-                    if(task.isSuccessful()){
-                        iter.remove();
-                        counter+=1;
-
-                    }
-                    else{
-
-                    }
+                public void onComplete(@NonNull Task<Void> task) {
+                    iter.remove();
+                    counter +=1;
+                    String count = counter.toString();
+                    Integer size = list.size();
+                    String rem = size.toString();
+                    createToast(getActivity(), count + " stations sent to firebase" + rem + "stations remain", Toast.LENGTH_SHORT);
                 }
             });
-            String count = counter.toString();
-            String rem =remain.toString();
-            createToast(getActivity(),count + " stations sent to firebase" +rem +"stations remain",Toast.LENGTH_SHORT);
+
+            counter = 0;
+            save(list);
         }
-        SharedPreferences sharedPreferences = getContext().getSharedPreferences("camstations",Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        Gson gson = new GsonBuilder().registerTypeAdapter(Timestamp.class,new MyDateTypeAdapter()).create();;
-        String json =gson.toJson(list);
-        editor.putString("station",json);
-        editor.apply();
+    }
+
+    private void openGallery(int PICK_IMAGE){
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
+    }
+    @Override
+    public void onActivityResult(int requestcode,int resultcode, @Nullable Intent data){
+        super.onActivityResult(requestcode,resultcode,data);
+
+        if (resultcode== Activity.RESULT_OK && requestcode ==PICK_IMAGE1){
+            Uri imageurl =data.getData();
+            imgbtn1.setImageURI(imageurl);
+
+            imgbtn1.setDrawingCacheEnabled(true);
+            imgbtn1.buildDrawingCache();
+            //current.setCamerapic1(ImageFilePath.getPath(getContext(), data.getData()));
+            current.setCamerapic1(imageurl.toString());
+            Log.e(TAG, imageurl.toString() );
+
+
+        }
+        if (resultcode== Activity.RESULT_OK && requestcode ==PICK_IMAGE2){
+            Uri imageurl =data.getData();
+            imgbtn2.setImageURI(imageurl);
+            imgbtn2.setDrawingCacheEnabled(true);
+            imgbtn2.buildDrawingCache();
+            current.setCamerapic2(imageurl.toString());
+            //current.setCamerapic2(ImageFilePath.getPath(getContext(),data.getData()));
+
+
+
+        }
+
     }
 
 }
