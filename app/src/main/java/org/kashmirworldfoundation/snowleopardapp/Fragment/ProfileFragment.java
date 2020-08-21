@@ -96,7 +96,10 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
         logout = (Button) fragmentView.findViewById(R.id.logoutP);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
+                FirebaseAuth.getInstance().signOut();
+                clear();
                 Intent intent = new Intent(getActivity(), Login.class);
                 startActivity(intent);
             }
@@ -181,6 +184,12 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
         String json = sharedPreferences.getString("user", null);
         Type type =new TypeToken<Member>(){}.getType();
         return gson.fromJson(json,type);
+    }
+    private void clear(){
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("user",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor =  sharedPreferences.edit();
+        editor.clear();
+
     }
     public static ProfileFragment newInstance() {
         return new ProfileFragment();
