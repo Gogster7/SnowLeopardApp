@@ -8,21 +8,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 
+import java.io.Serializable;
 import java.util.Date;
 
-package org.kashmirworldfoundation.snowleopardapp;
-
-import android.view.ViewGroup;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.firebase.Timestamp;
-import com.google.firebase.firestore.DocumentReference;
-
-import java.util.Date;
-
-public class CameraStation  {
+public class CameraStation {
     private String pic;
     private String stationId;
     private String watershedid;
@@ -30,7 +19,9 @@ public class CameraStation  {
     private String longitudeS;
     private String altitude;
     private String cameraId;
-
+    private String Camerapic1;
+    private String camerapic2;
+    private String notes;
     private String terrain;
     private String habitat;
     private String lureType;
@@ -38,11 +29,52 @@ public class CameraStation  {
     private String potential;
     private String author;
     private String org;
+    private String aName;
+    private String SdCard;
     private Timestamp Posted;
     public CameraStation(){
 
     }
 
+    public String getSdCard() {
+        return SdCard;
+    }
+
+    public void setSdCard(String sdCard) {
+        SdCard = sdCard;
+    }
+
+    public String getaName() {
+        return aName;
+    }
+
+    public void setaName(String aName) {
+        this.aName = aName;
+    }
+
+    public String getCamerapic1() {
+        return Camerapic1;
+    }
+
+    public void setCamerapic1(String camerapic1) {
+        Camerapic1 = camerapic1;
+    }
+
+    public String getCamerapic2() {
+        return camerapic2;
+    }
+
+    public void setCamerapic2(String camerapic2) {
+        this.camerapic2 = camerapic2;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
 
     public String getStationId() {
         return stationId;
