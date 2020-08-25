@@ -10,8 +10,6 @@ import com.google.firebase.firestore.DocumentReference;
 
 import java.util.Date;
 
-package org.kashmirworldfoundation.snowleopardapp;
-
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;

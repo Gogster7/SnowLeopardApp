@@ -3,7 +3,9 @@ package org.kashmirworldfoundation.snowleopardapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +18,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.gson.Gson;
 
 public class Login extends AppCompatActivity {
     EditText mEmail, mPassword;
@@ -53,7 +58,7 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), RegisterSpinner0.class));
-               
+
             }
         });
         mRegisterOrgBtn.setOnClickListener(new View.OnClickListener() {
@@ -107,10 +112,9 @@ public class Login extends AppCompatActivity {
         editor.apply();
     }
     private void saveCamNum(){
-        SharedPreferences sharedPreferences = Login.this.getSharedPreferences("camstations",Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = Login.this.getSharedPreferences("camstations", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("CamNum",0);
         editor.apply();
     }
 }
-

@@ -8,6 +8,14 @@
     <color name="lightGray">#fafafa</color>
     <color name="whiteColor">#fff</color>
 
+    <!-- Re-Bait menu colors-->
+    <color name="rPrimary">#2196F3</color>
+    <color name="rPrimaryDark">#1976D2</color>
+    <color name="rAccent">#FF5252</color>
+    <color name="rPrimaryText">#212121</color>
+    <color name="rSecondaryText">#757575</color>
+    <color name="rWhite">#FFFFFF</color>
+    <color name="rDivider">#ECECEC</color>
 
     <!-- Mapbox colors -->
 
