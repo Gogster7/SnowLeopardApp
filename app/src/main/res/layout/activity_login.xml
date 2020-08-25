@@ -2,11 +2,21 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LoginLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
     tools:context=".Login">
+    <ImageView
 
+        android:id="@+id/BackgroundLogin"
+        android:layout_width="411dp"
+        android:layout_height="735dp"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="-5dp"
+        tools:srcCompat="@tools:sample/backgrounds/scenic"
+        android:visibility="invisible"
+        android:scaleType="fitXY"/>
     <TextView
         android:id="@+id/RegisterOrgBtn"
         android:layout_width="wrap_content"
@@ -56,8 +66,8 @@
         android:backgroundTint="#FAFAFA"
         android:ems="10"
         android:fontFamily="@font/aclonica"
-        android:inputType="textPassword"
         android:hint="Password:"
+        android:inputType="textPassword"
         android:textColorHint="#F8F8F8"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -71,8 +81,8 @@
         android:backgroundTint="#FAFAFA"
         android:ems="10"
         android:fontFamily="@font/aclonica"
-        android:inputType="textPersonName"
         android:hint="Email:"
+        android:inputType="textPersonName"
         android:textColorHint="#F8F8F8"
         app:layout_constraintBottom_toTopOf="@+id/password"
         app:layout_constraintEnd_toEndOf="parent"
@@ -124,5 +134,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.92" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
