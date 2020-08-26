@@ -33,9 +33,7 @@ import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import org.kashmirworldfoundation.snowleopardapp.ProgressDialog;
 import org.kashmirworldfoundation.snowleopardapp.R;
-import org.kashmirworldfoundation.snowleopardapp.ImageFilePath;
 
 
 import java.io.ByteArrayOutputStream;
