@@ -40,7 +40,7 @@ public class Expand extends AppCompatActivity implements View.OnClickListener {
 
     ImageView imageView;
     TextView title, date,cameraid,substrate,lureType,potential,terrain,watershedid,author;
-//    TextView dateLabel;
+    //    TextView dateLabel;
     int position;
     private static final String TAG = "Expand";
     private Button rebaitBtn;
@@ -77,10 +77,12 @@ public class Expand extends AppCompatActivity implements View.OnClickListener {
         // Matching User Listener to Takedown button if form does not belong to current user
 
 
-        Station station = (Station) getIntent().getSerializableExtra("station");
+        //Station station = (Station) getIntent().getSerializableExtra("station");
+
+        CameraStation station =getIntent().getParcelableExtra("station");
 
         title.setText(station.getStationId());
-        date.setText(station.getPosted());
+        date.setText(station.getPosted().toDate().toString());
         cameraid.setText(station.getCameraId());
         substrate.setText(station.getSubstrate());
         lureType.setText(station.getLureType());
