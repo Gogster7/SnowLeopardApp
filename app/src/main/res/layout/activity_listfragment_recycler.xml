@@ -17,6 +17,7 @@
         android:clickable="true"
         android:focusable="true"
         android:src="@android:drawable/stat_sys_download_done"
+        android:translationZ="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.91"

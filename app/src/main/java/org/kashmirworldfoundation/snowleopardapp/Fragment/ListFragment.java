@@ -96,8 +96,10 @@ public class ListFragment extends Fragment implements View.OnClickListener  {
         CStationArrayList= new ArrayList<>();
 
         tocsv = ListFragment.findViewById(R.id.CSVb);
+        tocsv.bringToFront();
 
         tocsv.setOnClickListener(v -> export());
+
 
         // Add data from Firebase on the the Arrays
         new StationAsyncTask(this).execute();
@@ -109,15 +111,15 @@ public class ListFragment extends Fragment implements View.OnClickListener  {
 
     public void onClick(View v) {
 
-        /**
+
             pos =recyclerView.getChildLayoutPosition(v);
             CameraStation selectiion=CStationArrayList.get(pos);
             Intent i= new Intent(getActivity().getApplicationContext(), Expand.class);
-            //i.putExtra("station",selectiion);
+            i.putExtra("station",selectiion);
             startActivity(i);
 
 
-         **/
+
 
     }
 

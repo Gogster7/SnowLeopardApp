@@ -15,7 +15,7 @@ public class Expand extends AppCompatActivity{
 
     ImageView imageView;
     TextView title, date,cameraid,substrate,lureType,potential,terrain,watershedid,author;
-//    TextView dateLabel;
+    //    TextView dateLabel;
     int position;
     private static final String TAG = "Expand";
 
@@ -44,10 +44,12 @@ public class Expand extends AppCompatActivity{
         watershedid=findViewById(R.id.watershedid);
         author=findViewById(R.id.authorId);
 
-        Station station = (Station) getIntent().getSerializableExtra("station");
+        //Station station = (Station) getIntent().getSerializableExtra("station");
+
+        CameraStation station =getIntent().getParcelableExtra("station");
 
         title.setText(station.getStationId());
-        date.setText(station.getPosted());
+        date.setText(station.getPosted().toDate().toString());
         cameraid.setText(station.getCameraId());
         substrate.setText(station.getSubstrate());
         lureType.setText(station.getLureType());

@@ -1,17 +1,11 @@
 package org.kashmirworldfoundation.snowleopardapp;
 
-import android.view.ViewGroup;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.google.firebase.Timestamp;
-import com.google.firebase.firestore.DocumentReference;
 
-import java.io.Serializable;
-import java.util.Date;
-
-public class CameraStation {
+public class CameraStation implements Parcelable {
     private String pic;
     private String stationId;
     private String watershedid;
@@ -32,6 +26,31 @@ public class CameraStation {
     private String aName;
     private String SdCard;
     private Timestamp Posted;
+
+    public CameraStation(Parcel in){
+        pic=in.readString();
+        stationId=in.readString();
+        watershedid=in.readString();
+        latitudeS=in.readString();
+        longitudeS=in.readString();
+        altitude=in.readString();
+        cameraId=in.readString();
+        Camerapic1=in.readString();
+        camerapic2=in.readString();
+        notes=in.readString();
+        terrain=in.readString();
+        habitat=in.readString();
+        lureType=in.readString();
+        substrate=in.readString();
+        potential=in.readString();
+        author=in.readString();
+        org=in.readString();
+        aName=in.readString();
+        SdCard=in.readString();
+        Posted=in.readParcelable(getClass().getClassLoader());
+
+    }
+
     public CameraStation(){
 
     }
@@ -195,4 +214,48 @@ public class CameraStation {
     public void setOrg(String org) {
         this.org = org;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(pic);
+        dest.writeString(stationId);
+        dest.writeString(watershedid);
+        dest.writeString(latitudeS);
+        dest.writeString(longitudeS);
+        dest.writeString(altitude);
+        dest.writeString(cameraId);
+        dest.writeString(Camerapic1);
+        dest.writeString(camerapic2);
+        dest.writeString(notes);
+        dest.writeString(terrain);
+        dest.writeString(habitat);
+        dest.writeString(lureType);
+        dest.writeString(substrate);
+        dest.writeString(potential);
+        dest.writeString(author);
+        dest.writeString(org);
+        dest.writeString(aName);
+        dest.writeString(SdCard);
+        dest.writeParcelable(Posted,0);
+
+
+
+    }
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public CameraStation createFromParcel(Parcel in) {
+            return new CameraStation(in);
+        }
+
+        public CameraStation[] newArray(int size) {
+            return new CameraStation[size];
+        }
+    };
+
+
 }
