@@ -90,6 +90,7 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
     private EditText ElevationInput;
     private EditText cameraIDInput;
     private EditText NotesInput;
+    private EditText SdcardInput;
     private String stationId;
     private String watershedid;
     private String latitudeS;
@@ -103,6 +104,7 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
     private String substrate;
     private String potential;
     private String notes;
+    private String sdcard;
 
     private static final int LOCATION_REQUEST = 111;
     private View fragmentView ;
@@ -193,6 +195,7 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
                 current.setPic(me.getProfile());
                 current.setaName(me.getFullname());
                 current.setNotes(notes);
+                current.setSdCard(sdcard);
                 ArrayList<CameraStation> list = load();
 
                 list.add(current);
@@ -411,7 +414,7 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
         altitude=ElevationInput.getText().toString().trim();
         cameraId=cameraIDInput.getText().toString().trim();
         notes = NotesInput.getText().toString().trim();
-
+        sdcard = SdcardInput.getText().toString().trim();
 
         //for debug
         Log.d(TAG, "getInput; station id :"+stationId+" watersheid:  "+watershedid+" latitude:  "+latitudeS+" longtitude:  "+longitudeS+" elevation:  "+altitude+" cameraId:  "+cameraId+" Time:  "+currentTime);
