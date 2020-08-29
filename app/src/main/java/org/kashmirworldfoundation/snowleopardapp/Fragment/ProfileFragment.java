@@ -158,7 +158,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
                 @Override
                 public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                     if (task.isSuccessful()){
-                        Fstore.collection("Member").document(Uid).update("profile","profile"+Uid);
+                        Fstore.collection("Member").document(Uid).update("profile","profile/"+Uid);
                     }
                     else{
                         createToast(getContext(),"Error adding profile please try again with a stable connection",Toast.LENGTH_LONG);
