@@ -53,7 +53,15 @@ public class ListFragmentAdapter extends RecyclerView.Adapter<ListFragmentViewho
         holder.stationId.setText(Cstation.getStationId());
         holder.dateId.setText(Cstation.getPosted().toDate().toString());
         holder.imgId.setImageResource(R.drawable.kwflogo);
+        fetchData(Cstation.getPic(),holder.imgId);
 
+    }
+
+    private void fetchData(String location, ImageView image) {
+        StorageReference ref = FirebaseStorage.getInstance().getReference(location);
+        GlideApp.with(listFragment)
+                .load(ref)
+                .into(image);
     }
 
     @Override
