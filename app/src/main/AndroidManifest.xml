@@ -18,9 +18,11 @@
             android:parentActivityName=".MainActivity"></activity>
         <activity android:name=".MapCreateList"/>
         <activity android:name=".MapCreateActivity"/>
-        <activity android:name=".PostActivity" />
+        
         <activity android:name=".RegisterOrg" />
         <activity android:name=".CreateStation" />
+        <activity android:name=".GoogleMapActivity" />
+
 
         <activity android:name=".MainActivity" />
 
@@ -42,6 +44,9 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
     </application>
 
 </manifest>
