@@ -6,14 +6,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,14 +19,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -38,31 +33,21 @@ import org.kashmirworldfoundation.snowleopardapp.R;
 
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Calendar;
 import java.util.Date;
 
 import android.content.SharedPreferences;
 
 
-import android.provider.ContactsContract;
-
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.common.reflect.TypeToken;
 import com.google.firebase.Timestamp;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -72,7 +57,6 @@ import com.google.gson.GsonBuilder;
 import org.kashmirworldfoundation.snowleopardapp.CameraStation;
 import org.kashmirworldfoundation.snowleopardapp.Member;
 import org.kashmirworldfoundation.snowleopardapp.MyDateTypeAdapter;
-import org.kashmirworldfoundation.snowleopardapp.R;
 
 
 import java.lang.reflect.Type;
@@ -592,10 +576,11 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
             if (pic[1]) {
                 station.setCamerapic2(path + "/image2");
             }
+            station.setFirebaseId("CameraStation/"+path);
             db.collection("CameraStation").document(path).set(station).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
-                    iter.remove();
+                    
                     counter +=1;
                     String count = counter.toString();
                     Integer size = list.size();
@@ -605,7 +590,7 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
             });
 
             counter = 0;
-            save(list);
+            save(new ArrayList<CameraStation>());
         }
     }
 
