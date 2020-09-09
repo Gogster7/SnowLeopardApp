@@ -1,25 +1,47 @@
 package org.kashmirworldfoundation.snowleopardapp;
 
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PointF;
+import android.location.Location;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.kashmirworldfoundation.snowleopardapp.R;
 
+import com.google.gson.JsonElement;
+import com.mapbox.android.core.location.LocationEngine;
+import com.mapbox.android.core.location.LocationEngineCallback;
+import com.mapbox.android.core.location.LocationEngineProvider;
+import com.mapbox.android.core.location.LocationEngineRequest;
+import com.mapbox.android.core.location.LocationEngineResult;
 import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
+import com.mapbox.api.tilequery.MapboxTilequery;
+import com.mapbox.geojson.Feature;
+import com.mapbox.geojson.FeatureCollection;
+import com.mapbox.geojson.Point;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
+import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.geometry.LatLngBounds;
 import com.mapbox.mapboxsdk.location.LocationComponent;
 import com.mapbox.mapboxsdk.location.LocationComponentActivationOptions;
@@ -37,25 +59,44 @@ import com.mapbox.mapboxsdk.offline.OfflineRegion;
 import com.mapbox.mapboxsdk.offline.OfflineRegionError;
 import com.mapbox.mapboxsdk.offline.OfflineRegionStatus;
 import com.mapbox.mapboxsdk.offline.OfflineTilePyramidRegionDefinition;
+import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
+import com.mapbox.mapboxsdk.utils.BitmapUtils;
+import android.content.ContextWrapper;
+import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
 
 import org.json.JSONObject;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import timber.log.Timber;
+
+import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.*;
 
 /**
  * Download, view, navigate to, and delete an offline region.
  */
 public class OfflineManagerActivity extends AppCompatActivity implements
-        OnMapReadyCallback, OnLocationClickListener, PermissionsListener, OnCameraTrackingChangedListener {
+        OnMapReadyCallback, OnLocationClickListener, PermissionsListener, OnCameraTrackingChangedListener,MapboxMap.OnMapClickListener {
 
     private static final String TAG = "OffManActivity";
 
     // JSON encoding/decoding
     public static final String JSON_CHARSET = "UTF-8";
     public static final String JSON_FIELD_REGION_NAME = "FIELD_REGION_NAME";
+
+
+    private LocationEngine locationEngine;
+    private OfflineManagerActivity.LocationChangeListeningActivityLocationCallback callback =
+            new OfflineManagerActivity.LocationChangeListeningActivityLocationCallback(this);
+
+    private static final long DEFAULT_INTERVAL_IN_MILLISECONDS = 10000L;
+    private static final long DEFAULT_MAX_WAIT_TIME = DEFAULT_INTERVAL_IN_MILLISECONDS * 3;
 
     // UI elements
     private MapView mapView;
@@ -78,6 +119,22 @@ public class OfflineManagerActivity extends AppCompatActivity implements
     private boolean isInTrackingMode;
 
 
+    private int styleChooseNumber=0;
+    private static Style styleSet;
+    private static Double currentLatitude;
+    private static Double currentLongitude;
+    private static String stringAltitude;
+    private static Double currentAltitude;
+
+    private boolean fromGoogleMap=false;
+
+    private static final String RESULT_GEOJSON_SOURCE_ID = "RESULT_GEOJSON_SOURCE_ID";
+    private static final String LAYER_ID = "LAYER_ID";
+
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,17 +151,58 @@ public class OfflineManagerActivity extends AppCompatActivity implements
         mapView.onCreate(savedInstanceState);
 
 
+
+
+        Intent intent=getIntent();
+
+        final String inputStyle;
+
+        String mapStyle=intent.getStringExtra("Style");
+        Log.d(TAG, "onCreate: !!!"+mapStyle);
+
+        if(mapStyle.equals("Streets")){
+            inputStyle=Style.MAPBOX_STREETS;
+            styleChooseNumber=1;
+        }else if(mapStyle.equals("OutDoors")){
+            inputStyle=Style.OUTDOORS;
+            styleChooseNumber=2;
+        }else{
+            inputStyle=Style.SATELLITE_STREETS;
+            styleChooseNumber=3;
+        }
+
+
+    //change the style by floating button after the map create
+        findViewById(R.id.floatingActionButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(styleChooseNumber==1){
+                    mapboxMap.setStyle(Style.OUTDOORS);
+                    styleChooseNumber=2;
+                }else if(styleChooseNumber==2){
+                    mapboxMap.setStyle(Style.SATELLITE_STREETS);
+                    styleChooseNumber=3;
+                }else if(styleChooseNumber==3){
+                    mapboxMap.setStyle(Style.MAPBOX_STREETS);
+                    styleChooseNumber=1;
+                }
+
+            }
+        });
+
+
         mapView.getMapAsync(new OnMapReadyCallback() {
 
             @Override
             public void onMapReady(@NonNull MapboxMap mapboxMap) {
                 OfflineManagerActivity.this.mapboxMap = mapboxMap;
+                mapboxMap.addOnMapClickListener(OfflineManagerActivity.this);
 
                 map = mapboxMap;
-                mapboxMap.setStyle(Style.MAPBOX_STREETS, new Style.OnStyleLoaded() {
+                mapboxMap.setStyle(inputStyle, new Style.OnStyleLoaded(){
                     @Override
                     public void onStyleLoaded(@NonNull Style style) {
-
 
                         // Assign progressBar for later use
                         progressBar = findViewById(R.id.progress_bar);
@@ -131,7 +229,20 @@ public class OfflineManagerActivity extends AppCompatActivity implements
                             }
                         });
 
-                        enableLocationComponent(style);
+                        styleSet=style;
+                        enableLocationComponent(styleSet);
+
+
+                        if(intent.hasExtra("FromGoogleMap")){
+                            Log.d(TAG, "onStyleLoaded: !!!! from google map");
+                            fromGoogleMap=true;
+                            downloadRegionDialog();
+                        }
+
+
+
+
+
                     }
                 });
             }
@@ -139,10 +250,205 @@ public class OfflineManagerActivity extends AppCompatActivity implements
     }
 
 
+
+    /**
+     * Use the Java SDK's MapboxTilequery class to build a API request and use the API response
+     *
+     * @param point where the Tilequery API should query Mapbox's "mapbox.mapbox-terrain-v2" tileset
+     *              for elevation data.
+     */
+    //////************
+    private static void makeElevationRequestToTilequeryApi(@NonNull final Style style, @NonNull LatLng point) {
+        MapboxTilequery elevationQuery = MapboxTilequery.builder()
+                .accessToken("sk.eyJ1IjoiZ2FtbW1raW1vIiwiYSI6ImNrY3oyajlneTBmcXYzMXBnY3liaXNqeHgifQ._vcEPg9q9DI4miZ83e9U8g")
+                .tilesetIds("mapbox.mapbox-terrain-v2")
+                .query(Point.fromLngLat(point.getLongitude(), point.getLatitude()))
+                .geometry("polygon")
+                .layers("contour")
+                .build();
+
+        elevationQuery.enqueueCall(new Callback<FeatureCollection>() {
+            @Override
+            public void onResponse(Call<FeatureCollection> call, Response<FeatureCollection> response) {
+
+                if (response.body().features() != null) {
+                    List<Feature> featureList = response.body().features();
+
+                    String listOfElevationNumbers = "";
+
+
+
+                    // Build a list of the elevation numbers in the response.
+                    for (Feature singleFeature : featureList) {
+                        listOfElevationNumbers = listOfElevationNumbers + singleFeature.getStringProperty("ele") + ", ";
+
+                        stringAltitude=singleFeature.getStringProperty("ele");
+                    }
+
+
+                } else {
+                    String noFeaturesString = "no features";
+                    Timber.d(noFeaturesString);
+                    //Toast.makeText(OfflineManagerActivity.this, noFeaturesString, Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FeatureCollection> call, Throwable throwable) {
+                Timber.d("Request failed: %s", throwable.getMessage());
+                // Toast.makeText(OfflineManagerActivity.this,R.string.elevation_tilequery_api_response_error, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     @Override
     public void onMapReady(@NonNull MapboxMap mapboxMap) {
 
     }
+
+    /**
+     * Set up the LocationEngine and the parameters for querying the device's location
+     */
+    @SuppressLint("MissingPermission")
+    private void initLocationEngine() {
+        locationEngine = LocationEngineProvider.getBestLocationEngine(this);
+
+        LocationEngineRequest request = new LocationEngineRequest.Builder(DEFAULT_INTERVAL_IN_MILLISECONDS)
+                .setPriority(LocationEngineRequest.PRIORITY_HIGH_ACCURACY)
+                .setMaxWaitTime(DEFAULT_MAX_WAIT_TIME).build();
+
+        locationEngine.requestLocationUpdates(request, callback, getMainLooper());
+        locationEngine.getLastLocation(callback);
+
+    }
+
+    private void AskForBackToGoogleMAP(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(OfflineManagerActivity.this);
+        builder.setTitle("Save the offlineMap success\nBack to Google map page?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        onBackPressed();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
+                        // Do nothing here
+                    }
+                });
+        builder.create();
+        builder.show();
+
+
+    }
+
+    /**
+     * This method handles click events for SymbolLayer symbols.
+     *
+     * @param screenPoint the point on screen clicked
+     */
+    private boolean handleClickIcon(PointF screenPoint) {
+        List<Feature> features = mapboxMap.queryRenderedFeatures(screenPoint);
+        if (!features.isEmpty()) {
+            Feature feature = features.get(0);
+
+            StringBuilder stringBuilder = new StringBuilder();
+
+            if (feature.properties() != null) {
+                for (Map.Entry<String, JsonElement> entry : feature.properties().entrySet()) {
+                    stringBuilder.append(String.format("%s - %s", entry.getKey(), entry.getValue()));
+                    stringBuilder.append(System.getProperty("line.separator"));
+                }
+
+            }
+        } else {
+            Toast.makeText(this, "query_feature_no_properties_found", Toast.LENGTH_SHORT).show();
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onMapClick(@NonNull LatLng point) {
+        Log.d(TAG, "onMapClick: !"+point.getLatitude());
+        Log.d(TAG, "onMapClick: !"+point.getLongitude());
+        return handleClickIcon(mapboxMap.getProjection().toScreenLocation(point));
+    }
+
+
+    private static class LocationChangeListeningActivityLocationCallback
+            implements LocationEngineCallback<LocationEngineResult> {
+
+        private final WeakReference<OfflineManagerActivity> activityWeakReference;
+
+        LocationChangeListeningActivityLocationCallback(OfflineManagerActivity activity) {
+            this.activityWeakReference = new WeakReference<>(activity);
+        }
+
+
+        /**
+         * The LocationEngineCallback interface's method which fires when the device's location has changed.
+         *
+         * @param result the LocationEngineResult object which has the last known location within it.
+         */
+        @Override
+        public void onSuccess(LocationEngineResult result) {
+            OfflineManagerActivity activity = activityWeakReference.get();
+
+            if (activity != null) {
+                Location location = result.getLastLocation();
+                location.getLongitude();
+                location.getLatitude();
+
+                if (location == null) {
+                    return;
+                }
+
+                Log.d(TAG, "onSuccess longtitude: "+location.getLongitude());
+                Log.d(TAG, "onSuccess Latitude: "+location.getLatitude());
+
+                currentLatitude=location.getLatitude();
+                currentLongitude=location.getLongitude();
+
+
+                LatLng point=new LatLng();
+                point.setLatitude(currentLatitude);
+                point.setLongitude(currentLongitude);
+
+                //use this function to get altitude
+                makeElevationRequestToTilequeryApi(styleSet, point);
+
+                // Create a Toast which displays the new location's coordinates
+                Toast toast=Toast.makeText(activity, "New Location ; currentLatitude :" +currentLatitude+"currentLongitude : "+currentLongitude +"Altitude : "+stringAltitude,
+
+                        Toast.LENGTH_SHORT);
+
+
+                toast.setGravity(Gravity.TOP| Gravity.CENTER_HORIZONTAL, 0, 50);
+
+                toast.show();
+
+                // Pass the new location to the Maps SDK's LocationComponent
+                if (activity.mapboxMap != null && result.getLastLocation() != null) {
+                    activity.mapboxMap.getLocationComponent().forceLocationUpdate(result.getLastLocation());
+                }
+            }
+        }
+
+        /**
+         * The LocationEngineCallback interface's method which fires when the device's location can't be captured
+         *
+         * @param exception the exception message
+         */
+        @Override
+        public void onFailure(@NonNull Exception exception) {
+            OfflineManagerActivity activity = activityWeakReference.get();
+            if (activity != null) {
+                Toast.makeText(activity, exception.getLocalizedMessage(),
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
 
     // Override Activity lifecycle methods
     @Override
@@ -199,7 +505,7 @@ public class OfflineManagerActivity extends AppCompatActivity implements
         // Build the dialog box
         builder.setTitle("Save the map")
                 .setView(regionNameEdit)
-                .setMessage("message")
+                .setMessage("Please enter the map title.")
                 .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -211,7 +517,12 @@ public class OfflineManagerActivity extends AppCompatActivity implements
                             Toast.makeText(OfflineManagerActivity.this, "0---", Toast.LENGTH_SHORT).show();
                         } else {
                             // Begin download process
-                            downloadRegion(regionName);
+                            try{
+                                downloadRegion(regionName);
+                            }catch (Exception e){
+                                System.err.println(e);
+                            }
+
                         }
                     }
                 })
@@ -241,11 +552,55 @@ public class OfflineManagerActivity extends AppCompatActivity implements
             public void onStyleLoaded(@NonNull Style style) {
                 String styleUrl = style.getUri();
                 LatLngBounds bounds = map.getProjection().getVisibleRegion().latLngBounds;
+
+                //calsulate and resize the bounds
+                double latNorth=bounds.getLatNorth();
+                double latSouth=bounds.getLatSouth();
+
+                double lonEast=bounds.getLonEast();
+                double lonWest=bounds.getLonWest();
+                Log.d(TAG, "onStyleLoaded: getLatNorth"+latNorth);
+                Log.d(TAG, "onStyleLoaded: getLatSouth"+latSouth);
+                Log.d(TAG, "onStyleLoaded: getLonEast"+lonEast);
+                Log.d(TAG, "onStyleLoaded: getLonWest"+lonWest);
+
+                double halfLatitude=(latNorth+latSouth)/2;
+                double halfLongitude=(lonEast+lonWest)/2;
+                double newLatNorth=(halfLatitude+latNorth)/2;
+                double newLatSouth=(halfLatitude+latSouth)/2;
+                double newLonEast=(halfLongitude+lonEast)/2;
+                double newLonWest=(halfLongitude+lonWest)/2;
+
+
+                ///if the style is normal
+                LatLngBounds latLngBounds = new LatLngBounds.Builder()
+                        .include(new LatLng(latNorth, lonEast)) // Northeast
+                        .include(new LatLng(latSouth,lonWest)) // Southwest
+                        .build();
+
+                //resize the bound if the style is satellite
+                if(styleChooseNumber==3){
+                    latLngBounds = new LatLngBounds.Builder()
+                            .include(new LatLng(newLatNorth, newLonEast)) // Northeast
+                            .include(new LatLng(newLatSouth,newLonWest)) // Southwest
+                            .build();
+                }
+
+
                 double minZoom = map.getCameraPosition().zoom;
                 double maxZoom = map.getMaxZoomLevel();
                 float pixelRatio = OfflineManagerActivity.this.getResources().getDisplayMetrics().density;
+
+
+                //for normal street map and outdoormap
                 OfflineTilePyramidRegionDefinition definition = new OfflineTilePyramidRegionDefinition(
-                        styleUrl, bounds, minZoom, maxZoom, pixelRatio);
+                        styleUrl, latLngBounds, minZoom, maxZoom, pixelRatio);
+
+                //for satellite, need to resize later, if the tile number is greater than 6000
+                if(styleChooseNumber==3){
+                    definition = new OfflineTilePyramidRegionDefinition(styleUrl, latLngBounds, 7, 25, pixelRatio);
+                    Log.d(TAG, "onStyleLoaded: style = 2");
+                }
 
                 // Build a JSONObject using the user-defined offline region title,
                 // convert it into string, and use it to create a metadata variable.
@@ -256,6 +611,7 @@ public class OfflineManagerActivity extends AppCompatActivity implements
                     jsonObject.put(JSON_FIELD_REGION_NAME, regionName);
                     String json = jsonObject.toString();
                     metadata = json.getBytes(JSON_CHARSET);
+
                 } catch (Exception exception) {
                     Timber.e("Failed to encode metadata: %s", exception.getMessage());
                     metadata = null;
@@ -277,6 +633,10 @@ public class OfflineManagerActivity extends AppCompatActivity implements
                 });
             }
         });
+
+        if(fromGoogleMap==true){
+            AskForBackToGoogleMAP();
+        }
     }
 
     @SuppressWarnings( {"MissingPermission"})
@@ -333,6 +693,11 @@ public class OfflineManagerActivity extends AppCompatActivity implements
                     }
                 }
             });
+
+
+            initLocationEngine();
+
+
 
         } else {
             permissionsManager = new PermissionsManager(this);
@@ -393,10 +758,10 @@ public class OfflineManagerActivity extends AppCompatActivity implements
             @Override
             public void onStatusChanged(OfflineRegionStatus status) {
                 // Compute a percentage
+
                 double percentage = status.getRequiredResourceCount() >= 0
                         ? (100.0 * status.getCompletedResourceCount() / status.getRequiredResourceCount()) :
                         0.0;
-
                 if (status.isComplete()) {
                     // Download complete
                     endProgress("end");

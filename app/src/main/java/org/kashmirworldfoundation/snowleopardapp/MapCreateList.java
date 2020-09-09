@@ -94,7 +94,6 @@ public class MapCreateList extends AppCompatActivity implements View.OnClickList
                         // of the selected item
                         Intent i= new Intent(getApplicationContext(), OfflineManagerActivity.class);
 
-//                        Intent i= new Intent(getApplicationContext(), QueryFeatureActivity.class);
                         switch(which){
                             case 0:
                                 i.putExtra("Style","Streets");
