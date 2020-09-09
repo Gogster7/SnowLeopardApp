@@ -580,7 +580,7 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
             db.collection("CameraStation").document(path).set(station).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
-                    
+
                     counter +=1;
                     String count = counter.toString();
                     Integer size = list.size();
