@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
@@ -20,6 +21,7 @@ import com.google.common.reflect.TypeToken;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -30,6 +32,8 @@ import com.google.gson.GsonBuilder;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -45,9 +49,23 @@ public class Expand extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "Expand";
     private Button rebaitBtn;
     private Button nxtBtn;
+    private Button nxttBtn; // second Next button
+    private Button subBtn; // submit button
+    private EditText numPicsInput;
+    private EditText signsInput;
+    private EditText sdInput;
+    private String numPics;
+    private String signsT;
+    private String sdT;
     private String sLureType;
+    private String camWorks;
     private RadioGroup baitGroup;
+    private RadioGroup camGroup; // camera functional
+    private Date currentTime;
 
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private CollectionReference notebookRef = db.collection("Notebook");
+    private DocumentReference noteRef = db.document("Notebook/Rebait Log");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,19 +127,58 @@ public class Expand extends AppCompatActivity implements View.OnClickListener {
                 Log.d(TAG, "onClick: POP UP" +v);
                 baitGroup = (RadioGroup) bottomSheetView.findViewById(R.id.baitGroup);
                 // Next Button
-                bottomSheetView.findViewById(R.id.btnNext).setOnClickListener(new View.OnClickListener() {
+                nxtBtn = (Button) bottomSheetView.findViewById(R.id.btnNext);
+                nxtBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Log.d(TAG, "onClick: Next");
-                        Toast.makeText(Expand.this, "Rebaited", Toast.LENGTH_SHORT).show();
-                        bottomSheetDialog.dismiss();
+                        View bottomSheetView2 = LayoutInflater.from(getApplicationContext())
+                                .inflate(
+                                        R.layout.rebait_sheet1,
+                                        (LinearLayout)findViewById(R.id.rebaitSheetContainer1)
+                                );
+                        bottomSheetDialog.setContentView(bottomSheetView2);
+                        bottomSheetDialog.show();
+                        camGroup = (RadioGroup) bottomSheetView2.findViewById(R.id.camGroup);
+                        numPicsInput = (EditText) bottomSheetView2.findViewById(R.id.picCountId);
+                        numPicsInput.setText("0");
+                        //overridePendingTransition(R.anim.slide_from_right,R.anim.slide_to_left);
+                        // Second Next Button
+                        nxttBtn = (Button) bottomSheetView2.findViewById(R.id.btnNextt);
+                        nxttBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                View bottomSheetView3 = LayoutInflater.from(getApplicationContext())
+                                        .inflate(
+                                                R.layout.rebait_sheet2,
+                                                (LinearLayout)findViewById(R.id.rebaitSheetContainer2)
+                                        );
+                                bottomSheetDialog.setContentView(bottomSheetView3);
+                                bottomSheetDialog.show();
+                                Log.d(TAG, "onClick: Next");
+                                Toast.makeText(Expand.this, "Rebaited", Toast.LENGTH_SHORT).show();
+                                signsInput = (EditText) bottomSheetView3.findViewById(R.id.signsInput);
+                                sdInput = (EditText) bottomSheetView2.findViewById(R.id.sdInput);
+                                subBtn = (Button) bottomSheetView3.findViewById(R.id.subBtn);
+                                subBtn.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        if (getInput()) {
+                                            // send to Firebase
+                                        }
+                                        else{
+                                            // Toast message display "missing input"
+                                        }
+                                        bottomSheetDialog.dismiss();
+                                    }
+                                });
+                            }
+                        });
                     }
                 });
                 bottomSheetDialog.setContentView(bottomSheetView);
                 bottomSheetDialog.show();
             }
         });
-
     }
 
 
@@ -136,22 +193,68 @@ public class Expand extends AppCompatActivity implements View.OnClickListener {
                 switch (checkedId) {
                     case R.id.radioSkunkId:
                         sLureType = "Skunk + Fish Oil";
-                        nxtBtn.setEnabled(true);
+                        nxttBtn.setEnabled(true);
                         break;
                     case R.id.radioCastorId:
                         sLureType = "Castor + Fish Oil";
-                        nxtBtn.setEnabled(true);
+                        nxttBtn.setEnabled(true);
                         break;
                     case R.id.radioFishId:
                         sLureType = "Fish Oil";
-                        nxtBtn.setEnabled(true);
+                        nxttBtn.setEnabled(true);
                         break;
                     case R.id.radioNoneId:
                         sLureType = "None";
-                        nxtBtn.setEnabled(true);
+                        nxttBtn.setEnabled(true);
+                        break;
+                }
+            }
+        });
+    // Next Question
+        camGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                Log.d(TAG, "onCheckedChanged: "+checkedId);
+                // checkedId is the RadioButton selected
+                switch (checkedId) {
+                    case R.id.yesId:
+                        camWorks = "Yes";
+                        nxttBtn.setEnabled(true);
+                        break;
+                    case R.id.noId:
+                        camWorks = "No";
+                        nxttBtn.setEnabled(true);
                         break;
                 }
             }
         });
     }
+
+    public boolean getInput(){
+        Log.d(TAG, "In getInput ");
+        numPics=numPicsInput.getText().toString().trim();
+        signsT=signsInput.getText().toString().trim();
+        sdT=sdInput.getText().toString().trim();
+
+        //for debug
+        Log.d(TAG, "getInput; num Pics :"+numPics+" Signs :"+signsT+" SD :"+sdT);
+
+        //prevent some blank
+        if (numPics.equals("")||sdT.equals("")||sLureType==null||camWorks==null){
+            return false;
+        }
+        return true;
+    }
+
+    public void addNote(View v) {
+        currentTime = Calendar.getInstance().getTime();
+
+        Rebait note = new Rebait(numPics, signsT, sdT, sLureType, camWorks);
+
+        notebookRef.add(note);
+    }
+
+
+
+
 }
