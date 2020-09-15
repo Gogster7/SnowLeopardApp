@@ -1,13 +1,18 @@
 package org.kashmirworldfoundation.snowleopardapp;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -48,34 +53,79 @@ public class MapCreateList extends AppCompatActivity implements View.OnClickList
         pos =recyclerView.getChildLayoutPosition(v);
         Log.d(TAG, "in onClick Pos position" + pos);
         MapItem selectiion=m.get(pos);
-        if(pos!=2){
+        //mapbox
+        if(pos==2){
+            mapStyleSet();
+        }
+
+        if(pos==1){
+
+
+            String symbol=selectiion.getName();
+            Intent i= new Intent(getApplicationContext(),GoogleMapActivity.class);
+
+            i.putExtra("Name",symbol);
+            startActivity(i);
+
+        }
+
+
+        if (pos == 0) {
             String symbol=selectiion.getName();
             Intent i= new Intent(getApplicationContext(),MapCreateActivity.class);
             i.putExtra("Name",symbol);
-
-            startActivity(i);
-        }else{
-            //current location
-            //Intent i= new Intent(getApplicationContext(),LocationComponentActivity.class);
-
-            //circle of the current location
-           // Intent i= new Intent(getApplicationContext(),LocationComponentBasicPulsingActivity.class);
-
-           // Intent i= new Intent(getApplicationContext(),LocationChangeListeningActivity.class);
-            //Intent i= new Intent(getApplicationContext(),SimpleOfflineMapActivity.class);
-           Intent i= new Intent(getApplicationContext(), OfflineManagerActivity.class);
-            //Intent i= new Intent(getApplicationContext(), ValueAnimatorIconAnimationActivity.class);
-            //Intent i= new Intent(getApplicationContext(), MarkerFollowingRouteActivity.class);
-            //Intent i= new Intent(getApplicationContext(), PlacesPluginActivity.class);
-
-
             startActivity(i);
         }
 
 
 
     }
+    private void mapStyleSet() {
+        // Set up download interaction. Display a dialog
+        // when the user clicks download button and require
+        // a user-provided region name
+        AlertDialog.Builder builder = new AlertDialog.Builder(MapCreateList.this);
+
+
+        builder.setTitle("Choose a Map Style")
+                .setItems(R.array.MapStyle, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // The 'which' argument contains the index position
+                        // of the selected item
+                        Intent i= new Intent(getApplicationContext(), OfflineManagerActivity.class);
+
+                        switch(which){
+                            case 0:
+                                i.putExtra("Style","Streets");
+                                break;
+                            case 1:
+                                i.putExtra("Style","OutDoors");
+                                break;
+                            case 2:
+                                i.putExtra("Style","Satellite Streets");
+                                break;
+                            default:
+
+                        }
+
+
+                        startActivity(i);
+                    }
+                });
+
+
+
+        // Display the dialog
+        builder.show();
+    }
+
+
+
 }
+
+
+
+
 
 
 //mapAdapter
