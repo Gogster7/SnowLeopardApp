@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/rebaitSheetContainer"
+    android:background="@drawable/rebait_sheet_background"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="15dp"
+        android:text="Re-Bait Now"
+        android:textColor="@color/rPrimaryText"
+        android:textSize="18sp"
+        android:textStyle="bold"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/rDivider"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <ImageView
+            android:id="@+id/rowImgId2"
+            android:layout_width="175dp"
+            android:layout_height="175dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/kwflogo" />
+
+        <RadioGroup
+        android:id="@+id/baitGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp">
+
+        <RadioButton
+            android:id="@+id/radioSkunkId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/rSecondaryText"
+            android:checked="false"
+            android:fontFamily="@font/aclonica"
+            android:text="skunk + fish oil"
+            android:textColor="@color/rSecondaryText"
+            android:textSize="18sp" />
+
+        <RadioButton
+            android:id="@+id/radioCastorId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/rSecondaryText"
+            android:fontFamily="@font/aclonica"
+            android:text="castor +fish oil"
+            android:textColor="@color/rSecondaryText"
+            android:textSize="18sp" />
+
+        <RadioButton
+            android:id="@+id/radioFishId"
+            android:layout_width="210dp"
+            android:layout_height="38dp"
+            android:buttonTint="@color/rSecondaryText"
+            android:fontFamily="@font/aclonica"
+            android:text="fish oil"
+            android:textColor="@color/rSecondaryText"
+            android:textSize="18sp" />
+
+        <RadioButton
+            android:id="@+id/radioNoneId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/rSecondaryText"
+            android:fontFamily="@font/aclonica"
+            android:text="none"
+            android:checked="true"
+            android:textColor="@color/rSecondaryText"
+            android:textSize="18sp" />
+    </RadioGroup>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/rDivider"/>
+
+    <Button
+        android:id="@+id/btnNext"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginBottom="20dp"
+        android:background="@color/colorPrimary"
+        android:text="NEXT"
+        android:textColor="@color/rWhite"
+        android:textSize="15sp" />
+
+</LinearLayout>
