@@ -4,27 +4,20 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-
-import android.net.Uri;
-import android.os.ParcelFileDescriptor;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
-
-import android.provider.DocumentsContract;
 
 import android.view.LayoutInflater;
 
 import android.view.ViewGroup;
 
-import android.widget.Button;
 import android.widget.TextView;
 
 
@@ -34,30 +27,20 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.getbase.floatingactionbutton.FloatingActionButton;
-
-import com.google.firebase.firestore.CollectionReference;
-
-import com.google.firebase.firestore.FirebaseFirestore;
-
 import org.kashmirworldfoundation.snowleopardapp.CameraStation;
-import org.kashmirworldfoundation.snowleopardapp.Expand;
 
+import org.kashmirworldfoundation.snowleopardapp.Login;
 import org.kashmirworldfoundation.snowleopardapp.R;
+import org.kashmirworldfoundation.snowleopardapp.Station_List;
+import org.kashmirworldfoundation.snowleopardapp.Study;
 
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 
-
-import android.os.Environment;
 
 import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 /**
  * put in floating action button for downloading
@@ -78,14 +61,16 @@ public class ListFragment extends Fragment implements View.OnClickListener  {
     private static final int PERMISSION_REQUEST_CODE = 100;
     private RecyclerView recyclerView;
     private ListFragmentAdapter listFragmentAdapter;
-    private ArrayList<CameraStation> CStationArrayList;
+    private ArrayList<Study> CStationArrayList;
+    private ArrayList<CameraStation> CStationArrayList2;
     private int WRITE_FILE=1;
-    private com.google.android.material.floatingactionbutton.FloatingActionButton tocsv;
+
     private int pos;
     boolean Available= false;
     boolean Readable= false;
     private FileOutputStream fstream;
 
+    private int option=0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -95,10 +80,9 @@ public class ListFragment extends Fragment implements View.OnClickListener  {
         recyclerView=ListFragment.findViewById(R.id.recyler);
         CStationArrayList= new ArrayList<>();
 
-        tocsv = ListFragment.findViewById(R.id.CSVb);
-        tocsv.bringToFront();
 
-        tocsv.setOnClickListener(v -> export());
+
+
 
 
         // Add data from Firebase on the the Arrays
@@ -110,6 +94,8 @@ public class ListFragment extends Fragment implements View.OnClickListener  {
     @Override
 
     public void onClick(View v) {
+
+
         pos =recyclerView.getChildLayoutPosition(v);
         Study selectiion=CStationArrayList.get(pos);
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("user", Context.MODE_PRIVATE);
@@ -123,17 +109,12 @@ public class ListFragment extends Fragment implements View.OnClickListener  {
 
 
 
-           
-
-
-
-
     }
 
 
 
     //SationAsyncTask would update this
-    public void updateStationList(ArrayList<CameraStation> s){
+    public void updateStationList(ArrayList<Study> s){
         CStationArrayList.addAll(s);
     }
 
@@ -153,16 +134,11 @@ public class ListFragment extends Fragment implements View.OnClickListener  {
         super.onResume();
     }
 
-     public void export() {
-        File file= new File(Environment.DIRECTORY_DOWNLOADS);
-        Uri uri= Uri.fromFile(file);
-        createFile(uri);
 
-     }
     private boolean checkPermission() {
 
         if (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                return true;
+            return true;
         } else {
             return false;
         }
@@ -180,12 +156,12 @@ public class ListFragment extends Fragment implements View.OnClickListener  {
         switch (requestCode) {
             case PERMISSION_REQUEST_CODE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Log.e("value", "Permission Granted, Now you can use local drive .");
+                    Log.e("value", "Permission Granted, Now you can use local drive .");
 
-            } else {
-                Log.e("value", "Permission Denied, You cannot use local drive .");
-            }
-            break;
+                } else {
+                    Log.e("value", "Permission Denied, You cannot use local drive .");
+                }
+                break;
         }
     }
 
@@ -224,67 +200,8 @@ public class ListFragment extends Fragment implements View.OnClickListener  {
         tv.setTextColor(0xFFFFFFFF);
         toast.show();
     }
-    private void createFile(Uri pickerInitialUri) {
-        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("text/csv");
-        intent.putExtra(Intent.EXTRA_TITLE, "kwf.csv");
-
-        // Optionally, specify a URI for the directory that should be opened in
-        // the system file picker when your app creates the document.
-        intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, pickerInitialUri);
-
-        startActivityForResult(intent, WRITE_FILE);
-    }
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data){
-        super.onActivityResult(requestCode,resultCode,data);
-        if (resultCode== Activity.RESULT_OK && requestCode==WRITE_FILE){
-            Uri uri = null;
-            if (data != null) {
-                uri = data.getData();
-                Log.i("SD CARD", "Uri: " + uri.toString());
-                editDocument(uri);
-            }
-        }
-    }
-    private void editDocument(Uri uri) {
-        StringBuilder csv = new StringBuilder();
-
-        csv.append("Station Id ,Camera Id ,Author ,Org ,Posted ,watershed Id ,Lattitude ,LongitudeS ,Altitude , Habitat, Terrain, LureType ,Substrate ,Potential ,Notes \n");
-        Iterator<CameraStation> i =CStationArrayList.iterator();
-        while (i.hasNext()){
-            CameraStation current = i.next();
-            csv.append(current.getStationId()+ ",");
-            csv.append(current.getCameraId()+" ,");
-            csv.append(current.getaName()+" ,");
-            csv.append(current.getPosted().toDate().toString()+" ,");
-            csv.append(current.getWatershedid() +" ,");
-            csv.append(current.getLatitudeS() + " ,");
-            csv.append(current.getLongitudeS()+" ,");
-            csv.append(current.getAltitude() + " ,");
-            csv.append(current.getHabitat() + " ,");
-            csv.append(current.getTerrain() + " ,");
-            csv.append(current.getLureType() + " ,");
-            csv.append(current.getSubstrate() + " ,");
-            csv.append(current.getPotential() + " ,");
-            csv.append(current.getNotes() + " ,\n");
 
 
-        }
-        try {
-            ParcelFileDescriptor pfd = getActivity().getContentResolver().openFileDescriptor(uri,"w");
-            FileOutputStream fileOutputStream =
-                    new FileOutputStream(pfd.getFileDescriptor());
-            fileOutputStream.write(csv.toString().getBytes());
-            // Let the document provider know you're done by closing the stream.
-            fileOutputStream.close();
-            pfd.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+
 
 }
