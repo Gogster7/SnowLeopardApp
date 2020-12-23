@@ -110,13 +110,20 @@ public class ListFragment extends Fragment implements View.OnClickListener  {
     @Override
 
     public void onClick(View v) {
+        pos =recyclerView.getChildLayoutPosition(v);
+        Study selectiion=CStationArrayList.get(pos);
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putString("Study",selectiion.getTittle());
+
+        editor.apply();
+        startActivity(new Intent(getContext(), Station_List.class));
 
 
-            pos =recyclerView.getChildLayoutPosition(v);
-            CameraStation selectiion=CStationArrayList.get(pos);
-            Intent i= new Intent(getActivity().getApplicationContext(), Expand.class);
-            i.putExtra("station",selectiion);
-            startActivity(i);
+
+           
 
 
 
