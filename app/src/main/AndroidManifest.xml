@@ -2,10 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.kashmirworldfoundation.snowleopardapp">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.Read_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+    <uses-feature android:name="android.hardware.camera.any" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -14,39 +19,31 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Expand"
-            android:parentActivityName=".MainActivity"></activity>
-        <activity android:name=".MapCreateList"/>
-        <activity android:name=".MapCreateActivity"/>
-
+        <activity android:name=".Station_List"></activity>
+        <activity android:name=".CreateStudy" />
+        <activity android:name=".Expand2" />
+        <activity
+            android:name=".Expand"
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".MapCreateList" />
+        <activity android:name=".MapCreateActivity" />
         <activity android:name=".RegisterOrg" />
         <activity android:name=".CreateStation" />
-        <activity android:name=".GoogleMapActivity" />
-
-
         <activity android:name=".MainActivity" />
-
         <activity android:name=".OfflineManagerActivity" />
-        <activity android:name=".Register">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <activity android:name=".Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".Register">
         </activity>
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
     </application>
 
 </manifest>

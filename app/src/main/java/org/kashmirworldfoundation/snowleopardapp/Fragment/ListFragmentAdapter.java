@@ -14,7 +14,7 @@ import com.google.firebase.storage.StorageReference;
 import org.kashmirworldfoundation.snowleopardapp.CameraStation;
 import org.kashmirworldfoundation.snowleopardapp.GlideApp;
 import org.kashmirworldfoundation.snowleopardapp.R;
-
+import org.kashmirworldfoundation.snowleopardapp.Study;
 
 
 import java.util.ArrayList;
@@ -24,11 +24,12 @@ public class ListFragmentAdapter extends RecyclerView.Adapter<ListFragmentViewho
     ListFragment listFragment;
 
 
-    ArrayList<CameraStation> CstationList;
-    CameraStation Cstation;
-    ListFragmentAdapter(ArrayList<CameraStation> stationList,ListFragment listFragment){
+    ArrayList<Study> CstationList;
+    Study Cstation;
+    ListFragmentAdapter(ArrayList<Study> stationList, ListFragment listFragment){
         this.listFragment=listFragment;
         this.CstationList=stationList;
+
     }
 
     @NonNull
@@ -50,10 +51,10 @@ public class ListFragmentAdapter extends RecyclerView.Adapter<ListFragmentViewho
     public void onBindViewHolder(@NonNull ListFragmentViewholder holder, int position) {
         Cstation=CstationList.get(position);
 
-        holder.stationId.setText(Cstation.getStationId());
-        holder.dateId.setText(Cstation.getPosted().toDate().toString());
+        holder.Study.setText(Cstation.getTittle());
+        holder.dateId.setText(Cstation.getEnd().toDate().toString());
         holder.imgId.setImageResource(R.drawable.kwflogo);
-        fetchData(Cstation.getPic(),holder.imgId);
+
 
     }
 

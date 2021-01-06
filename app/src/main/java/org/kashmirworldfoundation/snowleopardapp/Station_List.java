@@ -1,83 +1,72 @@
-package org.kashmirworldfoundation.snowleopardapp.Fragment;
+package org.kashmirworldfoundation.snowleopardapp;
 
-import android.Manifest;
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Color;
-
-import android.net.Uri;
-import android.os.ParcelFileDescriptor;
-
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
-import android.provider.DocumentsContract;
-
-import android.view.LayoutInflater;
-
-import android.view.ViewGroup;
-
-import android.widget.Button;
-import android.widget.TextView;
-
-
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.getbase.floatingactionbutton.FloatingActionButton;
+import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Environment;
+import android.os.ParcelFileDescriptor;
+import android.provider.DocumentsContract;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.common.reflect.TypeToken;
+import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
-
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
-import org.kashmirworldfoundation.snowleopardapp.CameraStation;
-import org.kashmirworldfoundation.snowleopardapp.Expand;
-
-import org.kashmirworldfoundation.snowleopardapp.R;
-
+import org.kashmirworldfoundation.snowleopardapp.Fragment.ListFragmentAdapter;
+import org.kashmirworldfoundation.snowleopardapp.Fragment.StationAsyncTask;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-
-import android.os.Environment;
-
-import android.widget.Toast;
-
-/**
- * put in floating action button for downloading
- */
-
-public class ListFragment extends Fragment implements View.OnClickListener  {
-
+public class Station_List extends AppCompatActivity implements View.OnClickListener {
     // objects
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
-    private View ListFragment;
+
+
+    private View Station_List;
 
     private static final String TAG = "ListFragment";
 
     private static final int PERMISSION_REQUEST_CODE = 100;
     private RecyclerView recyclerView;
-    private ListFragmentAdapter listFragmentAdapter;
+    private Station_ListAdapter listFragmentAdapter;
     private ArrayList<CameraStation> CStationArrayList;
     private int WRITE_FILE=1;
     private com.google.android.material.floatingactionbutton.FloatingActionButton tocsv;
@@ -85,39 +74,50 @@ public class ListFragment extends Fragment implements View.OnClickListener  {
     boolean Available= false;
     boolean Readable= false;
     private FileOutputStream fstream;
+    private FirebaseFirestore firebaseFirestore;
+    private CollectionReference collectionReference;
+    private FirebaseAuth FireAuth;
+
+    private ArrayList<CameraStation> CStations= new ArrayList<>();
+    private Member mem;
+    private String Org;
+
+    private int count;
+    private int size;
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {;
-
-        ListFragment=inflater.inflate(R.layout.activity_listfragment_recycler, container, false);
-        recyclerView=ListFragment.findViewById(R.id.recyler);
+    protected void onCreate(Bundle savedInstanceState) {
+        setContentView(R.layout.activity_station__list);
+        super.onCreate(savedInstanceState);
+        recyclerView= findViewById(R.id.recyler2);
         CStationArrayList= new ArrayList<>();
 
-        tocsv = ListFragment.findViewById(R.id.CSVb);
+        tocsv = findViewById(R.id.CSVb);
         tocsv.bringToFront();
 
         tocsv.setOnClickListener(v -> export());
 
 
         // Add data from Firebase on the the Arrays
-        new StationAsyncTask(this).execute();
+        new StationAsyncTaskA(this,loadstudy()).execute();
 
-        return ListFragment;
     }
 
-    @Override
+
+
 
     public void onClick(View v) {
 
 
-            pos =recyclerView.getChildLayoutPosition(v);
-            CameraStation selectiion=CStationArrayList.get(pos);
-            Intent i= new Intent(getActivity().getApplicationContext(), Expand.class);
-            i.putExtra("station",selectiion);
-            startActivity(i);
+        pos =recyclerView.getChildLayoutPosition(v);
+        CameraStation selectiion=CStationArrayList.get(pos);
+        selectiion.getaName();
+        Log.e("value", selectiion.getaName());
+        Intent i= new Intent(getApplication().getApplicationContext(), Expand.class);
 
+        i.putExtra("stationz",selectiion);
+        startActivity(i);
 
 
 
@@ -132,9 +132,9 @@ public class ListFragment extends Fragment implements View.OnClickListener  {
 
     //after list was already update, it create the adapter, put the list and show
     public void updateList(){
-        listFragmentAdapter=new ListFragmentAdapter(CStationArrayList,this);
+        listFragmentAdapter=new Station_ListAdapter(CStationArrayList,this);
         recyclerView.setAdapter(listFragmentAdapter);
-        LinearLayoutManager a=new LinearLayoutManager(this.getContext());
+        LinearLayoutManager a=new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(a);
 
 
@@ -146,44 +146,30 @@ public class ListFragment extends Fragment implements View.OnClickListener  {
         super.onResume();
     }
 
-     public void export() {
+    public void export() {
         File file= new File(Environment.DIRECTORY_DOWNLOADS);
         Uri uri= Uri.fromFile(file);
         createFile(uri);
 
-     }
-    private boolean checkPermission() {
+    }
 
-        if (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                return true;
-        } else {
-            return false;
-        }
-    }
-    private void requestPermission() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            Toast.makeText(getContext(), "Write External Storage permission allows us to create files. Please allow this permission in App Settings.", Toast.LENGTH_LONG).show();
-        } else {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
-        }
-    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case PERMISSION_REQUEST_CODE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Log.e("value", "Permission Granted, Now you can use local drive .");
+                    Log.e("value", "Permission Granted, Now you can use local drive .");
 
-            } else {
-                Log.e("value", "Permission Denied, You cannot use local drive .");
-            }
-            break;
+                } else {
+                    Log.e("value", "Permission Denied, You cannot use local drive .");
+                }
+                break;
         }
     }
 
-    public static ListFragment newInstance() {
-        return new ListFragment();
+    public static Station_List newInstance() {
+        return new Station_List();
     }
 
 
@@ -266,7 +252,7 @@ public class ListFragment extends Fragment implements View.OnClickListener  {
 
         }
         try {
-            ParcelFileDescriptor pfd = getActivity().getContentResolver().openFileDescriptor(uri,"w");
+            ParcelFileDescriptor pfd = getApplicationContext().getContentResolver().openFileDescriptor(uri,"w");
             FileOutputStream fileOutputStream =
                     new FileOutputStream(pfd.getFileDescriptor());
             fileOutputStream.write(csv.toString().getBytes());
@@ -279,5 +265,16 @@ public class ListFragment extends Fragment implements View.OnClickListener  {
             e.printStackTrace();
         }
     }
+    private String loadstudy(){
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("user",Context.MODE_PRIVATE);
+        return sharedPreferences.getString("Study",null);
+    }
 
 }
+
+
+
+/**
+ * put in floating action button for downloading
+ */
+

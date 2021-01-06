@@ -27,7 +27,7 @@ public class CameraStation implements Parcelable {
     private String SdCard;
     private String FirebaseId;
     private Timestamp Posted;
-
+    private  String Study;
     public CameraStation(Parcel in){
         pic=in.readString();
         stationId=in.readString();
@@ -49,6 +49,7 @@ public class CameraStation implements Parcelable {
         aName=in.readString();
         SdCard=in.readString();
         FirebaseId=in.readString();
+        Study=in.readString();
         Posted=in.readParcelable(getClass().getClassLoader());
 
 
@@ -226,6 +227,14 @@ public class CameraStation implements Parcelable {
         FirebaseId = firebaseId;
     }
 
+    public String getStudy() {
+        return Study;
+    }
+
+    public void setStudy(String study) {
+        Study = study;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -253,6 +262,7 @@ public class CameraStation implements Parcelable {
         dest.writeString(aName);
         dest.writeString(SdCard);
         dest.writeString(FirebaseId);
+        dest.writeString(Study);
         dest.writeParcelable(Posted,0);
 
 

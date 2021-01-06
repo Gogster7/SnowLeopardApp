@@ -20,11 +20,20 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.StringJoiner;
 
 public class Login extends AppCompatActivity {
     EditText mEmail, mPassword;
@@ -35,6 +44,7 @@ public class Login extends AppCompatActivity {
     FirebaseFirestore fStore;
     ImageView Background;
     ConstraintLayout layout;
+    ArrayList<String> studies;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,12 +72,11 @@ public class Login extends AppCompatActivity {
         fetchData();
 
 
-
         mRegisterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), RegisterSpinner0.class));
-
+               
             }
         });
         mRegisterOrgBtn.setOnClickListener(new View.OnClickListener() {
@@ -80,6 +89,8 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+
+                studies=new ArrayList<>();
                 String email= mEmail.getText().toString().trim();
                 String pass =mPassword.getText().toString().trim();
                 fAuth.signInWithEmailAndPassword(email,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -90,12 +101,55 @@ public class Login extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                     if (task.isSuccessful()){
+                                        Member me=task.getResult().toObject(Member.class);
+                                        saveMember(me,fAuth.getUid());
+                                        studies.add("Pick A Study");
 
-                                        saveMember(task.getResult().toObject(Member.class),fAuth.getUid());
-                                        Toast.makeText(Login.this,"Welcome", Toast.LENGTH_LONG).show();
+                                        fStore.collection("Study").whereEqualTo("org",me.getOrg()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                if (task.isSuccessful()){
+                                                    for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
+                                                        Study study = documentSnapshot.toObject(Study.class);
+                                                        studies.add(study.getTittle());
+                                                    }
+                                                    if (studies.size()==1){
+                                                        studies.set(0,"No Studies");
+                                                    }
+                                                    saveStudies(studies);
+                                                    /*
+                                                    Intent i= new Intent(getApplicationContext(),MainActivity.class);
+                                                    Bundle b = new Bundle();
+                                                    b.putString("Studies",studies.toString());
+
+                                                    i.putExtras(b);
+                                                    Toast.makeText(Login.this,"Welcome", Toast.LENGTH_LONG).show();
+                                                    startActivity(i);
+
+                                                    */
+                                                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
 
 
-                                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                                }
+                                                else{
+                                                    studies.set(0, "No Studies");
+                                                    saveStudies(studies);
+                                                    /*
+                                                    Intent i= new Intent(getApplicationContext(),MainActivity.class);
+                                                    Bundle b = new Bundle();
+                                                    b.putString("Studies",studies.toString());
+
+                                                    i.putExtras(b);
+                                                    Toast.makeText(Login.this,"Welcome", Toast.LENGTH_LONG).show();
+                                                    startActivity(i);
+
+                                                     */
+                                                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+
+                                                }
+                                            }
+                                        });
+
                                     }
                                 }
                             });
@@ -121,6 +175,16 @@ public class Login extends AppCompatActivity {
 
 
     }
+    private void saveStudies(ArrayList<String> studies){
+        SharedPreferences sharedPreferences = Login.this.getSharedPreferences("user",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor =sharedPreferences.edit();
+
+
+        Gson gson = new Gson();
+        String json =gson.toJson(studies);
+        editor.putString("studies",json);
+        editor.apply();
+    }
     private void saveMember (Member mem,String uid){
         SharedPreferences sharedPreferences = Login.this.getSharedPreferences("user", Context.MODE_PRIVATE);
 
@@ -133,5 +197,6 @@ public class Login extends AppCompatActivity {
         editor.putString("uid",uid);
         editor.apply();
     }
+
 
 }
