@@ -25,6 +25,7 @@ import org.kashmirworldfoundation.snowleopardapp.CameraStation;
 import org.kashmirworldfoundation.snowleopardapp.Fragment.ListFragment;
 import org.kashmirworldfoundation.snowleopardapp.Member;
 import org.kashmirworldfoundation.snowleopardapp.Org;
+import org.kashmirworldfoundation.snowleopardapp.Study;
 
 
 import java.lang.reflect.Type;
@@ -38,7 +39,7 @@ public class StationAsyncTask extends AsyncTask<String, Void, String> {
     private CollectionReference collectionReference;
     private FirebaseAuth FireAuth;
 
-    private ArrayList<CameraStation> CStations= new ArrayList<>();
+    private ArrayList<Study> CStations= new ArrayList<>();
     private Member mem;
     private String Org;
     private static final String TAG = "StationAsyncTask";
@@ -62,7 +63,7 @@ public class StationAsyncTask extends AsyncTask<String, Void, String> {
         try {
             FireAuth = FirebaseAuth.getInstance();
             firebaseFirestore = FirebaseFirestore.getInstance();
-            collectionReference = firebaseFirestore.collection("CameraStation");
+            collectionReference = firebaseFirestore.collection("Study");
         }
         catch (Exception e){
             //Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -80,7 +81,7 @@ public class StationAsyncTask extends AsyncTask<String, Void, String> {
                             if (task.isSuccessful()){
                                 size = task.getResult().size();
                                 for (DocumentSnapshot objectDocumentSnapshot: task.getResult()){
-                                    CameraStation stat = objectDocumentSnapshot.toObject(CameraStation.class);
+                                    Study stat = objectDocumentSnapshot.toObject(Study.class);
                                     CStations.add(stat);
                                     count++;
                                     if(count==size){
