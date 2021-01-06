@@ -203,7 +203,6 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
         fragmentView.findViewById(R.id.LongitudeIdLabel).setVisibility(View.GONE);
         fragmentView.findViewById(R.id.cameraId).setVisibility(View.GONE);
         fragmentView.findViewById(R.id.SdcardInput).setVisibility(View.GONE);
-        fragmentView.findViewById(R.id.createStationLabel).setVisibility(View.GONE);
         fragmentView.findViewById(R.id.stationPIdLabel).setVisibility(View.GONE);
         fragmentView.findViewById(R.id.watershedid).setVisibility(View.GONE);
         fragmentView.findViewById(R.id.elevationIdLabel).setVisibility(View.GONE);
@@ -264,7 +263,7 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
                     fragmentView.findViewById(R.id.LongitudeIdLabel).setVisibility(View.VISIBLE);
                     fragmentView.findViewById(R.id.cameraId).setVisibility(View.VISIBLE);
                     fragmentView.findViewById(R.id.SdcardInput).setVisibility(View.VISIBLE);
-                    fragmentView.findViewById(R.id.createStationLabel).setVisibility(View.VISIBLE);
+
                     fragmentView.findViewById(R.id.stationPIdLabel).setVisibility(View.VISIBLE);
                     fragmentView.findViewById(R.id.watershedid).setVisibility(View.VISIBLE);
                     fragmentView.findViewById(R.id.elevationIdLabel).setVisibility(View.VISIBLE);
@@ -332,7 +331,7 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
                 fragmentView.findViewById(R.id.LongitudeIdLabel).setVisibility(View.GONE);
                 fragmentView.findViewById(R.id.cameraId).setVisibility(View.GONE);
                 fragmentView.findViewById(R.id.SdcardInput).setVisibility(View.GONE);
-                fragmentView.findViewById(R.id.createStationLabel).setVisibility(View.GONE);
+
                 fragmentView.findViewById(R.id.stationPIdLabel).setVisibility(View.GONE);
                 fragmentView.findViewById(R.id.watershedid).setVisibility(View.GONE);
                 fragmentView.findViewById(R.id.elevationIdLabel).setVisibility(View.GONE);
