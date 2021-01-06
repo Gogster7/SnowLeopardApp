@@ -153,8 +153,8 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
         save.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveDialog();
-                getInput();
+                //saveDialog();
+                //getInput();
 
 
                 Member me = loaduser();

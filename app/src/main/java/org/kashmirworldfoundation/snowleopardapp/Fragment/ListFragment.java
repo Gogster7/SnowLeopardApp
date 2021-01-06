@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.ParcelFileDescriptor;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 
@@ -53,6 +54,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 
 import android.os.Environment;
@@ -85,7 +87,7 @@ public class ListFragment extends Fragment implements View.OnClickListener  {
     boolean Available= false;
     boolean Readable= false;
     private FileOutputStream fstream;
-
+    private List<String> pathRecord;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -102,27 +104,25 @@ public class ListFragment extends Fragment implements View.OnClickListener  {
 
 
         // Add data from Firebase on the the Arrays
-        new StationAsyncTask(this).execute();
+         new StationAsyncTask(this).execute();
 
         return ListFragment;
     }
 
     @Override
-
     public void onClick(View v) {
-
-
             pos =recyclerView.getChildLayoutPosition(v);
             CameraStation selectiion=CStationArrayList.get(pos);
             Intent i= new Intent(getActivity().getApplicationContext(), Expand.class);
             i.putExtra("station",selectiion);
+            i.putExtra("pathRecord",this.pathRecord.get(0));
             startActivity(i);
-
-
-
 
     }
 
+    public void setPathRecord(List<String> pathRecordReturn){
+        this.pathRecord=pathRecordReturn;
+    }
 
 
     //SationAsyncTask would update this

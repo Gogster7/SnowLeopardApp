@@ -18,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 
@@ -31,6 +32,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 public class StationAsyncTask extends AsyncTask<String, Void, String> {
 
@@ -46,6 +48,7 @@ public class StationAsyncTask extends AsyncTask<String, Void, String> {
     private int size;
 
     private ListFragment listFragment;
+    private List<String> pathRecord=new ArrayList<>();
 
     StationAsyncTask(ListFragment li){listFragment=li;}
 
@@ -53,6 +56,14 @@ public class StationAsyncTask extends AsyncTask<String, Void, String> {
         listFragment.updateStationList(CStations);
         listFragment.updateList();
     }
+
+
+//    protected void onPostExecute(String result)
+//    {
+//       System.out.println("asynctask result :"+ result);
+//       listFragment.getPathRecord(pathRecord);
+//    }
+
 
 
     @Override
@@ -63,10 +74,34 @@ public class StationAsyncTask extends AsyncTask<String, Void, String> {
             FireAuth = FirebaseAuth.getInstance();
             firebaseFirestore = FirebaseFirestore.getInstance();
             collectionReference = firebaseFirestore.collection("CameraStation");
+
+
+
         }
         catch (Exception e){
             //Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
+
+
+//        Log.d(TAG, "doInBackground: !"+collectionReference.document("9JiPRkS9IKUSBEQNMCWF").getPath());
+//        firebaseFirestore.collection("CameraStation")
+//                .get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            for (QueryDocumentSnapshot document : task.getResult()) {
+//
+//                                Log.d(TAG, "Test!!"+ document.getId() + " => " + document.getData());
+//                            }
+//                        } else {
+//                            Log.d(TAG, "Error getting documents: ", task.getException());
+//                        }
+//                    }
+//                });
+
+
+
 
 
         firebaseFirestore.collection("Member").document(FireAuth.getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -74,17 +109,25 @@ public class StationAsyncTask extends AsyncTask<String, Void, String> {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()){
                     mem=task.getResult().toObject(Member.class);
+
+
                     collectionReference.whereEqualTo("org",mem.getOrg()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()){
                                 size = task.getResult().size();
                                 for (DocumentSnapshot objectDocumentSnapshot: task.getResult()){
+                                    //////////////////////////////////////////////////////////////////////
+                                    System.out.println("Document id!!!!: "+objectDocumentSnapshot.getId());
+                                    pathRecord.add(objectDocumentSnapshot.getId());
+                                    //////////////////////////////////////////////////////////////////////
+
                                     CameraStation stat = objectDocumentSnapshot.toObject(CameraStation.class);
                                     CStations.add(stat);
                                     count++;
                                     if(count==size){
                                         update();
+                                        listFragment.setPathRecord(pathRecord);
                                     }
                                 }
                             }
