@@ -21,10 +21,8 @@
         android:theme="@style/AppTheme">
         <activity android:name=".Station_List"></activity>
         <activity android:name=".CreateStudy" />
-        <activity android:name=".Expand2" />
-        <activity android:name=".RegisterSpinner1"/>
-        <activity android:name=".RegisterSpinner2"/>
-        <activity android:name=".RegisterSpinner0"></activity>
+        <activity android:name=".GoogleMapActivity" />
+<!--        <activity android:name=".Expand2" />-->
         <activity
             android:name=".Expand"
             android:parentActivityName=".MainActivity" />
@@ -34,8 +32,8 @@
         <activity android:name=".CreateStation" />
         <activity android:name=".MainActivity" />
         <activity android:name=".OfflineManagerActivity" />
+
         <activity android:name=".Login">
-            
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -48,6 +46,9 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
     </application>
 
 </manifest>
