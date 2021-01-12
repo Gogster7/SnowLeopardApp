@@ -16,4 +16,15 @@ public class Utils {
         Type type =new TypeToken<Member>(){}.getType();
         return gson.fromJson(json,type);
     }
+    public boolean getAgreement(Context context){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("TOS", Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean("tos", true);
+
+    }
+    public void setAgreement(Context context){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("TOS", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor= sharedPreferences.edit();
+        editor.putBoolean("tos",false);
+        editor.apply();
+    }
 }
