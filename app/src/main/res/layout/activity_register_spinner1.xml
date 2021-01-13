@@ -40,8 +40,8 @@
 
     <TextView
         android:id="@+id/tittle_reg1"
-        android:layout_width="291dp"
-        android:layout_height="84dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="116dp"
         android:elegantTextHeight="true"
         android:fontFamily="@font/aclonica"
@@ -57,8 +57,8 @@
 
     <Button
         android:id="@+id/Submit1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="360dp"
+        android:layout_height="55dp"
         android:layout_marginBottom="16dp"
         android:text="Submit"
         app:layout_constraintBottom_toTopOf="@+id/BackOrg"
