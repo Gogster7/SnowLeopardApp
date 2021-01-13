@@ -168,58 +168,11 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
         String StudiesS = getActivity().getIntent().getStringExtra("Studies");
         StudyArray=new ArrayList<>(Arrays.asList(StudiesS.split(",")));
         */
+
         StudyArray=loadStudies();
 
-        SpinStudies.setVisibility(View.VISIBLE);
-        Tittle.setText("Choose Study");
-        fragmentView.findViewById(R.id.AddStudyBtn).setVisibility(View.VISIBLE);
-        StudyRefresh.setVisibility(View.VISIBLE);
-        stationIdInput.setVisibility(View.GONE);
-        WatershedInput.setVisibility(View.GONE);
-        LatitudeInput.setVisibility(View.GONE);
-        LongitudeInput.setVisibility(View.GONE);
-        ElevationInput.setVisibility(View.GONE);
-        cameraIDInput.setVisibility(View.GONE);
-        save.setVisibility(View.GONE);
-        imgbtn1.setVisibility(View.GONE);
-        imgbtn2.setVisibility(View.GONE);
-        SdcardInput.setVisibility(View.GONE);
-        NotesInput.setVisibility(View.GONE);
-        fragmentView.findViewById(R.id.habitatIdLabel).setVisibility(View.GONE);
-        fragmentView.findViewById(R.id.cameraIdLabel).setVisibility(View.GONE);
-        fragmentView.findViewById(R.id.watershedIdLabel).setVisibility(View.GONE);
-        fragmentView.findViewById(R.id.SdCardLabel).setVisibility(View.GONE);
-        fragmentView.findViewById(R.id.lureTypeIdLabel).setVisibility(View.GONE);
-        fragmentView.findViewById(R.id.TerrainIdLabel).setVisibility(View.GONE);
-        fragmentView.findViewById(R.id.substrateIdLabel).setVisibility(View.GONE);
-        fragmentView.findViewById(R.id.notesLabel).setVisibility(View.GONE);
-        fragmentView.findViewById(R.id.stationP2IdLabel).setVisibility(View.GONE);
-        fragmentView.findViewById(R.id.potentialIdLabel).setVisibility(View.GONE);
-        fragmentView.findViewById(R.id.nId).setVisibility(View.GONE);
-        fragmentView.findViewById(R.id.eId).setVisibility(View.GONE);
-        fragmentView.findViewById(R.id.stationId).setVisibility(View.GONE);
-        fragmentView.findViewById(R.id.elevationId).setVisibility(View.GONE);
-        fragmentView.findViewById(R.id.stationId).setVisibility(View.GONE);
-        fragmentView.findViewById(R.id.LongitudeIdLabel).setVisibility(View.GONE);
-        fragmentView.findViewById(R.id.cameraId).setVisibility(View.GONE);
-        fragmentView.findViewById(R.id.SdcardInput).setVisibility(View.GONE);
-        fragmentView.findViewById(R.id.stationPIdLabel).setVisibility(View.GONE);
-        fragmentView.findViewById(R.id.watershedid).setVisibility(View.GONE);
-        fragmentView.findViewById(R.id.elevationIdLabel).setVisibility(View.GONE);
-        fragmentView.findViewById(R.id.LatitudeIdLabel).setVisibility(View.GONE);
-        fragmentView.findViewById(R.id.radioGroup01).setVisibility(View.GONE);
-        fragmentView.findViewById(R.id.radioGroup04).setVisibility(View.GONE);
-        fragmentView.findViewById(R.id.radioGroup03).setVisibility(View.GONE);
-        fragmentView.findViewById(R.id.radioGroup02).setVisibility(View.GONE);
-        fragmentView.findViewById(R.id.radioGroup05).setVisibility(View.GONE);
-        fragmentView.findViewById(R.id.saveButtonId).setVisibility(View.GONE);
-        fragmentView.findViewById(R.id.postbuttonCam).setVisibility(View.VISIBLE);
-        fragmentView.findViewById(R.id.createStationNetId).setVisibility(View.GONE);
-        fragmentView.findViewById(R.id.createStationNetStatusId).setVisibility(View.GONE);
-        fragmentView.findViewById(R.id.CamPic1).setVisibility(View.GONE);
-        fragmentView.findViewById(R.id.CamPic2).setVisibility(View.GONE);
-        fragmentView.findViewById(R.id.NoteInput).setVisibility(View.GONE);
-        Studyback.setVisibility(View.GONE);
+        change();
+
 
         final ArrayAdapter<String> dataAdapter= new ArrayAdapter(this.getActivity(),android.R.layout.simple_spinner_item, StudyArray);
 
@@ -296,59 +249,9 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
             @Override
             public void onClick(View v) {
 
-                SpinStudies.setVisibility(View.VISIBLE);
+
                 SpinStudies.setAdapter(dataAdapter);
-                Tittle.setText("Choose Study");
-                fragmentView.findViewById(R.id.AddStudyBtn).setVisibility(View.VISIBLE);
-                StudyRefresh.setVisibility(View.VISIBLE);
-                stationIdInput.setVisibility(View.GONE);
-                WatershedInput.setVisibility(View.GONE);
-                LatitudeInput.setVisibility(View.GONE);
-                LongitudeInput.setVisibility(View.GONE);
-                ElevationInput.setVisibility(View.GONE);
-                cameraIDInput.setVisibility(View.GONE);
-                save.setVisibility(View.GONE);
-                imgbtn1.setVisibility(View.GONE);
-                imgbtn2.setVisibility(View.GONE);
-
-                SdcardInput.setVisibility(View.GONE);
-                NotesInput.setVisibility(View.GONE);
-                fragmentView.findViewById(R.id.habitatIdLabel).setVisibility(View.GONE);
-                fragmentView.findViewById(R.id.cameraIdLabel).setVisibility(View.GONE);
-                fragmentView.findViewById(R.id.watershedIdLabel).setVisibility(View.GONE);
-                fragmentView.findViewById(R.id.SdCardLabel).setVisibility(View.GONE);
-                fragmentView.findViewById(R.id.lureTypeIdLabel).setVisibility(View.GONE);
-                fragmentView.findViewById(R.id.TerrainIdLabel).setVisibility(View.GONE);
-                fragmentView.findViewById(R.id.substrateIdLabel).setVisibility(View.GONE);
-                fragmentView.findViewById(R.id.notesLabel).setVisibility(View.GONE);
-                fragmentView.findViewById(R.id.stationP2IdLabel).setVisibility(View.GONE);
-                fragmentView.findViewById(R.id.potentialIdLabel).setVisibility(View.GONE);
-                fragmentView.findViewById(R.id.nId).setVisibility(View.GONE);
-                fragmentView.findViewById(R.id.eId).setVisibility(View.GONE);
-                fragmentView.findViewById(R.id.stationId).setVisibility(View.GONE);
-                fragmentView.findViewById(R.id.elevationId).setVisibility(View.GONE);
-                fragmentView.findViewById(R.id.stationId).setVisibility(View.GONE);
-                fragmentView.findViewById(R.id.LongitudeIdLabel).setVisibility(View.GONE);
-                fragmentView.findViewById(R.id.cameraId).setVisibility(View.GONE);
-                fragmentView.findViewById(R.id.SdcardInput).setVisibility(View.GONE);
-
-                fragmentView.findViewById(R.id.stationPIdLabel).setVisibility(View.GONE);
-                fragmentView.findViewById(R.id.watershedid).setVisibility(View.GONE);
-                fragmentView.findViewById(R.id.elevationIdLabel).setVisibility(View.GONE);
-                fragmentView.findViewById(R.id.LatitudeIdLabel).setVisibility(View.GONE);
-                fragmentView.findViewById(R.id.radioGroup01).setVisibility(View.GONE);
-                fragmentView.findViewById(R.id.radioGroup04).setVisibility(View.GONE);
-                fragmentView.findViewById(R.id.radioGroup03).setVisibility(View.GONE);
-                fragmentView.findViewById(R.id.radioGroup02).setVisibility(View.GONE);
-                fragmentView.findViewById(R.id.radioGroup05).setVisibility(View.GONE);
-                fragmentView.findViewById(R.id.saveButtonId).setVisibility(View.GONE);
-                fragmentView.findViewById(R.id.postbuttonCam).setVisibility(View.VISIBLE);
-                fragmentView.findViewById(R.id.createStationNetId).setVisibility(View.GONE);
-                fragmentView.findViewById(R.id.createStationNetStatusId).setVisibility(View.GONE);
-                fragmentView.findViewById(R.id.CamPic1).setVisibility(View.GONE);
-                fragmentView.findViewById(R.id.CamPic2).setVisibility(View.GONE);
-                fragmentView.findViewById(R.id.NoteInput).setVisibility(View.GONE);
-                Studyback.setVisibility(View.GONE);
+                change();
 
             }
         });
@@ -441,7 +344,8 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
                 list.add(current);
                 save(list);
                 current=new CameraStation();
-                refresh();
+               
+                change();
             }
         });
 
@@ -866,6 +770,66 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
+    }
+    private void change(){
+
+        Tittle.setText("Choose Study");
+        fragmentView.findViewById(R.id.AddStudyBtn).setVisibility(View.VISIBLE);
+        StudyRefresh.setVisibility(View.VISIBLE);
+        stationIdInput.setVisibility(View.GONE);
+        WatershedInput.setVisibility(View.GONE);
+        LatitudeInput.setVisibility(View.GONE);
+        LongitudeInput.setVisibility(View.GONE);
+        ElevationInput.setVisibility(View.GONE);
+        cameraIDInput.setVisibility(View.GONE);
+        save.setVisibility(View.GONE);
+        imgbtn1.setVisibility(View.GONE);
+        imgbtn2.setVisibility(View.GONE);
+
+        SdcardInput.setVisibility(View.GONE);
+        NotesInput.setVisibility(View.GONE);
+        fragmentView.findViewById(R.id.habitatIdLabel).setVisibility(View.GONE);
+        fragmentView.findViewById(R.id.cameraIdLabel).setVisibility(View.GONE);
+        fragmentView.findViewById(R.id.watershedIdLabel).setVisibility(View.GONE);
+        fragmentView.findViewById(R.id.SdCardLabel).setVisibility(View.GONE);
+        fragmentView.findViewById(R.id.lureTypeIdLabel).setVisibility(View.GONE);
+        fragmentView.findViewById(R.id.TerrainIdLabel).setVisibility(View.GONE);
+        fragmentView.findViewById(R.id.substrateIdLabel).setVisibility(View.GONE);
+        fragmentView.findViewById(R.id.notesLabel).setVisibility(View.GONE);
+        fragmentView.findViewById(R.id.stationP2IdLabel).setVisibility(View.GONE);
+        fragmentView.findViewById(R.id.potentialIdLabel).setVisibility(View.GONE);
+        fragmentView.findViewById(R.id.nId).setVisibility(View.GONE);
+        fragmentView.findViewById(R.id.eId).setVisibility(View.GONE);
+        fragmentView.findViewById(R.id.stationId).setVisibility(View.GONE);
+        fragmentView.findViewById(R.id.elevationId).setVisibility(View.GONE);
+        fragmentView.findViewById(R.id.stationId).setVisibility(View.GONE);
+        fragmentView.findViewById(R.id.LongitudeIdLabel).setVisibility(View.GONE);
+        fragmentView.findViewById(R.id.cameraId).setVisibility(View.GONE);
+        fragmentView.findViewById(R.id.SdcardInput).setVisibility(View.GONE);
+
+        fragmentView.findViewById(R.id.stationPIdLabel).setVisibility(View.GONE);
+        fragmentView.findViewById(R.id.watershedid).setVisibility(View.GONE);
+        fragmentView.findViewById(R.id.elevationIdLabel).setVisibility(View.GONE);
+        fragmentView.findViewById(R.id.LatitudeIdLabel).setVisibility(View.GONE);
+        fragmentView.findViewById(R.id.radioGroup01).setVisibility(View.GONE);
+        fragmentView.findViewById(R.id.radioGroup04).setVisibility(View.GONE);
+        fragmentView.findViewById(R.id.radioGroup03).setVisibility(View.GONE);
+        fragmentView.findViewById(R.id.radioGroup02).setVisibility(View.GONE);
+        fragmentView.findViewById(R.id.radioGroup05).setVisibility(View.GONE);
+        fragmentView.findViewById(R.id.saveButtonId).setVisibility(View.GONE);
+
+        fragmentView.findViewById(R.id.createStationNetId).setVisibility(View.GONE);
+        fragmentView.findViewById(R.id.createStationNetStatusId).setVisibility(View.GONE);
+        fragmentView.findViewById(R.id.CamPic1).setVisibility(View.GONE);
+        fragmentView.findViewById(R.id.CamPic2).setVisibility(View.GONE);
+        fragmentView.findViewById(R.id.NoteInput).setVisibility(View.GONE);
+        Studyback.setVisibility(View.GONE);
+        Tittle.setText("Choose Study");
+        SpinStudies.setVisibility(View.VISIBLE);
+        fragmentView.findViewById(R.id.AddStudyBtn).setVisibility(View.VISIBLE);
+        StudyRefresh.setVisibility(View.VISIBLE);
+        fragmentView.findViewById(R.id.postbuttonCam).setVisibility(View.VISIBLE);
+        fragmentView.findViewById(R.id.scrollViewAdd).scrollTo(0,0);
     }
     @Override
     public void onActivityResult(int requestcode,int resultcode, @Nullable Intent data){
