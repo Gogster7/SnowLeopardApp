@@ -26,6 +26,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -130,7 +131,7 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
     private CameraStation current= new CameraStation();
     private Boolean[] pic = {Boolean.FALSE,Boolean.FALSE};
     private Boolean Study=Boolean.TRUE;
-
+    private ArrayAdapter<String> dataAdapter;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -152,8 +153,7 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
         db=FirebaseFirestore.getInstance();
         fStorage= FirebaseStorage.getInstance();
         NotesInput =fragmentView.findViewById(R.id.NoteInput);
-        current.setCamerapic1("");
-        current.setCamerapic2("");
+
         StudyAdd = fragmentView.findViewById(R.id.AddStudyBtn);
         StudyAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,13 +168,11 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
         String StudiesS = getActivity().getIntent().getStringExtra("Studies");
         StudyArray=new ArrayList<>(Arrays.asList(StudiesS.split(",")));
         */
-
         StudyArray=loadStudies();
 
         change();
 
-
-        final ArrayAdapter<String> dataAdapter= new ArrayAdapter(this.getActivity(),android.R.layout.simple_spinner_item, StudyArray);
+        dataAdapter= new ArrayAdapter(this.getActivity(),android.R.layout.simple_spinner_item, StudyArray);
 
         SpinStudies.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -249,9 +247,7 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
             @Override
             public void onClick(View v) {
 
-
-                SpinStudies.setAdapter(dataAdapter);
-                change();
+               change();
 
             }
         });
@@ -304,6 +300,8 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
                 }
                 else{
                     Fireload(Clist);
+                    ScrollView scroll= fragmentView.findViewById(R.id.ScrollViewAdd);
+                    scroll.scrollTo(0,0);
                 }
 
             }
@@ -311,8 +309,9 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
         save.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //saveDialog();
-                //getInput();
+                if (!getInput()){
+                    return;
+                }
 
 
 
@@ -344,7 +343,7 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
                 list.add(current);
                 save(list);
                 current=new CameraStation();
-               
+
                 change();
             }
         });
@@ -376,6 +375,7 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
     @Override
     public void onStart(){
         super.onStart();
+        change();
         this.LongitudeInput.setText(longitudeS);
         this.LatitudeInput.setText(latitudeS);
         this.ElevationInput.setText(altitudeS);
@@ -384,6 +384,7 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
     @Override
     public void onResume(){
         super.onResume();
+        change();
         this.LongitudeInput.setText(longitudeS);
         this.LatitudeInput.setText(latitudeS);
         this.ElevationInput.setText(altitudeS);
@@ -566,6 +567,40 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
 
         //prevent some blank
         if (stationId.equals("")||watershedid.equals("")||cameraId.equals("")||terrain==null||habitat==null||lureType==null||substrate==null||potential==null){
+            createToast(getContext(),"Station Id needed",Toast.LENGTH_LONG);
+            return false;
+        }
+        else if(watershedid.equals("")){
+            createToast(getContext(),"WaterShed Id needed",Toast.LENGTH_LONG);
+            return false;
+        }
+        else if(cameraId.equals("")){
+            createToast(getContext(),"Camera Id needed",Toast.LENGTH_LONG);
+            return false;
+        }
+        else if(terrain==null){
+            createToast(getContext(),"Terrain needed",Toast.LENGTH_LONG);
+            return false;
+
+        }
+        else if (habitat==null){
+            createToast(getContext(),"Habitat needed",Toast.LENGTH_LONG);
+            return false;
+        }
+        else if (lureType==null){
+            createToast(getContext(),"Lure Type needed",Toast.LENGTH_LONG);
+            return false;
+        }
+        else if(substrate==null){
+            createToast(getContext(),"Station Id needed",Toast.LENGTH_LONG);
+            return false;
+        }
+        else if(potential==null){
+            createToast(getContext(),"Potential needed",Toast.LENGTH_LONG);
+            return false;
+        }
+        else if(sdcard.equals("")){
+            createToast(getContext(),"SD card  ID needed",Toast.LENGTH_LONG);
             return false;
         }
         return true;
@@ -689,7 +724,7 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
             CameraStation station = iter.next();
             DocumentReference doc = collection.document();
             String path = doc.getId();
-            if (station.getCamerapic1() != "") {
+            if (station.getCamerapic1() != null) {
                 pic[0] = Boolean.TRUE;
 
                 try {
@@ -709,12 +744,12 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
 
                         }
                     });
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
             }
-            if (station.getCamerapic2() != "") {
+            if (station.getCamerapic2() != null) {
 
                 try {
                     pic[1] = Boolean.TRUE;
@@ -736,9 +771,10 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
                     });
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
+
             }
             if (pic[0]) {
                 station.setCamerapic1(path + "/image1");
@@ -764,30 +800,34 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
             save(new ArrayList<>());
         }
     }
-
-    private void openGallery(int PICK_IMAGE){
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
-    }
     private void change(){
+        SpinStudies.setVisibility(View.VISIBLE);
+        SpinStudies.setAdapter(dataAdapter);
 
         Tittle.setText("Choose Study");
         fragmentView.findViewById(R.id.AddStudyBtn).setVisibility(View.VISIBLE);
         StudyRefresh.setVisibility(View.VISIBLE);
         stationIdInput.setVisibility(View.GONE);
+        stationIdInput.setText("");
         WatershedInput.setVisibility(View.GONE);
+        WatershedInput.setText("");
         LatitudeInput.setVisibility(View.GONE);
+        LatitudeInput.setText("");
         LongitudeInput.setVisibility(View.GONE);
+        LongitudeInput.setText("");
         ElevationInput.setVisibility(View.GONE);
+        ElevationInput.setText("");
         cameraIDInput.setVisibility(View.GONE);
+        cameraIDInput.setText("");
         save.setVisibility(View.GONE);
         imgbtn1.setVisibility(View.GONE);
+
         imgbtn2.setVisibility(View.GONE);
 
         SdcardInput.setVisibility(View.GONE);
+        SdcardInput.setText("");
         NotesInput.setVisibility(View.GONE);
+        NotesInput.setText("");
         fragmentView.findViewById(R.id.habitatIdLabel).setVisibility(View.GONE);
         fragmentView.findViewById(R.id.cameraIdLabel).setVisibility(View.GONE);
         fragmentView.findViewById(R.id.watershedIdLabel).setVisibility(View.GONE);
@@ -812,24 +852,36 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
         fragmentView.findViewById(R.id.elevationIdLabel).setVisibility(View.GONE);
         fragmentView.findViewById(R.id.LatitudeIdLabel).setVisibility(View.GONE);
         fragmentView.findViewById(R.id.radioGroup01).setVisibility(View.GONE);
-        fragmentView.findViewById(R.id.radioGroup04).setVisibility(View.GONE);
-        fragmentView.findViewById(R.id.radioGroup03).setVisibility(View.GONE);
-        fragmentView.findViewById(R.id.radioGroup02).setVisibility(View.GONE);
-        fragmentView.findViewById(R.id.radioGroup05).setVisibility(View.GONE);
-        fragmentView.findViewById(R.id.saveButtonId).setVisibility(View.GONE);
+        RadioGroup rad=(RadioGroup) fragmentView.findViewById(R.id.radioGroup01);
+        rad.clearCheck();
 
+        fragmentView.findViewById(R.id.radioGroup04).setVisibility(View.GONE);
+        rad=fragmentView.findViewById(R.id.radioGroup04);
+        rad.clearCheck();
+        fragmentView.findViewById(R.id.radioGroup03).setVisibility(View.GONE);
+        rad=fragmentView.findViewById(R.id.radioGroup03);
+        rad.clearCheck();
+        fragmentView.findViewById(R.id.radioGroup02).setVisibility(View.GONE);
+        rad=fragmentView.findViewById(R.id.radioGroup02);
+        rad.clearCheck();
+        fragmentView.findViewById(R.id.radioGroup05).setVisibility(View.GONE);
+        rad=fragmentView.findViewById(R.id.radioGroup05);
+        rad.clearCheck();
+        fragmentView.findViewById(R.id.saveButtonId).setVisibility(View.GONE);
+        fragmentView.findViewById(R.id.postbuttonCam).setVisibility(View.VISIBLE);
         fragmentView.findViewById(R.id.createStationNetId).setVisibility(View.GONE);
         fragmentView.findViewById(R.id.createStationNetStatusId).setVisibility(View.GONE);
         fragmentView.findViewById(R.id.CamPic1).setVisibility(View.GONE);
         fragmentView.findViewById(R.id.CamPic2).setVisibility(View.GONE);
         fragmentView.findViewById(R.id.NoteInput).setVisibility(View.GONE);
         Studyback.setVisibility(View.GONE);
-        Tittle.setText("Choose Study");
-        SpinStudies.setVisibility(View.VISIBLE);
-        fragmentView.findViewById(R.id.AddStudyBtn).setVisibility(View.VISIBLE);
-        StudyRefresh.setVisibility(View.VISIBLE);
-        fragmentView.findViewById(R.id.postbuttonCam).setVisibility(View.VISIBLE);
-        fragmentView.findViewById(R.id.scrollViewAdd).scrollTo(0,0);
+        fragmentView.findViewById(R.id.ScrollViewAdd).scrollTo(0,0);
+    }
+    private void openGallery(int PICK_IMAGE){
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
     }
     @Override
     public void onActivityResult(int requestcode,int resultcode, @Nullable Intent data){
