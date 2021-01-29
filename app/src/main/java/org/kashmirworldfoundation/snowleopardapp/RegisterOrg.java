@@ -76,16 +76,32 @@ public class RegisterOrg extends AppCompatActivity implements AdapterView.OnItem
                 String phone = mPhone.getText().toString().trim();
                 String country =spinner.getSelectedItem().toString().trim();
                 String region = mRegion.getText().toString().trim();
+                if(TextUtils.isEmpty(Orgname)){
+                    mOrgname.setError("Orgname Required");
+                    return;
+                }
+
                 if (TextUtils.isEmpty(email)){
-                    mEmail.setError("Email is Required.");
+                    mEmail.setError("Email Required.");
                     return;
                 }
 
                 if (TextUtils.isEmpty(website)){
-                    mOrgWebsite.setError(("Website is required"));
+                    mOrgWebsite.setError(("Website Required"));
+                    return;
                 }
+                if (TextUtils.isEmpty(phone)){
+                    mOrgWebsite.setError(("Phone Number Required"));
+                    return;
+                }
+
                 if (country.equals("Country")){
                     Toast.makeText(RegisterOrg.this, "Need to select a country", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (TextUtils.isEmpty(region)){
+                    mRegion.setError("Region Required");
+                    return;
                 }
 
                 db=FirebaseFirestore.getInstance();
@@ -97,11 +113,10 @@ public class RegisterOrg extends AppCompatActivity implements AdapterView.OnItem
                 morg.setOrgWebsite(website);
                 morg.setOrgPhone(phone);
                 morg.setOrgEmail(email);
-                Log.e("Tag", email);
 
-                Toast.makeText(RegisterOrg.this,morg.getOrgEmail(),Toast.LENGTH_LONG).show();
 
-                final Intent i = new Intent(getApplicationContext(), RegisterOrgAdmin.class);
+
+                final Intent i = new Intent(getApplicationContext(), Register_Org_Admin.class);
 //Create the bundle
                 Bundle bundle = new Bundle();
 
@@ -113,22 +128,24 @@ public class RegisterOrg extends AppCompatActivity implements AdapterView.OnItem
 //Add the bundle to the intent
                 i.putExtras(bundle);
 
-                db.collection("Organization").whereEqualTo("Country",country).
-                        whereEqualTo("orgRegion",region).whereEqualTo("orgName",Orgname).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                db.collection("Organization").whereEqualTo("orgName",Orgname).whereEqualTo("orgCountry",country).whereEqualTo("orgRegion",region).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()){
                                 if (task.getResult().isEmpty()){
+
                                     db.collection("Organization").add(morg).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                                         @Override
                                         public void onComplete(@NonNull Task<DocumentReference> task) {
+
                                             if (task.isSuccessful()) {
                                                 Toast.makeText(RegisterOrg.this,"Organization Sucesfully Created",Toast.LENGTH_LONG).show();
-
+                                                Log.e("Tag", "Sucess 1");
                                                 startActivity(i);
                                             }
                                             else{
                                                 Toast.makeText(RegisterOrg.this,"Error submitting Organization",Toast.LENGTH_LONG).show();
+                                                Log.e("Tag", "Fail 1");
                                                 recreate();
                                             }
                                         }
@@ -136,6 +153,7 @@ public class RegisterOrg extends AppCompatActivity implements AdapterView.OnItem
                                 }
                                 else{
                                     Toast.makeText(RegisterOrg.this,"Error Organization already registered",Toast.LENGTH_LONG).show();
+                                    Log.e("Tag","Fail2");
                                     recreate();
                                 }
                         }
@@ -206,7 +224,5 @@ public class RegisterOrg extends AppCompatActivity implements AdapterView.OnItem
     }
 
 
-    private class RegisterOrgAdmin {
-    }
 }
 
