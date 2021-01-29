@@ -458,7 +458,7 @@ public class Expand extends AppCompatActivity implements View.OnClickListener {
 
         //Station station = (Station) getIntent().getSerializableExtra("station");
 
-        CameraStation station =getIntent().getParcelableExtra("station");
+        CameraStation station =getIntent().getParcelableExtra("stationz");
         pathRecord=getIntent().getStringExtra("pathRecord");
         System.out.println("get PathRecord in expand :"+pathRecord);
 
