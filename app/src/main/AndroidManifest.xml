@@ -19,10 +19,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Station_List"></activity>
+        <activity
+            android:name=".Register_Org_Admin"
+            android:label="@string/title_activity_register__org__admin"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".Station_List" />
         <activity android:name=".CreateStudy" />
-        <activity android:name=".GoogleMapActivity" />
-<!--        <activity android:name=".Expand2" />-->
+        <activity android:name=".GoogleMapActivity" /> <!-- <activity android:name=".Expand2" /> -->
         <activity
             android:name=".Expand"
             android:parentActivityName=".MainActivity" />
@@ -32,9 +35,9 @@
         <activity android:name=".CreateStation" />
         <activity android:name=".MainActivity" />
         <activity android:name=".OfflineManagerActivity" />
-        <activity android:name=".RegisterSpinner1"/>
-        <activity android:name=".RegisterSpinner2"/>
-        <activity android:name=".RegisterSpinner0"></activity>
+        <activity android:name=".RegisterSpinner1" />
+        <activity android:name=".RegisterSpinner2" />
+        <activity android:name=".RegisterSpinner0" />
         <activity android:name=".Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -42,8 +45,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Register">
-        </activity>
+        <activity android:name=".Register"></activity>
 
         <meta-data
             android:name="preloaded_fonts"
