@@ -38,6 +38,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import org.kashmirworldfoundation.snowleopardapp.CreateStudy;
+import org.kashmirworldfoundation.snowleopardapp.Login;
 import org.kashmirworldfoundation.snowleopardapp.R;
 
 
@@ -343,8 +344,22 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
                 list.add(current);
                 save(list);
                 current=new CameraStation();
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+                alertDialog.setTitle("SD Card");
+                alertDialog.setMessage("Has the SD Card been formatted");
 
-                change();
+
+                alertDialog.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        change();
+
+
+                    }
+                });
+                AlertDialog alert = alertDialog.create();
+                alert.show();
+
             }
         });
 
@@ -375,7 +390,6 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
     @Override
     public void onStart(){
         super.onStart();
-        change();
         this.LongitudeInput.setText(longitudeS);
         this.LatitudeInput.setText(latitudeS);
         this.ElevationInput.setText(altitudeS);
@@ -384,7 +398,7 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
     @Override
     public void onResume(){
         super.onResume();
-        change();
+
         this.LongitudeInput.setText(longitudeS);
         this.LatitudeInput.setText(latitudeS);
         this.ElevationInput.setText(altitudeS);
@@ -876,6 +890,10 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
         fragmentView.findViewById(R.id.NoteInput).setVisibility(View.GONE);
         Studyback.setVisibility(View.GONE);
         fragmentView.findViewById(R.id.ScrollViewAdd).scrollTo(0,0);
+        ImageButton img=fragmentView.findViewById(R.id.CamPic1);
+        img.setImageResource(R.drawable.camera);
+        img=fragmentView.findViewById(R.id.CamPic2);
+        img.setImageResource(R.drawable.camera);
     }
     private void openGallery(int PICK_IMAGE){
         Intent intent = new Intent();
