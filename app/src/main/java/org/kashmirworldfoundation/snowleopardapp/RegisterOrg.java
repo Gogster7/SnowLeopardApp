@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -26,7 +28,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -141,6 +145,7 @@ public class RegisterOrg extends AppCompatActivity implements AdapterView.OnItem
                                             if (task.isSuccessful()) {
                                                 Toast.makeText(RegisterOrg.this,"Organization Sucesfully Created",Toast.LENGTH_LONG).show();
                                                 Log.e("Tag", "Sucess 1");
+                                                saveAdmin();
                                                 startActivity(i);
                                             }
                                             else{
@@ -223,6 +228,15 @@ public class RegisterOrg extends AppCompatActivity implements AdapterView.OnItem
         sender.start();
     }
 
+    private void saveAdmin(){
+        SharedPreferences sharedPreferences = RegisterOrg.this.getSharedPreferences("Admin", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor =sharedPreferences.edit();
 
+
+        Gson gson = new Gson();
+
+        editor.putBoolean("Admin",true);
+        editor.apply();
+    }
 }
 
