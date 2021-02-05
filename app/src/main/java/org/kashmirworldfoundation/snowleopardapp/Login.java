@@ -85,6 +85,10 @@ public class Login extends AppCompatActivity {
         mRegisterOrgBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (getAdmin()){
+                    startActivity(new Intent(getApplicationContext(),Register_Org_Admin.class));
+                }
+
                 startActivity(new Intent(getApplicationContext(), RegisterOrg.class));
             }
         });
@@ -162,7 +166,11 @@ public class Login extends AppCompatActivity {
         editor.putString("uid",uid);
         editor.apply();
     }
+    private boolean getAdmin(){
+        SharedPreferences sharedPreferences = Login.this.getSharedPreferences("Admin", Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean("Admin",false);
 
+    }
     private void login(String email, String pass){
         fAuth.signInWithEmailAndPassword(email,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
@@ -236,3 +244,4 @@ public class Login extends AppCompatActivity {
         });
     }
 }
+
