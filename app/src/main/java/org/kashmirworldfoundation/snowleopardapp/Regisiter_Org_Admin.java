@@ -4,8 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +23,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.gson.Gson;
 
 
 public class Register_Org_Admin extends AppCompatActivity {
@@ -127,6 +130,7 @@ public class Register_Org_Admin extends AppCompatActivity {
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if(task.isSuccessful()){
                                             Toast.makeText(Register_Org_Admin.this,"User Created", Toast.LENGTH_SHORT).show();
+                                            saveAdmin();
                                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
                                         }
                                     }
@@ -138,5 +142,15 @@ public class Register_Org_Admin extends AppCompatActivity {
                 }
             }
         });
+    }
+    private void saveAdmin(){
+        SharedPreferences sharedPreferences = Register_Org_Admin.this.getSharedPreferences("Admin", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor =sharedPreferences.edit();
+
+
+        Gson gson = new Gson();
+
+        editor.putBoolean("Admin",false);
+        editor.apply();
     }
 }
