@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:contentPadding="5dp"
+    app:cardElevation="35dp"
+    app:cardCornerRadius="3dp"
+    app:cardUseCompatPadding="true"
+    app:cardBackgroundColor="@color/mapboxGreenLight">
+
+    <LinearLayout
+        android:layout_width="317dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/rowEname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="Employee Name: "
+                android:textColor="#000"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/rowDateId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="Date"
+                android:textColor="#a9a9a9"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/rowBait"
+                android:layout_width="116dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="Bait"
+                android:textColor="#a9a9a9"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/rowWorks"
+                android:layout_width="122dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="Works"
+                android:textColor="#a9a9a9"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/rowNumPics"
+                android:layout_width="122dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="Number of Pics"
+                android:textColor="#a9a9a9"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/rowSDnum"
+                android:layout_width="122dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="SD #"
+                android:textColor="#a9a9a9"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/rowComments"
+                android:layout_width="122dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="Comments"
+                android:textColor="#a9a9a9"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>

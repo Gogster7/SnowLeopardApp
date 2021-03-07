@@ -105,10 +105,7 @@ public class Station_List extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
-
     public void onClick(View v) {
-
 
         pos =recyclerView.getChildLayoutPosition(v);
         CameraStation selectiion=CStationArrayList.get(pos);
@@ -118,8 +115,6 @@ public class Station_List extends AppCompatActivity implements View.OnClickListe
 
         i.putExtra("stationz",selectiion);
         startActivity(i);
-
-
 
     }
 
@@ -269,10 +264,7 @@ public class Station_List extends AppCompatActivity implements View.OnClickListe
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("user",Context.MODE_PRIVATE);
         return sharedPreferences.getString("Study",null);
     }
-
 }
-
-
 
 /**
  * put in floating action button for downloading

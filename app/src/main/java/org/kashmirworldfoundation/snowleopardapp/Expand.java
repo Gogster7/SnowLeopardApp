@@ -398,7 +398,7 @@ import java.io.Serializable;
 public class Expand extends AppCompatActivity implements View.OnClickListener {
 
     ImageView imageView;
-    TextView title, date,cameraid,substrate,lureType,potential,terrain,watershedid,author;
+    TextView title, date,cameraid,substrate,lureType,potential,terrain,watershedid,author,notes;
     //    TextView dateLabel;
     private static final String TAG = "Expand";
     private static final String KEY_DATE = "Current Date";
@@ -419,6 +419,7 @@ public class Expand extends AppCompatActivity implements View.OnClickListener {
     private String sdT;
     private String sLureType;
     private String camWorks;
+    private ImageView pic1,pic2;
     private RadioGroup baitGroup;
     private RadioGroup camGroup; // camera functional
     private Date currentTime;
@@ -451,6 +452,9 @@ public class Expand extends AppCompatActivity implements View.OnClickListener {
         terrain=findViewById(R.id.terrainId);
         watershedid=findViewById(R.id.watershedid);
         author=findViewById(R.id.authorId);
+        notes = findViewById(R.id.notesId);
+        pic1 = findViewById(R.id.stationPic1);
+        pic2 = findViewById(R.id.stationPic2);
         rebaitBtn = findViewById(R.id.rebaitBtn);
 
         // Matching User Listener to Takedown button if form does not belong to current user
@@ -458,7 +462,7 @@ public class Expand extends AppCompatActivity implements View.OnClickListener {
 
         //Station station = (Station) getIntent().getSerializableExtra("station");
 
-        CameraStation station =getIntent().getParcelableExtra("station");
+        CameraStation station =getIntent().getParcelableExtra("stationz");
         pathRecord=getIntent().getStringExtra("pathRecord");
         System.out.println("get PathRecord in expand :"+pathRecord);
 
@@ -471,6 +475,8 @@ public class Expand extends AppCompatActivity implements View.OnClickListener {
         terrain.setText(station.getTerrain());
         watershedid.setText(station.getWatershedid());
         author.setText(station.getAuthor());
+        notes.setText(station.getNotes());
+        //pic1.setImage(station.getCamerapic1());
 
         //need to change later
         imageView.setImageResource(R.drawable.kwflogo);
