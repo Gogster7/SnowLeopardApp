@@ -1,3 +1,4 @@
+
 package org.kashmirworldfoundation.snowleopardapp;
 
 
@@ -5,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.location.Location;
@@ -59,6 +61,10 @@ import com.mapbox.mapboxsdk.offline.OfflineRegion;
 import com.mapbox.mapboxsdk.offline.OfflineRegionError;
 import com.mapbox.mapboxsdk.offline.OfflineRegionStatus;
 import com.mapbox.mapboxsdk.offline.OfflineTilePyramidRegionDefinition;
+import com.mapbox.mapboxsdk.plugins.markerview.MarkerView;
+import com.mapbox.mapboxsdk.plugins.markerview.MarkerViewManager;
+import com.mapbox.mapboxsdk.style.layers.Layer;
+import com.mapbox.mapboxsdk.style.layers.PropertyFactory;
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
 import com.mapbox.mapboxsdk.utils.BitmapUtils;
 import android.content.ContextWrapper;
@@ -125,11 +131,22 @@ public class OfflineManagerActivity extends AppCompatActivity implements
     private static Double currentLongitude;
     private static String stringAltitude;
     private static Double currentAltitude;
+    private MarkerViewManager markerViewManager;
+    private static final String MARKER_SOURCE = "markers-source";
+    private static final String MARKER_STYLE_LAYER = "markers-style-layer";
+    private static final String MARKER_IMAGE = "custom-marker";
+    private static final String MARKER_IMAGE1 = "blue-marker";
 
     private boolean fromGoogleMap=false;
 
     private static final String RESULT_GEOJSON_SOURCE_ID = "RESULT_GEOJSON_SOURCE_ID";
     private static final String LAYER_ID = "LAYER_ID";
+
+    List<Feature> features = new ArrayList<>();
+
+    private int number;
+    private int markerNumber=0;
+    private String styleUri;
 
 
 
@@ -172,20 +189,50 @@ public class OfflineManagerActivity extends AppCompatActivity implements
         }
 
 
-    //change the style by floating button after the map create
+        //change the style by floating button after the map create
         findViewById(R.id.floatingActionButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 if(styleChooseNumber==1){
-                    mapboxMap.setStyle(Style.OUTDOORS);
+                    mapboxMap.setStyle(new Style.Builder().fromUri(Style.OUTDOORS), new Style.OnStyleLoaded() {
+                        @Override
+                        public void onStyleLoaded(@NonNull Style style) {
+                            // Custom map style has been loaded and map is now ready
+                            changeStyle(style);
+                        }
+                    });
                     styleChooseNumber=2;
+
+                    System.out.println(mapboxMap.getStyle());
+
+
+
                 }else if(styleChooseNumber==2){
-                    mapboxMap.setStyle(Style.SATELLITE_STREETS);
+//                    mapboxMap.setStyle(Style.SATELLITE_STREETS);
+                    mapboxMap.setStyle(new Style.Builder().fromUri(Style.SATELLITE_STREETS), new Style.OnStyleLoaded() {
+                        @Override
+                        public void onStyleLoaded(@NonNull Style style) {
+                            // Custom map style has been loaded and map is now ready
+                            changeStyle(style);
+                        }
+                    });
+
                     styleChooseNumber=3;
+//                    addMarkers( mapboxMap.getStyle());
+                    System.out.println(mapboxMap.getStyle());
                 }else if(styleChooseNumber==3){
-                    mapboxMap.setStyle(Style.MAPBOX_STREETS);
+//                    mapboxMap.setStyle(Style.MAPBOX_STREETS);
+                    mapboxMap.setStyle(new Style.Builder().fromUri(Style.MAPBOX_STREETS), new Style.OnStyleLoaded() {
+                        @Override
+                        public void onStyleLoaded(@NonNull Style style) {
+                            // Custom map style has been loaded and map is now ready
+                            changeStyle(style);
+                        }
+                    });
                     styleChooseNumber=1;
+//                    addMarkers( mapboxMap.getStyle());
+
                 }
 
             }
@@ -199,6 +246,8 @@ public class OfflineManagerActivity extends AppCompatActivity implements
                 OfflineManagerActivity.this.mapboxMap = mapboxMap;
                 mapboxMap.addOnMapClickListener(OfflineManagerActivity.this);
 
+                markerViewManager = new MarkerViewManager(mapView, mapboxMap);
+
                 map = mapboxMap;
                 mapboxMap.setStyle(inputStyle, new Style.OnStyleLoaded(){
                     @Override
@@ -209,6 +258,12 @@ public class OfflineManagerActivity extends AppCompatActivity implements
 
                         // Set up the offlineManager
                         offlineManager = OfflineManager.getInstance(OfflineManagerActivity.this);
+
+                        //add marker to this style
+                        style.addImage(MARKER_IMAGE, BitmapFactory.decodeResource(
+                                OfflineManagerActivity.this.getResources(), R.drawable.custom_marker),true);
+
+
 
                         // Bottom navigation bar button clicks are handled here.
                         // Download offline button
@@ -239,14 +294,31 @@ public class OfflineManagerActivity extends AppCompatActivity implements
                             downloadRegionDialog();
                         }
 
+                        System.out.println("MapboxStyle initial :"+mapboxMap.getStyle());
 
-
+                        System.out.println("MapboxStyle initial :"+mapboxMap.getStyle().getUri());
 
 
                     }
                 });
             }
         });
+
+
+    }
+    private void changeStyle(Style style){
+
+        System.out.println("Set Style success");
+        style.addImage(MARKER_IMAGE, BitmapFactory.decodeResource(
+                OfflineManagerActivity.this.getResources(), R.drawable.custom_marker),true);
+        markerNumber=0;
+        if(features.size()!=0){
+            for(Feature f:features){
+                addMarkers(style,f);
+            }
+        }
+
+
     }
 
 
@@ -303,7 +375,7 @@ public class OfflineManagerActivity extends AppCompatActivity implements
 
     @Override
     public void onMapReady(@NonNull MapboxMap mapboxMap) {
-
+        System.out.println("In map ready!!"+mapboxMap.getStyle());
     }
 
     /**
@@ -371,8 +443,59 @@ public class OfflineManagerActivity extends AppCompatActivity implements
     public boolean onMapClick(@NonNull LatLng point) {
         Log.d(TAG, "onMapClick: !"+point.getLatitude());
         Log.d(TAG, "onMapClick: !"+point.getLongitude());
+
+//        MarkerView markerView = new MarkerView(new LatLng(point.getLatitude(),point.getLongitude()), );
+//
+//        markerViewManager.addMarker(markerView);
+
+
+        Toast toast=Toast.makeText(this, "Click Location!;\n Latitude :" +point.getLatitude()+"\n currentLongitude : "+point.getLongitude(),
+
+                Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
+        toast.show();
+
+        System.out.println(mapboxMap.getStyle());
+        features.add(Feature.fromGeometry(Point.fromLngLat(point.getLongitude(), point.getLatitude())));
+
+        Feature newF=Feature.fromGeometry(Point.fromLngLat(point.getLongitude(), point.getLatitude()));
+
+        addMarkers( mapboxMap.getStyle(),newF);
+
+
         return handleClickIcon(mapboxMap.getProjection().toScreenLocation(point));
     }
+
+
+    private void addMarkers(@NonNull Style loadedMapStyle, Feature f) {
+        markerNumber++;
+
+        loadedMapStyle.addSource(new GeoJsonSource(MARKER_SOURCE+number, f));
+
+
+
+        loadedMapStyle.addLayer(new SymbolLayer(MARKER_STYLE_LAYER+number, MARKER_SOURCE+number)
+                .withProperties(
+//                        PropertyFactory.iconAllowOverlap(true),
+//                        PropertyFactory.iconIgnorePlacement(true),
+                        PropertyFactory.iconImage(MARKER_IMAGE),
+                        PropertyFactory.iconColor(Color.parseColor("#FF8C00")),
+                        textField(String.valueOf(markerNumber)),
+                        textAllowOverlap(true),
+                        textSize(12f),
+                        textOffset(new Float[] {0f, -0.5f})
+
+
+// Adjust the second number of the Float array based on the height of your marker image.
+// This is because the bottom of the marker should be anchored to the coordinate point, rather
+// than the middle of the marker being the anchor point on the map.
+//                       , PropertyFactory.iconOffset(new Float[] {0f, -52f})
+                ));
+
+        List<Layer> t=loadedMapStyle.getLayers();
+        number=t.size();
+    }
+
 
 
     private static class LocationChangeListeningActivityLocationCallback
@@ -644,12 +767,20 @@ public class OfflineManagerActivity extends AppCompatActivity implements
         // Check if permissions are enabled and if not request
         if (PermissionsManager.areLocationPermissionsGranted(this)) {
 
-            // Create and customize the LocationComponent's options
+//            // Create and customize the LocationComponent's options
+//            LocationComponentOptions customLocationComponentOptions = LocationComponentOptions.builder(this)
+////                    .elevation(5)
+//                    .accuracyAlpha(.0f)
+////                    .accuracyColor(Color.RED)
+//                    .pulseEnabled(true)
+//                    .pulseAlpha(0.6f)
+//
+////                    .foregroundDrawable(R.drawable.kwflogo)
+//
+//                    .build();
+
             LocationComponentOptions customLocationComponentOptions = LocationComponentOptions.builder(this)
-                    .elevation(5)
-                    .accuracyAlpha(.6f)
-                    .accuracyColor(Color.RED)
-//                    .foregroundDrawable(R.drawable.kwflogo)
+                    .pulseEnabled(true)
                     .build();
 
             // Get an instance of the component
@@ -685,11 +816,11 @@ public class OfflineManagerActivity extends AppCompatActivity implements
                         isInTrackingMode = true;
                         locationComponent.setCameraMode(CameraMode.TRACKING);
                         locationComponent.zoomWhileTracking(16f);
-                        Toast.makeText(OfflineManagerActivity.this, "A",
-                                Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(OfflineManagerActivity.this, "A",
+//                                Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(OfflineManagerActivity.this, "B",
-                                Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(OfflineManagerActivity.this, "B",
+//                                Toast.LENGTH_SHORT).show();
                     }
                 }
             });

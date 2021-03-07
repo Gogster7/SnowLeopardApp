@@ -1,13 +1,16 @@
 package org.kashmirworldfoundation.snowleopardapp;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -91,9 +94,10 @@ public class Register extends AppCompatActivity {
                 final String password = mPassword.getText().toString().trim();
                 final String reEnter = mReEnter.getText().toString().trim();
                 final String fullName = mFullName.getText().toString().trim();
-                final String organization = i.getStringExtra("OrgName");
+
                 final String phoneNumber = mPhonenumber.getText().toString().trim();
                 final String job = mJobTitle.getText().toString().trim();
+                final String organization = i.getStringExtra("OrgName");
                 final String region =i.getStringExtra("Region");
                 final String country = i.getStringExtra("Country");
                 if(TextUtils.isEmpty(fullName)){
@@ -120,51 +124,39 @@ public class Register extends AppCompatActivity {
                     mPassword.setError("Password must be at least 6 Characters");
                     return;
                 }
-                final Member mem =new Member();
-                fAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()){
-                            db.collection("Organization").whereEqualTo("orgName",organization).
-                                    whereEqualTo("orgCountry", country).whereEqualTo("orgRegion",region).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                    if (task.isSuccessful()){
-                                        for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
-                                            mem.setOrg(documentSnapshot.getReference().getPath());
-                                            Org org = documentSnapshot.toObject(Org.class);
-                                            Forg = org;
-
-                                        }
-                                        mem.setAdmin(Boolean.FALSE);
-                                        mem.setEmail(email);
-                                        mem.setFullname(fullName);
-                                        mem.setJob(job);
-                                        mem.setPhone(phoneNumber);
-                                        mem.setProfile("profile/kwflogo.jpg");
-                                        FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
-                                        db.collection("Member").document(user.getUid()).set(mem).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                saveMember(mem, user.getUid());
-                                                saveCamNum();
-                                                sendMessage(fullName,phoneNumber,email,job,Forg.getOrgEmail());
-                                                startActivity(new Intent(getApplicationContext(),MainActivity.class));
-
-                                            }
+                Utils util = new Utils();
 
 
-                                        });
+                if (util.getAgreement(Register.this)){
+                    LayoutInflater inflater= LayoutInflater.from(Register.this);
+                    View view=inflater.inflate(R.layout.disclaimer_layout, null);
 
-                                    }
 
-
-                                }
-                            });
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(Register.this);
+                    alertDialog.setTitle("Terms of Service");
+                    alertDialog.setView(view);
+                    alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(Register.this,"Agreement needed to register",Toast.LENGTH_LONG).show();
                         }
-                    }
-                });
 
+                    });
+
+                    alertDialog.setPositiveButton("Agree", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            util.setAgreement(Register.this);
+                            register(organization,country,region);
+                        }
+                    });
+                    AlertDialog alert = alertDialog.create();
+                    alert.show();
+                }
+                else {
+                    register(organization,country,region);
+                }
 
 
 
@@ -211,5 +203,59 @@ public class Register extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("CamNum",0);
         editor.apply();
+    }
+    private void register(String organization, String country, String region){
+        final Member mem =new Member();
+        final String email = mEmail.getText().toString().trim();
+        final String password = mPassword.getText().toString().trim();
+        final String reEnter = mReEnter.getText().toString().trim();
+        final String fullName = mFullName.getText().toString().trim();
+
+        final String phoneNumber = mPhonenumber.getText().toString().trim();
+        final String job = mJobTitle.getText().toString().trim();
+        fAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()){
+                    db.collection("Organization").whereEqualTo("orgName",organization).
+                            whereEqualTo("orgCountry", country).whereEqualTo("orgRegion",region).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()){
+                                for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
+                                    mem.setOrg(documentSnapshot.getReference().getPath());
+                                    Org org = documentSnapshot.toObject(Org.class);
+                                    Forg = org;
+
+                                }
+                                mem.setAdmin(Boolean.FALSE);
+                                mem.setEmail(email);
+                                mem.setFullname(fullName);
+                                mem.setJob(job);
+                                mem.setPhone(phoneNumber);
+                                mem.setProfile("profile/kwflogo.jpg");
+                                FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
+                                db.collection("Member").document(user.getUid()).set(mem).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        saveMember(mem, user.getUid());
+                                        saveCamNum();
+                                        sendMessage(fullName,phoneNumber,email,job,Forg.getOrgEmail());
+                                        startActivity(new Intent(getApplicationContext(),MainActivity.class));
+
+                                    }
+
+
+                                });
+
+                            }
+
+
+                        }
+                    });
+                }
+            }
+        });
+
     }
 }

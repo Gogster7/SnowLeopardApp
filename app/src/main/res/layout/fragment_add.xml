@@ -12,6 +12,7 @@
     <ScrollView
 
 
+        android:id="@+id/ScrollViewAdd"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -761,26 +762,27 @@
 
             <ImageButton
                 android:id="@+id/CamPic1"
-                android:layout_width="125dp"
+                android:layout_width="150dp"
                 android:layout_height="125dp"
                 android:layout_marginStart="32dp"
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY"
-                android:src="@android:drawable/ic_menu_camera"
+                android:src="@drawable/camera"
                 android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/guideline9"
                 app:layout_constraintEnd_toStartOf="@+id/CamPic2"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/guideline8" />
 
             <ImageButton
                 android:id="@+id/CamPic2"
-                android:layout_width="125dp"
+                android:layout_width="150dp"
                 android:layout_height="125dp"
-                android:layout_marginEnd="64dp"
+                android:layout_marginEnd="32dp"
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY"
-                android:src="@android:drawable/ic_menu_camera"
+                android:src="@drawable/camera"
                 android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/guideline9"
                 app:layout_constraintEnd_toEndOf="parent"
