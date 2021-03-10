@@ -62,4 +62,5 @@
     <!-- Isochrone change -->
     <string name="click_on_map_instruction">Tap on the map</string>
     <string name="showing_time_labels_on_line_toast">Now showing minute labels on lines</string>
+    <string name="title_activity_register__org__admin">Register_Org_Admin</string>
 </resources>
