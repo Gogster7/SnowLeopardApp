@@ -364,6 +364,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -393,6 +396,8 @@ import java.util.Iterator;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
+import org.kashmirworldfoundation.snowleopardapp.Fragment.ListFragmentAdapter;
+
 import java.io.Serializable;
 
 public class Expand extends AppCompatActivity implements View.OnClickListener {
@@ -419,15 +424,17 @@ public class Expand extends AppCompatActivity implements View.OnClickListener {
     private String sdT;
     private String sLureType;
     private String camWorks;
+    private TextView Rebaitbtn;
     private ImageView pic1,pic2;
     private RadioGroup baitGroup;
     private RadioGroup camGroup; // camera functional
     private Date currentTime;
-
-    private String pathRecord;
-
+    public String AuthorS;
+    private RecyclerView recyclerView;
+    public String pathRecord;
+    private ArrayList<Rebait> CRebaitArrayList= new ArrayList<>();
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference notebookRef = db.collection("CameraStation");
+    private DocumentReference notebookRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -456,7 +463,8 @@ public class Expand extends AppCompatActivity implements View.OnClickListener {
         pic1 = findViewById(R.id.stationPic1);
         pic2 = findViewById(R.id.stationPic2);
         rebaitBtn = findViewById(R.id.rebaitBtn);
-
+        recyclerView=findViewById(R.id.RecyclerRebait);
+        Rebaitbtn=findViewById(R.id.titleRebait);
         // Matching User Listener to Takedown button if form does not belong to current user
 
 
@@ -465,7 +473,7 @@ public class Expand extends AppCompatActivity implements View.OnClickListener {
         CameraStation station =getIntent().getParcelableExtra("stationz");
         pathRecord=getIntent().getStringExtra("pathRecord");
         System.out.println("get PathRecord in expand :"+pathRecord);
-
+        notebookRef=db.document(pathRecord);
         title.setText(station.getStationId());
         date.setText(station.getPosted().toDate().toString());
         cameraid.setText(station.getCameraId());
@@ -474,13 +482,23 @@ public class Expand extends AppCompatActivity implements View.OnClickListener {
         potential.setText(station.getPotential());
         terrain.setText(station.getTerrain());
         watershedid.setText(station.getWatershedid());
-        author.setText(station.getAuthor());
+        author.setText(station.getaName());
         notes.setText(station.getNotes());
         //pic1.setImage(station.getCamerapic1());
 
         //need to change later
         imageView.setImageResource(R.drawable.kwflogo);
+        Rebaitbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i= new Intent(getApplication().getApplicationContext(), Rebait_List.class);
 
+                i.putExtra("stationN",AuthorS);
+                i.putExtra("path",pathRecord);
+                startActivity(i);
+
+            }
+        });
         // Re-Bait Button function
         rebaitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -567,6 +585,7 @@ public class Expand extends AppCompatActivity implements View.OnClickListener {
                 bottomSheetDialog.show();
             }
         });
+       // new RebaitAsyncTaskA(this).execute();
     }
 
 
@@ -647,11 +666,25 @@ public class Expand extends AppCompatActivity implements View.OnClickListener {
 //        Rebait note = new Rebait(currentTime, numPics, signsT, sdT, sLureType, camWorks);
 
 //        notebookRef.document("9JiPRkS9IKUSBEQNMCWF").collection("Rebate Log").add(note);
-        notebookRef.document(pathRecord).collection("Rebate Log").add(note);
-
+        notebookRef.collection("Rebate Log").add(note);
+        Log.e("pathRecord",pathRecord);
 
 
     }
+    /*
+    public void updateStationList(ArrayList<Rebait> s){
+        CRebaitArrayList.addAll(s);
+    }
 
+    //after list was already update, it create the adapter, put the list and show
+    public void updateList(){
+        Rebait_ListAdapter listAdapter=new Rebait_ListAdapter(CRebaitArrayList,this);
+        recyclerView.setAdapter(listAdapter);
+        LinearLayoutManager a=new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(a);
+
+
+    }
+     */
 
 }
