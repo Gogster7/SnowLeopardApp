@@ -50,6 +50,7 @@ import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 import org.kashmirworldfoundation.snowleopardapp.Fragment.AddFragment;
 import org.kashmirworldfoundation.snowleopardapp.Fragment.MapFragment;
+import org.kashmirworldfoundation.snowleopardapp.Fragment.PreyFragment;
 import org.kashmirworldfoundation.snowleopardapp.Fragment.ProfileFragment;
 
 import java.io.IOException;
@@ -109,7 +110,8 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_list);
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_add);
         tabLayout.getTabAt(2).setIcon(R.drawable.ic_profile);
-        tabLayout.getTabAt(3).setIcon(R.drawable.ic_map);
+        tabLayout.getTabAt(3).setIcon(R.drawable.mouse);
+        tabLayout.getTabAt(4).setIcon(R.drawable.ic_map);
 
         tabLayout.getTabAt(0);
 
@@ -164,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
         private org.kashmirworldfoundation.snowleopardapp.Fragment.ListFragment listFragment;
         private ProfileFragment profileFragment;
         private MapFragment mapFragment;
-
+        private PreyFragment preyFragment;
         @NonNull
         @Override
         public Fragment getItem(int position) {
@@ -183,6 +185,11 @@ public class MainActivity extends AppCompatActivity {
                     }
                     return profileFragment;
                 case 3:
+                    if (preyFragment==null) {
+                        preyFragment = PreyFragment.newInstance();
+                    }
+                    return preyFragment;
+
                 default:
                     if (mapFragment == null) {
                         mapFragment = MapFragment.newInstance();
@@ -205,15 +212,16 @@ public class MainActivity extends AppCompatActivity {
                 case 2:
                     return "Profile";
                 case 3:
-                    return "Map";
+                    return "Prey";
+
                 default:
-                    return "";
+                    return "Map";
             }
         }
 
         @Override
         public int getCount() {
-            return 4;
+            return 5;
         }
     }
 
