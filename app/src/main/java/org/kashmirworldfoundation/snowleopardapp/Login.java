@@ -41,7 +41,7 @@ import java.util.StringJoiner;
 public class Login extends AppCompatActivity {
     EditText mEmail, mPassword;
     Button mLoginBtn;
-    TextView mRegisterBtn,mRegisterOrgBtn;
+    TextView mRegisterBtn,mRegisterOrgBtn, mForgetBtn;
     FirebaseAuth fAuth;
     ProgressBar progressBar;
     FirebaseFirestore fStore;
@@ -61,6 +61,7 @@ public class Login extends AppCompatActivity {
         }
 
          */
+        mForgetBtn = findViewById(R.id.LoginForget);
         mEmail      = findViewById(R.id.email);
         mPassword   = findViewById(R.id.password);
         mLoginBtn   = findViewById(R.id.LoginBtn);
@@ -74,7 +75,12 @@ public class Login extends AppCompatActivity {
         Background.setVisibility(View.VISIBLE);
         fetchData();
 
-
+        mForgetBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),ForgetPassword.class));
+            }
+        });
         mRegisterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -244,4 +250,3 @@ public class Login extends AppCompatActivity {
         });
     }
 }
-
