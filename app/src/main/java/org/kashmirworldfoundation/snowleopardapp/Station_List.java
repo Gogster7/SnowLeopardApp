@@ -68,22 +68,14 @@ public class Station_List extends AppCompatActivity implements View.OnClickListe
     private RecyclerView recyclerView;
     private Station_ListAdapter listFragmentAdapter;
     private ArrayList<CameraStation> CStationArrayList;
+    private ArrayList<String> CPathList =new ArrayList<>();
     private int WRITE_FILE=1;
     private com.google.android.material.floatingactionbutton.FloatingActionButton tocsv;
     private int pos;
-    boolean Available= false;
-    boolean Readable= false;
-    private FileOutputStream fstream;
-    private FirebaseFirestore firebaseFirestore;
-    private CollectionReference collectionReference;
-    private FirebaseAuth FireAuth;
+
 
     private ArrayList<CameraStation> CStations= new ArrayList<>();
-    private Member mem;
-    private String Org;
 
-    private int count;
-    private int size;
 
 
     @Override
@@ -114,6 +106,7 @@ public class Station_List extends AppCompatActivity implements View.OnClickListe
         Intent i= new Intent(getApplication().getApplicationContext(), Expand.class);
 
         i.putExtra("stationz",selectiion);
+        i.putExtra("pathRecord",CPathList.get(pos));
         startActivity(i);
 
     }
@@ -121,8 +114,11 @@ public class Station_List extends AppCompatActivity implements View.OnClickListe
 
 
     //SationAsyncTask would update this
-    public void updateStationList(ArrayList<CameraStation> s){
+    public void updateStationList(ArrayList<CameraStation> s,ArrayList<String> s2){
+        CStationArrayList.clear();
         CStationArrayList.addAll(s);
+        CPathList.clear();
+        CPathList.addAll(s2);
     }
 
     //after list was already update, it create the adapter, put the list and show
