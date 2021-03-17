@@ -23,6 +23,7 @@ public class StationAsyncTaskA extends AsyncTask<String, Void, String> {
     private FirebaseAuth FireAuth;
 
     private ArrayList<CameraStation> CStations= new ArrayList<>();
+    private ArrayList<String> paths= new ArrayList<>();
     private Member mem;
     private String Org;
     private static final String TAG = "StationAsyncTask";
@@ -34,8 +35,9 @@ public class StationAsyncTaskA extends AsyncTask<String, Void, String> {
     StationAsyncTaskA(Station_List li,String stud){listFragment=li; study=stud;}
 
     protected void update(){
-        listFragment.updateStationList(CStations);
+        listFragment.updateStationList(CStations,paths);
         listFragment.updateList();
+
     }
 
 
@@ -66,6 +68,7 @@ public class StationAsyncTaskA extends AsyncTask<String, Void, String> {
                                 size = task.getResult().size();
                                 Log.e("size", ""+size);
                                 for (DocumentSnapshot objectDocumentSnapshot: task.getResult()){
+                                    paths.add(objectDocumentSnapshot.getReference().getPath());
                                     CameraStation stat = objectDocumentSnapshot.toObject(CameraStation.class);
                                     CStations.add(stat);
                                     count++;
