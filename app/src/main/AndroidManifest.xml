@@ -38,6 +38,7 @@
         <activity android:name=".RegisterSpinner1" />
         <activity android:name=".RegisterSpinner2" />
         <activity android:name=".RegisterSpinner0" />
+        <activity android:name=".Rebait_List"></activity>
         <activity android:name=".ForgetPassword"></activity>
         <activity android:name=".PreyExpand" />
         <activity android:name=".Add_Prey" />
