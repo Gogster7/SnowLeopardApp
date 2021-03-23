@@ -17,9 +17,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,8 +39,28 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.maps.model.RoundCap;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
+
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 public class GoogleMapActivity extends AppCompatActivity implements  OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener, GoogleMap.OnMarkerDragListener {
 
@@ -60,6 +82,8 @@ public class GoogleMapActivity extends AppCompatActivity implements  OnMapReadyC
     private double longitudeD;
     private double latitudeD;
     private double elevationD;
+    private FirebaseAuth fAuth;
+    private FirebaseFirestore db;
 
 
     private Marker currentLocation;
@@ -86,8 +110,20 @@ public class GoogleMapActivity extends AppCompatActivity implements  OnMapReadyC
     private double ElevationInputD;
 
     private LatLng tempLatLng;
+    private LatLng nTempLatLng;
     private Button saveInput;
     private Button mapDownload;
+    private Button markerDownload;
+    private Marker selectMarker;
+    private String tempMarkerName="";
+
+    private CollectionReference collectionReference;
+    private int count;
+    private int size;
+    private Member mem;
+    FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
+
+    private ArrayList<org.kashmirworldfoundation.snowleopardapp.Marker> downloadMarkerList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,8 +133,9 @@ public class GoogleMapActivity extends AppCompatActivity implements  OnMapReadyC
 
         r=findViewById(R.id.radioButtonCurrentLID);
         r2=findViewById(R.id.radioButtonCurrentOrganizationLID2);
-        r3=findViewById(R.id.radioButtonCurrentPotentialLID);
-
+        fAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+        collectionReference = db.collection("Marker");
 
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -111,11 +148,10 @@ public class GoogleMapActivity extends AppCompatActivity implements  OnMapReadyC
 
         locationList=new ArrayList<>();
         setLocationList=new ArrayList<>();
+        downloadMarkerList=new ArrayList<>();
         LatitudeInput=findViewById(R.id.MapLatitudeInputId);
         LongitudeInput=findViewById(R.id.MapLongitudeInputId);
         ElevationInput=findViewById(R.id.MapElevationInputId);
-
-
         saveInput=findViewById(R.id.MapSetInPutId);
         saveInput.setOnClickListener(new Button.OnClickListener(){
             @Override
@@ -133,6 +169,18 @@ public class GoogleMapActivity extends AppCompatActivity implements  OnMapReadyC
 
             }
         });
+
+        markerDownload=findViewById(R.id.downloadMarkerId);
+        markerDownload.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                downloadMarker();
+
+
+            }
+        });
+
+
 
     }
     private void mapStyleSet() {
@@ -186,9 +234,6 @@ public class GoogleMapActivity extends AppCompatActivity implements  OnMapReadyC
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        //mMap.animateCamera(CameraUpdateFactory.zoomTo(16.0f));
-        //zooming = true;
-
         mMap.setBuildingsEnabled(true);
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.getUiSettings().setMapToolbarEnabled(true);
@@ -261,11 +306,18 @@ public class GoogleMapActivity extends AppCompatActivity implements  OnMapReadyC
     {
         if(flagL==1){
             r2.setChecked(true);
+            for(int i=0;i<setLocationList.size();i++){
+                setLocationList.get(i).setVisible(true);
+            }
+
             //need to change to organization
             //currentLocation.setVisible(true);
             flagL--;
         }else{
             r2.setChecked(false);
+            for(int i=0;i<setLocationList.size();i++){
+                setLocationList.get(i).setVisible(false);
+            }
             //need to change to organization
             //currentLocation.setVisible(false);
             flagL=1;
@@ -295,11 +347,41 @@ public class GoogleMapActivity extends AppCompatActivity implements  OnMapReadyC
     //for info window
     @Override
     public void onInfoWindowClick(Marker marker) {
-        Toast.makeText(this, "Info window clicked",
-                Toast.LENGTH_SHORT).show();
-        Log.d(TAG, "onInfoWindowClick: !!!!");
-    }
 
+        // 1. Instantiate an <code><a href="/reference/android/app/AlertDialog.Builder.html">AlertDialog.Builder</a></code> with its constructor
+        AlertDialog.Builder builder = new AlertDialog.Builder(GoogleMapActivity.this);
+        builder.setTitle("Do you want to delete this marker?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        String markerId = marker.getTag().toString();
+                        marker.remove();
+
+                      db.collection("Marker").document(markerId)
+                                .delete()
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Error deleting document", e);
+                                    }
+                                });
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
+                        // Do nothing here
+                    }
+                });
+        builder.create();
+        builder.show();
+
+    }
 
 
 
@@ -307,10 +389,6 @@ public class GoogleMapActivity extends AppCompatActivity implements  OnMapReadyC
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         locationListener = new MyLocListener(this);
-        ;
-
-
-
 
         //minTime	    long: minimum time interval between location updates, in milliseconds
         //minDistance	float: minimum distance between location updates, in meters
@@ -365,41 +443,62 @@ public class GoogleMapActivity extends AppCompatActivity implements  OnMapReadyC
         LongitudeInputD=Double.parseDouble(LongitudeInput.getText().toString());
         ElevationInputD=Double.parseDouble(ElevationInput.getText().toString());
         tempLatLng = new LatLng(LatitudeInputD, LongitudeInputD);
-        //add marker and get the marker
-        Marker tempLocation=mMap.addMarker(new MarkerOptions().alpha(0.5f).position(tempLatLng).title("My Current Location").snippet(latitudeD+" , "+longitudeD).icon(BitmapDescriptorFactory
-                .defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
-        tempLocation.setDraggable(true);
+        String MarkerId= UUID.randomUUID().toString();
 
-//        Marker tempLocation=addMarker(mMap,latitudeD,longitudeD,"title")
-        setLocationList.add(tempLocation);
+        //get the marker title
+        AlertDialog.Builder builder = new AlertDialog.Builder(GoogleMapActivity.this);
 
-        Log.d(TAG, "getInputLocation: !!!!"+tempLocation);
+        final EditText markerName = new EditText(GoogleMapActivity.this);
+        markerName.setHint("Marker Name");
 
+        // Build the dialog box
+        builder.setTitle("Add new marker")
+                .setView(markerName)
+                .setMessage("Please enter the marker name.")
+                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        tempMarkerName = markerName.getText().toString();
+                        //add marker and get the marker
+                        Marker tempLocation=mMap.addMarker(new MarkerOptions().alpha(0.5f).position(tempLatLng).title(tempMarkerName).snippet(latitudeD+" , "+longitudeD).icon(BitmapDescriptorFactory
+                                .defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
 
+                        tempLocation.setDraggable(true);
+                        tempLocation.setTag(MarkerId);
+
+                        setLocationList.add(tempLocation);
+
+                        Log.d(TAG, "getInputLocation: !!!!"+tempLocation);
+
+                        saveToFirebase(tempLocation.getTag().toString());
+
+                    }
+                })
+                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+        // Display the dialog
+        builder.show();
     }
 
     public void addInputLocation(){
         Marker tempLocation=mMap.addMarker(new MarkerOptions().alpha(0.5f).position(tempLatLng).title("My Current Location").snippet(latitudeD+" , "+longitudeD));
-
-
-        // final boolean add = setLocationList.add(new Marker().setPosition(tempLongitude));
     }
 
     public void updateLocation(Location location) {
-        ///////
         latitudeD=location.getLatitude();
         longitudeD=location.getLongitude();
         GetElevationGoogleMaps getElecation=new GetElevationGoogleMaps();
         elevationD=getElecation.GetElevation(longitudeD,latitudeD);
-        Log.d(TAG, "updateLocation: !!"+latitudeD);
 
         LatitudeInput.setText(String.valueOf(latitudeD));
         LongitudeInput.setText(String.valueOf(longitudeD));
         ElevationInput.setText(String.valueOf(elevationD));
 
-
-
-        ///////
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
         latLonHistory.add(latLng); // Add the LL to our location history
 
@@ -438,6 +537,8 @@ public class GoogleMapActivity extends AppCompatActivity implements  OnMapReadyC
     public void onMarkerDragStart(Marker marker) {
         LatLng position=marker.getPosition();
 
+
+
         Log.d(getClass().getSimpleName(), String.format("Drag from %f:%f",
                 position.latitude,
                 position.longitude));
@@ -468,7 +569,73 @@ public class GoogleMapActivity extends AppCompatActivity implements  OnMapReadyC
         Double TempElevationD=getElecation.GetElevation(position.longitude,position.latitude);
         ElevationInput.setText(String.valueOf(TempElevationD));
 
+
+        org.kashmirworldfoundation.snowleopardapp.Marker newMarker= new org.kashmirworldfoundation.snowleopardapp.Marker();
+        newMarker.setAuthor(user.getUid());
+        newMarker.setLatitude(String.valueOf(marker.getPosition().latitude));
+        newMarker.setLongitude(String.valueOf(marker.getPosition().longitude));
+        newMarker.setElevation(String.valueOf(TempElevationD));
+
+        newMarker.setOrg("Organization/seT4g7oPQmtwncKuY5kV");
+        newMarker.setUid(marker.getTag().toString());
+        newMarker.setMarkerName(marker.getTitle());
+
+        db.collection("Marker").document(marker.getTag().toString())
+                .set(newMarker, SetOptions.merge());
     }
+
+    public void downloadMarker(){
+        db.collection("Member").document(fAuth.getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()){
+                    mem=task.getResult().toObject(Member.class);
+                    collectionReference.whereEqualTo("org",mem.getOrg()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()){
+                                size = task.getResult().size();
+                                for (DocumentSnapshot objectDocumentSnapshot: task.getResult()){
+
+                                    org.kashmirworldfoundation.snowleopardapp.Marker marker = objectDocumentSnapshot.toObject(org.kashmirworldfoundation.snowleopardapp.Marker.class);
+
+                                    downloadMarkerList.add(marker);
+                                    count++;
+                                    if(count==size){
+//                                        update();
+                                        Log.d(TAG, "Download success: !!!!"+size);
+                                        afterDownloadMarker(downloadMarkerList);
+
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
+    }
+
+    public void afterDownloadMarker(ArrayList<org.kashmirworldfoundation.snowleopardapp.Marker> downloadMarkerList){
+        for(org.kashmirworldfoundation.snowleopardapp.Marker m:downloadMarkerList){
+           Double markerLat= Double.parseDouble(m.getLatitude());
+           Double markerLon= Double.parseDouble(m.getLongitude());
+
+            nTempLatLng = new LatLng(markerLat, markerLon);
+            Marker tempLocation=mMap.addMarker(new MarkerOptions().alpha(0.5f).position(nTempLatLng).title(m.getMarkerName()).snippet(markerLat+" , "+markerLon).icon(BitmapDescriptorFactory
+                    .defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+
+
+
+            tempLocation.setDraggable(true);
+            tempLocation.setTag(m.getUid());
+
+            setLocationList.add(tempLocation);
+        }
+    }
+
+
 
     private Marker addMarker(GoogleMap map, double lat, double lon,
                              int title, int snippet) {
@@ -476,7 +643,31 @@ public class GoogleMapActivity extends AppCompatActivity implements  OnMapReadyC
                 .title(getString(title))
                 .snippet(getString(snippet))
                 .draggable(true));
+
+
         return tempLocation;
+    }
+
+    private void saveToFirebase(String markerId){
+
+        final Member mem =new Member();
+
+        db.collection("Member").whereEqualTo("email",user.getEmail());
+
+        Log.d(TAG, "saveToFirebase: initial"+user.getUid());
+
+
+        org.kashmirworldfoundation.snowleopardapp.Marker newMarker= new org.kashmirworldfoundation.snowleopardapp.Marker();
+        newMarker.setAuthor(user.getUid());
+        newMarker.setLatitude(LatitudeInput.getText().toString());
+        newMarker.setLongitude(LongitudeInput.getText().toString());
+        newMarker.setElevation(ElevationInput.getText().toString());
+        newMarker.setOrg("Organization/seT4g7oPQmtwncKuY5kV");
+        newMarker.setUid(markerId);
+        newMarker.setMarkerName(tempMarkerName);
+
+        db.collection("Marker").document(markerId)
+                .set(newMarker, SetOptions.merge());
     }
 
 
