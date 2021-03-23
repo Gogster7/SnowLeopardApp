@@ -430,7 +430,7 @@ public class Expand extends AppCompatActivity implements View.OnClickListener {
     private RadioGroup camGroup; // camera functional
     private Date currentTime;
     public String AuthorS;
-    private RecyclerView recyclerView;
+   
     public String pathRecord;
     private ArrayList<Rebait> CRebaitArrayList= new ArrayList<>();
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -463,7 +463,7 @@ public class Expand extends AppCompatActivity implements View.OnClickListener {
         pic1 = findViewById(R.id.stationPic1);
         pic2 = findViewById(R.id.stationPic2);
         rebaitBtn = findViewById(R.id.rebaitBtn);
-        recyclerView=findViewById(R.id.RecyclerRebait);
+        
         Rebaitbtn=findViewById(R.id.titleRebait);
         // Matching User Listener to Takedown button if form does not belong to current user
 
