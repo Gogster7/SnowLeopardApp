@@ -51,7 +51,7 @@
             android:id="@+id/radioButtonCurrentOrganizationLID2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="false"
+            android:checked="true"
             android:onClick="radioClickedOrganization"
             android:text="Organization Location"
             android:textSize="14sp"
