@@ -54,6 +54,34 @@
         mapbox:layout_constraintEnd_toEndOf="parent"
         mapbox:srcCompat="@drawable/ic_swap_horiz_white_24dp" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/downMarkerButtonid"
+        android:layout_width="179dp"
+        android:layout_height="152dp"
+        android:layout_above="@+id/floatingActionButton"
+
+
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="25dp"
+        android:layout_marginBottom="16dp"
+        mapbox:layout_constraintBottom_toBottomOf="parent"
+        mapbox:layout_constraintEnd_toEndOf="parent"
+        mapbox:srcCompat="@drawable/ic_markeradd" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/deleteMarkerButtonid"
+        android:layout_width="179dp"
+        android:layout_height="152dp"
+        android:layout_above="@+id/floatingActionButton"
+
+
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="25dp"
+        android:layout_marginBottom="90dp"
+        mapbox:layout_constraintBottom_toBottomOf="parent"
+        mapbox:layout_constraintEnd_toEndOf="parent"
+        mapbox:srcCompat="@drawable/ic_delete_marker" />
+
     <com.mapbox.mapboxsdk.maps.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
