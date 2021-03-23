@@ -34,7 +34,7 @@
             android:id="@+id/radioButtonCurrentLID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="392dp"
+            android:layout_marginTop="428dp"
             android:background="#7EFFEB3B"
             android:backgroundTintMode="src_in"
             android:checked="true"
@@ -43,7 +43,7 @@
             android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.033"
+            app:layout_constraintHorizontal_bias="0.028"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/map" />
 
@@ -61,21 +61,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/radioButtonCurrentLID" />
 
-        <RadioButton
-            android:id="@+id/radioButtonCurrentPotentialLID"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#C18484"
-            android:checked="false"
-            android:onClick="radioClickedPotential"
-            android:text="Potential Location"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.038"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/radioButtonCurrentOrganizationLID2" />
-
         <Button
             android:id="@+id/downloadMapButoonId"
             android:layout_width="94dp"
@@ -85,6 +70,18 @@
             android:textSize="10sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.936"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/downloadMarkerId"
+            android:layout_width="94dp"
+            android:layout_height="43dp"
+            android:layout_marginTop="8dp"
+            android:text="Download markers"
+            android:textSize="8sp"
+            app:layout_constraintEnd_toStartOf="@+id/downloadMapButoonId"
+            app:layout_constraintHorizontal_bias="0.062"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -191,8 +188,8 @@
 
     <Button
         android:id="@+id/mapSetCurrentId"
-        android:layout_width="93dp"
-        android:layout_height="52dp"
+        android:layout_width="110dp"
+        android:layout_height="55dp"
         android:text="Set Current"
         android:textSize="11sp"
         app:layout_constraintEnd_toEndOf="parent"
