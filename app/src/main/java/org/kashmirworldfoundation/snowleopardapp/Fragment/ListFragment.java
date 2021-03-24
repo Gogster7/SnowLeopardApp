@@ -3,6 +3,7 @@ package org.kashmirworldfoundation.snowleopardapp.Fragment;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -21,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -200,7 +202,27 @@ public class ListFragment extends Fragment implements View.OnClickListener  {
         tv.setTextColor(0xFFFFFFFF);
         toast.show();
     }
+    public static void studyMiss(ArrayList<String> Studies,ListFragment li){
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(li.getContext());
+        alertDialog.setTitle("Attention");
+        String out= "Studies ";
+        for (String stud:Studies){
+            out=out+stud+", ";
+        }
+        out+="Scheduled to be deleted in a week or less";
+        alertDialog.setMessage(out);
 
+        alertDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+
+
+            }
+        });
+        AlertDialog alert = alertDialog.create();
+        alert.show();
+    }
 
 
 
