@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.util.Pair;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,6 +23,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 
 import org.kashmirworldfoundation.snowleopardapp.CameraStation;
+import org.kashmirworldfoundation.snowleopardapp.DeleteAsyncTask;
 import org.kashmirworldfoundation.snowleopardapp.Fragment.ListFragment;
 import org.kashmirworldfoundation.snowleopardapp.Member;
 import org.kashmirworldfoundation.snowleopardapp.Org;
@@ -30,6 +32,7 @@ import org.kashmirworldfoundation.snowleopardapp.Study;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -68,8 +71,14 @@ public class StationAsyncTask extends AsyncTask<String, Void, String> {
         catch (Exception e){
             //Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
+        Calendar c= Calendar.getInstance();
+        Date currentTime = c.getTime();
 
-
+        c.add(Calendar.DATE,7);
+        Date prevTime=c.getTime();
+        final Date[] end1 = new Date[1];
+        final ArrayList<Pair<String,String> >paths=new ArrayList();
+        final ArrayList<String> stations=new ArrayList<>();
         firebaseFirestore.collection("Member").document(FireAuth.getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -82,10 +91,27 @@ public class StationAsyncTask extends AsyncTask<String, Void, String> {
                                 size = task.getResult().size();
                                 for (DocumentSnapshot objectDocumentSnapshot: task.getResult()){
                                     Study stat = objectDocumentSnapshot.toObject(Study.class);
+                                    end1[0] =stat.getEnd().toDate();
+                                    if(end1[0].compareTo(prevTime)>0){
+                                        stations.add(stat.getTittle());
+                                    }
+                                    if(end1[0].compareTo(currentTime)>0){
+                                        Log.e(TAG, stat.getTittle()+"/n"+end1[0].toString()+"/n"+currentTime.toString() );
+                                        paths.add(new Pair<>(objectDocumentSnapshot.getReference().getPath(),stat.getTittle()));
+                                    }
                                     CStations.add(stat);
                                     count++;
                                     if(count==size){
                                         update();
+                                        if(stations.isEmpty()==false){
+                                            listFragment.studyMiss(stations,listFragment);
+                                        }
+                                        if (paths.isEmpty()==false){
+                                            for(Pair<String,String> stuff: paths){
+                                                new DeleteAsyncTask(stuff.first,stuff.second,mem).execute();
+                                            }
+
+                                        }
                                     }
                                 }
                             }
