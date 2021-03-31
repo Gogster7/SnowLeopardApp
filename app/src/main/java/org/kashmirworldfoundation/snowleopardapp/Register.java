@@ -49,6 +49,7 @@ public class Register extends AppCompatActivity {
     FirebaseFirestore db;
     Boolean mUser=false;
     StorageReference fStore;
+    ArrayList<String> studies;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -204,58 +205,116 @@ public class Register extends AppCompatActivity {
         editor.putInt("CamNum",0);
         editor.apply();
     }
+    private void saveStudies(ArrayList<String> studies){
+        SharedPreferences sharedPreferences = Register.this.getSharedPreferences("user",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor =sharedPreferences.edit();
+
+
+        Gson gson = new Gson();
+        String json =gson.toJson(studies);
+        editor.putString("studies",json);
+        editor.apply();
+    }
+
     private void register(String organization, String country, String region){
         final Member mem =new Member();
         final String email = mEmail.getText().toString().trim();
         final String password = mPassword.getText().toString().trim();
         final String reEnter = mReEnter.getText().toString().trim();
         final String fullName = mFullName.getText().toString().trim();
-
+        studies=new ArrayList<>();
+        studies.add("Pick a Study");
         final String phoneNumber = mPhonenumber.getText().toString().trim();
         final String job = mJobTitle.getText().toString().trim();
-        fAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()){
-                    db.collection("Organization").whereEqualTo("orgName",organization).
-                            whereEqualTo("orgCountry", country).whereEqualTo("orgRegion",region).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()){
-                                for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
-                                    mem.setOrg(documentSnapshot.getReference().getPath());
-                                    Org org = documentSnapshot.toObject(Org.class);
-                                    Forg = org;
 
-                                }
-                                mem.setAdmin(Boolean.FALSE);
-                                mem.setEmail(email);
-                                mem.setFullname(fullName);
-                                mem.setJob(job);
-                                mem.setPhone(phoneNumber);
-                                mem.setProfile("profile/kwflogo.jpg");
-                                FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
-                                db.collection("Member").document(user.getUid()).set(mem).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        saveMember(mem, user.getUid());
-                                        saveCamNum();
-                                        sendMessage(fullName,phoneNumber,email,job,Forg.getOrgEmail());
-                                        startActivity(new Intent(getApplicationContext(),MainActivity.class));
+            fAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+                        db.collection("Organization").whereEqualTo("orgName", organization).
+                                whereEqualTo("orgCountry", country).whereEqualTo("orgRegion", region).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                                        mem.setOrg(documentSnapshot.getReference().getPath());
+                                        Org org = documentSnapshot.toObject(Org.class);
+                                        Forg = org;
 
                                     }
+                                    mem.setAdmin(Boolean.FALSE);
+                                    mem.setEmail(email);
+                                    mem.setFullname(fullName);
+                                    mem.setJob(job);
+                                    mem.setPhone(phoneNumber);
+                                    mem.setProfile("profile/kwflogo.jpg");
+                                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                                    db.collection("Member").document(user.getUid()).set(mem).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            saveMember(mem, user.getUid());
+                                            saveCamNum();
+                                            sendMessage(fullName, phoneNumber, email, job, Forg.getOrgEmail());
+                                            db.collection("Study").whereEqualTo("org", mem.getOrg()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                    if (task.isSuccessful()) {
+                                                        for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                                                            Study study = documentSnapshot.toObject(Study.class);
+                                                            studies.add(study.getTittle());
+                                                        }
+                                                        if (studies.size() == 1) {
+                                                            studies.set(0, "No Studies");
+                                                        }
+                                                        saveStudies(studies);
+                                                    /*
+                                                    Intent i= new Intent(getApplicationContext(),MainActivity.class);
+                                                    Bundle b = new Bundle();
+                                                    b.putString("Studies",studies.toString());
+
+                                                    i.putExtras(b);
+                                                    Toast.makeText(Login.this,"Welcome", Toast.LENGTH_LONG).show();
+                                                    startActivity(i);
+
+                                                    */
+                                                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
 
 
-                                });
+                                                    } else {
+                                                        studies.set(0, "No Studies");
+                                                        saveStudies(studies);
+                                                    /*
+                                                    Intent i= new Intent(getApplicationContext(),MainActivity.class);
+                                                    Bundle b = new Bundle();
+                                                    b.putString("Studies",studies.toString());
+
+                                                    i.putExtras(b);
+                                                    Toast.makeText(Login.this,"Welcome", Toast.LENGTH_LONG).show();
+                                                    startActivity(i);
+
+                                                     */
+                                                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+
+                                                    }
+                                                }
+                                            });
+
+
+                                        }
+
+
+                                    });
+
+                                }
+
 
                             }
-
-
-                        }
-                    });
+                        });
+                    }
                 }
-            }
-        });
 
+            });
+        }
     }
-}
+
+
