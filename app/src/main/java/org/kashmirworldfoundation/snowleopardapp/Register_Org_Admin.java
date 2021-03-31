@@ -25,6 +25,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
+
 
 public class Register_Org_Admin extends AppCompatActivity {
     EditText mEmail, mPassword, mPhone, mJob,mName;
@@ -32,6 +34,7 @@ public class Register_Org_Admin extends AppCompatActivity {
     FirebaseAuth fAuth2;
     FirebaseFirestore db2;
     FirebaseStorage St2;
+    ArrayList<String> studies;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,10 +103,29 @@ public class Register_Org_Admin extends AppCompatActivity {
         final String Orgname =intent.getStringExtra("Orgname");
         final String Region = intent.getStringExtra("Region");
         final String Country = intent.getStringExtra("Country");
+        if(Aname.isEmpty()){
+            emptytoast(getApplicationContext());
+        }
+        if(Aemail.isEmpty()){
+            emptytoast(getApplicationContext());
+        }
+        if(Apassword.isEmpty()){
+            emptytoast(getApplicationContext());
+        }
+        if(Ajob.isEmpty()){
+            emptytoast(getApplicationContext());
+        }
+        if(Aphone.isEmpty()){
+            emptytoast(getApplicationContext());
+        }
+        if (Ajob.isEmpty()){
+            emptytoast(getApplicationContext());
+        }
         //Orgname= capitalizeFirstLetter(Orgname);
         //Region = capitalizeFirstLetter(Region);
         //Country = capitalizeFirstLetter(Country);
         final Member memA =new Member();
+
         fAuth2.createUserWithEmailAndPassword(Aemail,Apassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -113,6 +135,8 @@ public class Register_Org_Admin extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()){
+                                studies=new ArrayList<>();
+                                studies.add("Pick a Study");
                                 for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
                                     Toast.makeText(Register_Org_Admin.this,"Org Found", Toast.LENGTH_SHORT).show();
                                     memA.setOrg(documentSnapshot.getReference().getPath());
@@ -129,9 +153,14 @@ public class Register_Org_Admin extends AppCompatActivity {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if(task.isSuccessful()){
+                                            saveMember(memA,user.getUid());
                                             Toast.makeText(Register_Org_Admin.this,"User Created", Toast.LENGTH_SHORT).show();
                                             saveAdmin();
-                                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+
+                                            studies.set(0, "No Studies");
+                                            saveStudies(studies);
+                                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+
                                         }
                                     }
                                 });
@@ -142,6 +171,35 @@ public class Register_Org_Admin extends AppCompatActivity {
                 }
             }
         });
+    }
+    private void emptytoast(Context cont){
+        Toast.makeText(cont,"Fields are empty",Toast.LENGTH_LONG).show();
+    }
+    private void saveMember (Member mem,String uid){
+        SharedPreferences sharedPreferences = Register_Org_Admin.this.getSharedPreferences("user", Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json =gson.toJson(mem);
+        editor.putString("user",json);
+        editor.putString("uid",uid);
+        editor.apply();
+    }
+    private void saveCamNum(){
+        SharedPreferences sharedPreferences = Register_Org_Admin.this.getSharedPreferences("camstations",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("CamNum",0);
+        editor.apply();
+    }
+    private void saveStudies(ArrayList<String> studies){
+        SharedPreferences sharedPreferences = Register_Org_Admin.this.getSharedPreferences("user",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor =sharedPreferences.edit();
+
+
+        Gson gson = new Gson();
+        String json =gson.toJson(studies);
+        editor.putString("studies",json);
+        editor.apply();
     }
     private void saveAdmin(){
         SharedPreferences sharedPreferences = Register_Org_Admin.this.getSharedPreferences("Admin", Context.MODE_PRIVATE);
