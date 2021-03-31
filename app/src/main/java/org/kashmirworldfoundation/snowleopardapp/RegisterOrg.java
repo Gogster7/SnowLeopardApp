@@ -146,6 +146,7 @@ public class RegisterOrg extends AppCompatActivity implements AdapterView.OnItem
                                                 Toast.makeText(RegisterOrg.this,"Organization Sucesfully Created",Toast.LENGTH_LONG).show();
                                                 Log.e("Tag", "Sucess 1");
                                                 saveAdmin();
+                                                sendMessage(Orgname,phone,website,country,region);
                                                 startActivity(i);
                                             }
                                             else{
@@ -171,7 +172,7 @@ public class RegisterOrg extends AppCompatActivity implements AdapterView.OnItem
 
 
 //Fire that second activity
-                //sendMessage(Orgname,phone,website,country);
+
 
 
 
@@ -214,11 +215,12 @@ public class RegisterOrg extends AppCompatActivity implements AdapterView.OnItem
 
             public void run() {
                 try {
+                    //"aliyah@kashmirworldfoundation.org"
                     GMailSender sender = new GMailSender("adm1nkwf1675@gmail.com", "Chowder1675!");
                     sender.sendMail(subject,
                             Body,
-                            "adm1nkwf1675@gmail.com",
-                            "aliyah@kashmirworldfoundation.org");
+                            "adm1nkwf1675@gmail.com","aliyah@kashmirworldfoundation.org"
+                            );
                     dialog.dismiss();
                 } catch (Exception e) {
                     Log.e("mylog", "Error: " + e.getMessage());
