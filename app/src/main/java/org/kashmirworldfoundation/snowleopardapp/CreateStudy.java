@@ -1,11 +1,14 @@
 package org.kashmirworldfoundation.snowleopardapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -15,17 +18,23 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class CreateStudy extends AppCompatActivity {
     private EditText TittleInput;
     private EditText LocationInput;
     private EditText MissionInput;
-    private EditText StartInput;
-    private EditText EndInput;
+    private TextView StartInput;
+    private TextView EndInput;
     private Button Post;
     private TextView Back;
     private FirebaseFirestore db;
+    private Button pickstartdateid;
+    private Button studyDateEndLabel;
+    String start = "";
+    String end = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,11 +42,13 @@ public class CreateStudy extends AppCompatActivity {
         TittleInput=findViewById(R.id.StudyTittleInput);
         LocationInput=findViewById(R.id.StudyLocationInput);
         MissionInput=findViewById(R.id.StudyMissionInput);
-        StartInput=findViewById(R.id.StudyDateStartInput);
-        EndInput=findViewById(R.id.StudyDateEndInput);
+        StartInput=findViewById(R.id.studyDateStart);
+        EndInput=findViewById(R.id.studyDateEndLabel);
         Post = findViewById(R.id.StudyPostBtn);
         Back= findViewById(R.id.StudyBack);
         db= FirebaseFirestore.getInstance();
+        pickstartdateid = findViewById(R.id.pickstartdateid);
+        studyDateEndLabel = findViewById(R.id.pickenddateid);
 
         Back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,8 +63,7 @@ public class CreateStudy extends AppCompatActivity {
                 study.setTittle(TittleInput.getText().toString());
                 study.setLocation(LocationInput.getText().toString());
                 study.setMission(MissionInput.getText().toString());
-                String start =StartInput.getText().toString();
-                String end =EndInput.getText().toString();
+
                 Date date1;
                 Date date2;
                 Timestamp ts = null;
@@ -61,6 +71,7 @@ public class CreateStudy extends AppCompatActivity {
                 Utils utils= new Utils();
                 Member me=utils.loaduser(getApplicationContext());
                 study.setOrg(me.getOrg());
+
                 try {
                     date1=new SimpleDateFormat("dd/MM/yyyy").parse(start);
                     date2= new SimpleDateFormat("dd/MM/yyyy").parse(end);
@@ -78,9 +89,67 @@ public class CreateStudy extends AppCompatActivity {
                     study.setEnd(ts2);
                 }
                 db.collection("Study").add(study);
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+
+//                Intent i= new Intent(getApplicationContext(), MainActivity.class);
+//
+//                i.putExtra("Study",study);
+//                startActivity(i);
+
+            }
+        });
+
+        pickstartdateid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                datePickerStart(v);
+            }
+        });
+
+        studyDateEndLabel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                datePickerEnd(v);
             }
         });
     }
+
+
+
+    public void datePickerStart(View v){
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        new DatePickerDialog(v.getContext(), new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int day) {
+                String dateTime = String.valueOf(year)+"/"+String.valueOf(month+1)+"/"+String.valueOf(day);
+//                StartInput.setText(dateTime);
+                start=String.valueOf(day)+"/"+String.valueOf(month+1)+"/"+String.valueOf(year);
+                StartInput.setText(start);
+
+            }
+
+        }, year, month, day).show();
+    }
+
+    public void datePickerEnd(View v){
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        new DatePickerDialog(v.getContext(), new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int day) {
+//                String dateTime = String.valueOf(year)+"/"+String.valueOf(month+1)+"/"+String.valueOf(day);
+                end=String.valueOf(day)+"/"+String.valueOf(month+1)+"/"+String.valueOf(year);
+                EndInput.setText(end);
+            }
+
+        }, year, month, day).show();
+    }
+
+
+
 
 }
