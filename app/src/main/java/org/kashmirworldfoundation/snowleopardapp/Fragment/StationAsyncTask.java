@@ -30,6 +30,7 @@ import org.kashmirworldfoundation.snowleopardapp.Org;
 import org.kashmirworldfoundation.snowleopardapp.Study;
 
 
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -92,10 +93,10 @@ public class StationAsyncTask extends AsyncTask<String, Void, String> {
                                 for (DocumentSnapshot objectDocumentSnapshot: task.getResult()){
                                     Study stat = objectDocumentSnapshot.toObject(Study.class);
                                     end1[0] =stat.getEnd().toDate();
-                                    if(end1[0].compareTo(prevTime)>0){
+                                    if(end1[0].compareTo(prevTime)<0){
                                         stations.add(stat.getTittle());
                                     }
-                                    if(end1[0].compareTo(currentTime)>0){
+                                    if(end1[0].compareTo(currentTime)<0){
                                         Log.e(TAG, stat.getTittle()+"/n"+end1[0].toString()+"/n"+currentTime.toString() );
                                         paths.add(new Pair<>(objectDocumentSnapshot.getReference().getPath(),stat.getTittle()));
                                     }
