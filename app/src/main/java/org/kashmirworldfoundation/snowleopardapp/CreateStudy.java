@@ -90,10 +90,10 @@ public class CreateStudy extends AppCompatActivity {
                 }
                 db.collection("Study").add(study);
 
-//                Intent i= new Intent(getApplicationContext(), MainActivity.class);
-//
-//                i.putExtra("Study",study);
-//                startActivity(i);
+               Intent i= new Intent(getApplicationContext(), MainActivity.class);
+
+               i.putExtra("Study",study);
+               startActivity(i);
 
             }
         });
