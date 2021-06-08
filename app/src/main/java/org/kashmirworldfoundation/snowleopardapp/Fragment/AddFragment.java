@@ -169,9 +169,11 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
         String StudiesS = getActivity().getIntent().getStringExtra("Studies");
         StudyArray=new ArrayList<>(Arrays.asList(StudiesS.split(",")));
         */
+        StudyArray = new ArrayList<>();
         StudyArray=loadStudies();
 
         change();
+
 
         dataAdapter= new ArrayAdapter(this.getActivity(),android.R.layout.simple_spinner_item, StudyArray);
 
@@ -272,9 +274,6 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
                             }
                             dataAdapter.clear();
                             dataAdapter.addAll(studies);
-                        }
-                        else{
-
                         }
                     }
                 });
@@ -580,7 +579,7 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
         Log.d(TAG, "getInput; terrain: "+terrain+" habitat :"+habitat+" lureType : "+lureType+" substrate: "+substrate+" potential station :"+potential);
 
         //prevent some blank
-        if (stationId.equals("")||watershedid.equals("")||cameraId.equals("")||terrain==null||habitat==null||lureType==null||substrate==null||potential==null){
+        if (stationId.equals("")){
             createToast(getContext(),"Station Id needed",Toast.LENGTH_LONG);
             return false;
         }

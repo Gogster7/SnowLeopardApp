@@ -90,18 +90,22 @@ public class StationAsyncTask extends AsyncTask<String, Void, String> {
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()){
                                 size = task.getResult().size();
-                                for (DocumentSnapshot objectDocumentSnapshot: task.getResult()){
+                                for (DocumentSnapshot objectDocumentSnapshot: task.getResult()) {
                                     Study stat = objectDocumentSnapshot.toObject(Study.class);
-                                    end1[0] =stat.getEnd().toDate();
-                                    if(end1[0].compareTo(prevTime)<0){
-                                        stations.add(stat.getTittle());
+                                    if (stat != null && stat.getEnd() != null) {
+                                        end1[0] = stat.getEnd().toDate();
+                                        if (end1[0].compareTo(prevTime) < 0) {
+                                            stations.add(stat.getTittle());
+                                        }
+                                        if (end1[0].compareTo(currentTime) < 0) {
+                                            Log.e(TAG, stat.getTittle() + "/n" + end1[0].toString() + "/n" + currentTime.toString());
+                                            paths.add(new Pair<>(objectDocumentSnapshot.getReference().getPath(), stat.getTittle()));
+                                        }
+
+                                        CStations.add(stat);
+                                        count++;
                                     }
-                                    if(end1[0].compareTo(currentTime)<0){
-                                        Log.e(TAG, stat.getTittle()+"/n"+end1[0].toString()+"/n"+currentTime.toString() );
-                                        paths.add(new Pair<>(objectDocumentSnapshot.getReference().getPath(),stat.getTittle()));
-                                    }
-                                    CStations.add(stat);
-                                    count++;
+
                                     if(count==size){
                                         update();
                                         if(stations.isEmpty()==false){
