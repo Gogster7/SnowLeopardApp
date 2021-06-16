@@ -65,9 +65,9 @@
                 android:layout_width="122dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="Number of Pics"
+                android:text="Number of Pictures"
                 android:textColor="#a9a9a9"
-                android:textSize="15sp"
+                android:textSize="12sp"
                 android:textStyle="bold" />
 
             <TextView

@@ -20,7 +20,7 @@
         android:textColor="#FFFFFF"
         android:textSize="24dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/StudyTittleLabel" />
+        app:layout_constraintTop_toBottomOf="@+id/StudyTitleLabel" />
 
     <TextView
         android:id="@+id/createStudyLabel"
@@ -36,13 +36,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/StudyTittleLabel"
+        android:id="@+id/StudyTitleLabel"
         android:layout_width="wrap_content"
         android:layout_height="29dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="128dp"
         android:fontFamily="@font/aclonica"
-        android:text="Tittle"
+        android:text="Title"
         android:textColor="#FFFFFF"
         android:textSize="24dp"
         app:layout_constraintStart_toStartOf="parent"

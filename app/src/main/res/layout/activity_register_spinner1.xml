@@ -29,10 +29,10 @@
         android:layout_height="36dp"
         android:layout_marginBottom="24dp"
         android:fontFamily="@font/aclonica"
-        android:text="Choose Org"
+        android:gravity="center"
+        android:text="Choose Organization"
         android:textColor="#FAF5F7"
         android:textSize="18sp"
-        android:gravity ="center"
         app:layout_constraintBottom_toTopOf="@+id/RefreshSpin1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

@@ -99,34 +99,32 @@
         android:id="@+id/textView3"
         android:layout_width="66dp"
         android:layout_height="32dp"
+        android:layout_marginTop="16dp"
         android:elegantTextHeight="true"
         android:fontFamily="@font/aclonica"
         android:shadowColor="#B4B1B1"
         android:text="Login"
         android:textColor="#FFFF8D"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.26999998" />
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="288dp"
         android:layout_height="45dp"
+        android:layout_marginTop="32dp"
         android:elegantTextHeight="true"
         android:fontFamily="@font/aclonica"
         android:shadowColor="#B4B1B1"
         android:text="Snow Leopard"
         android:textColor="#FFFFFF"
         android:textSize="36sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.19999999" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ProgressBar
         android:id="@+id/progressBar"

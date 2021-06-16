@@ -12,7 +12,7 @@
         android:id="@+id/RegisterOrgB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Register Org"
+        android:text="Register Organization"
         android:textColor="#FAF5F7"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -23,12 +23,15 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="288dp"
-        android:layout_height="45dp"
+        android:layout_width="346dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
         android:elegantTextHeight="true"
         android:fontFamily="@font/aclonica"
         android:shadowColor="#B4B1B1"
-        android:text="Snow Leopard"
+        android:text="Wildlife GeoSnap"
         android:textColor="#FFFFFF"
         android:textSize="36sp"
         app:layout_constraintBottom_toTopOf="@+id/scrollView2"
@@ -132,7 +135,7 @@
                 android:backgroundTint="#FAFAFA"
                 android:ems="10"
                 android:fontFamily="@font/aclonica"
-                android:hint="ReEnter Password:"
+                android:hint="Re-enter Password:"
                 android:inputType="textPassword"
                 android:textColorHint="#F8F8F8" />
 

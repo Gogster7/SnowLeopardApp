@@ -88,11 +88,11 @@
             android:layout_below="@id/camGroup"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
-            android:fontFamily="@font/aclonica"
             android:layout_marginTop="10dp"
+            android:fontFamily="@font/aclonica"
             android:gravity="center"
-            android:text="Number of Pics Taken?"
-            android:textSize="30sp" />
+            android:text="Number of Pictures Taken?"
+            android:textSize="24sp" />
 
         <EditText
             android:id="@+id/picCountId"
