@@ -216,8 +216,8 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
                     fragmentView.findViewById(R.id.radioGroup05).setVisibility(View.VISIBLE);
                     fragmentView.findViewById(R.id.saveButtonId).setVisibility(View.VISIBLE);
                     fragmentView.findViewById(R.id.postbuttonCam).setVisibility(View.GONE);
-                    fragmentView.findViewById(R.id.createStationNetId).setVisibility(View.VISIBLE);
-                    fragmentView.findViewById(R.id.createStationNetStatusId).setVisibility(View.VISIBLE);
+                    fragmentView.findViewById(R.id.createStationNetId).setVisibility(View.INVISIBLE);
+                    fragmentView.findViewById(R.id.createStationNetStatusId).setVisibility(View.INVISIBLE);
                     fragmentView.findViewById(R.id.CamPic1).setVisibility(View.VISIBLE);
                     fragmentView.findViewById(R.id.CamPic2).setVisibility(View.VISIBLE);
                     fragmentView.findViewById(R.id.NoteInput).setVisibility(View.VISIBLE);
