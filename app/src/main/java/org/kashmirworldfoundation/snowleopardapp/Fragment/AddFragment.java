@@ -615,11 +615,13 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
         }
 
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        if (netInfo != null && netInfo.isConnected()) {
+        if (netStatus != null && netInfo != null && netInfo.isConnected()) {
             netStatus.setText("On");
             return true;
         } else {
-            netStatus.setText("Off");
+            if (netStatus != null) {
+                netStatus.setText("Off");
+            }
             return false;
         }
     }
