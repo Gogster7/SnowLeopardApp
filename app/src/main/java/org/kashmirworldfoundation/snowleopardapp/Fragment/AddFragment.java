@@ -38,38 +38,26 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import org.kashmirworldfoundation.snowleopardapp.CreateStudy;
-import org.kashmirworldfoundation.snowleopardapp.Login;
 import org.kashmirworldfoundation.snowleopardapp.R;
 
 
 import java.io.ByteArrayOutputStream;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 
 import android.content.SharedPreferences;
-
-
-import android.provider.ContactsContract;
 
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.common.reflect.TypeToken;
 import com.google.firebase.Timestamp;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
@@ -81,7 +69,6 @@ import com.google.gson.GsonBuilder;
 import org.kashmirworldfoundation.snowleopardapp.CameraStation;
 import org.kashmirworldfoundation.snowleopardapp.Member;
 import org.kashmirworldfoundation.snowleopardapp.MyDateTypeAdapter;
-import org.kashmirworldfoundation.snowleopardapp.R;
 import org.kashmirworldfoundation.snowleopardapp.Study;
 
 
@@ -643,7 +630,7 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
         builder.setIcon(R.drawable.kwflogo);
         builder.setTitle("Save the Station?");
         if(doNetCheck()){
-            builder.setMessage("Internet : On");
+            // builder.setMessage("Internet : On");
         }else{
             builder.setMessage("Internet: Off , it will upload data later.");
         }

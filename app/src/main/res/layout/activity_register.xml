@@ -12,21 +12,20 @@
         android:id="@+id/RegisterOrgB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         android:text="Register Organization"
         android:textColor="#FAF5F7"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.98" />
+        app:layout_constraintTop_toBottomOf="@+id/registrationBtn" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="346dp"
         android:layout_height="56dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         android:elegantTextHeight="true"
         android:fontFamily="@font/aclonica"
@@ -34,12 +33,10 @@
         android:text="Wildlife GeoSnap"
         android:textColor="#FFFFFF"
         android:textSize="36sp"
-        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.3" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView3"
@@ -51,12 +48,10 @@
         android:text="Register New Account"
         android:textColor="#FFFF8D"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.59000003" />
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <ScrollView
         android:id="@+id/scrollView2"
@@ -73,72 +68,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/fullName"
-                android:layout_width="375dp"
-                android:layout_height="42dp"
-                android:backgroundTint="#FAFAFA"
-                android:ems="10"
-                android:fontFamily="@font/aclonica"
-                android:hint="Full Name:"
-                android:inputType="textPersonName"
-                android:textColorHint="#F8F8F8" />
-
-            <EditText
-                android:id="@+id/jobTitle"
-                android:layout_width="375dp"
-                android:layout_height="42dp"
-                android:backgroundTint="#FAFAFA"
-                android:ems="10"
-                android:fontFamily="@font/aclonica"
-                android:hint="Job Title:"
-                android:inputType="textPersonName"
-                android:textColorHint="#F8F8F8" />
-
-            <EditText
-                android:id="@+id/email"
-                android:layout_width="375dp"
-                android:layout_height="42dp"
-                android:backgroundTint="#FAFAFA"
-                android:ems="10"
-                android:fontFamily="@font/aclonica"
-                android:hint="Email:"
-                android:inputType="textPersonName"
-                android:textColorHint="#F8F8F8" />
-
-            <EditText
-                android:id="@+id/phone"
-                android:layout_width="375dp"
-                android:layout_height="42dp"
-                android:backgroundTint="#FAFAFA"
-                android:ems="10"
-                android:fontFamily="@font/aclonica"
-                android:hint="Phone Number:"
-                android:inputType="textPersonName"
-                android:textColorHint="#F8F8F8" />
-
-            <EditText
-                android:id="@+id/password"
-                android:layout_width="375dp"
-                android:layout_height="42dp"
-                android:backgroundTint="#FAFAFA"
-                android:ems="10"
-                android:fontFamily="@font/aclonica"
-                android:hint="Password:"
-                android:inputType="textPassword"
-                android:textColorHint="#F8F8F8" />
-
-            <EditText
-                android:id="@+id/reEnter"
-                android:layout_width="375dp"
-                android:layout_height="42dp"
-                android:backgroundTint="#FAFAFA"
-                android:ems="10"
-                android:fontFamily="@font/aclonica"
-                android:hint="Re-enter Password:"
-                android:inputType="textPassword"
-                android:textColorHint="#F8F8F8" />
-
         </LinearLayout>
 
     </ScrollView>
@@ -148,43 +77,130 @@
         android:id="@+id/registrationBtn"
         android:layout_width="362dp"
         android:layout_height="55dp"
+        android:layout_marginTop="54dp"
         android:background="#FFFF8D"
         android:fontFamily="@font/aclonica"
         android:text="REGISTER"
         android:textColor="#1B1A1A"
         android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.571"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.84000003" />
+        app:layout_constraintTop_toBottomOf="@+id/reEnter" />
 
     <TextView
         android:id="@+id/createText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         android:text="Login Here"
         android:textColor="#FAF5F7"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.94" />
+        app:layout_constraintTop_toBottomOf="@+id/RegisterOrgB" />
 
     <ProgressBar
         android:id="@+id/progressBar2"
         style="?android:attr/progressBarStyle"
         android:layout_width="44dp"
         android:layout_height="42dp"
+        android:layout_marginTop="32dp"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView2"
-        app:layout_constraintVertical_bias="0.110000014" />
+        app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
+
+    <EditText
+        android:id="@+id/fullName"
+        android:layout_width="375dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="#FAFAFA"
+        android:ems="10"
+        android:fontFamily="@font/aclonica"
+        android:hint="Full Name:"
+        android:inputType="textPersonName"
+        android:textColorHint="#F8F8F8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <EditText
+        android:id="@+id/jobTitle"
+        android:layout_width="375dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="4dp"
+        android:backgroundTint="#FAFAFA"
+        android:ems="10"
+        android:fontFamily="@font/aclonica"
+        android:hint="Job Title:"
+        android:inputType="textPersonName"
+        android:textColorHint="#F8F8F8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fullName" />
+
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="375dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="4dp"
+        android:backgroundTint="#FAFAFA"
+        android:ems="10"
+        android:fontFamily="@font/aclonica"
+        android:hint="Email:"
+        android:inputType="textPersonName"
+        android:textColorHint="#F8F8F8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/jobTitle" />
+
+    <EditText
+        android:id="@+id/phone"
+        android:layout_width="375dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="4dp"
+        android:backgroundTint="#FAFAFA"
+        android:ems="10"
+        android:fontFamily="@font/aclonica"
+        android:hint="Phone Number:"
+        android:inputType="textPersonName"
+        android:textColorHint="#F8F8F8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/email" />
+
+    <EditText
+        android:id="@+id/reEnter"
+        android:layout_width="375dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="4dp"
+        android:backgroundTint="#FAFAFA"
+        android:ems="10"
+        android:fontFamily="@font/aclonica"
+        android:hint="Re-enter Password:"
+        android:inputType="textPassword"
+        android:textColorHint="#F8F8F8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password" />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="375dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="4dp"
+        android:backgroundTint="#FAFAFA"
+        android:ems="10"
+        android:fontFamily="@font/aclonica"
+        android:hint="Password:"
+        android:inputType="textPassword"
+        android:textColorHint="#F8F8F8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/phone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

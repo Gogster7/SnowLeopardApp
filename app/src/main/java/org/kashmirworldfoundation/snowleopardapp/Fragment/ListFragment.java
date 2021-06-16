@@ -31,7 +31,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.kashmirworldfoundation.snowleopardapp.CameraStation;
 
-import org.kashmirworldfoundation.snowleopardapp.Login;
 import org.kashmirworldfoundation.snowleopardapp.R;
 import org.kashmirworldfoundation.snowleopardapp.Station_List;
 import org.kashmirworldfoundation.snowleopardapp.Study;
@@ -41,8 +40,6 @@ import java.util.ArrayList;
 
 
 import android.widget.Toast;
-
-import com.google.gson.Gson;
 
 /**
  * put in floating action button for downloading

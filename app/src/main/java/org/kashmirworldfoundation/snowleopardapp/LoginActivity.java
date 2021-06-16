@@ -23,7 +23,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -32,13 +31,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.StringJoiner;
 
-public class Login extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
     EditText mEmail, mPassword;
     Button mLoginBtn;
     TextView mRegisterBtn,mRegisterOrgBtn, mForgetBtn;
@@ -72,7 +67,7 @@ public class Login extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
 
         Background =findViewById(R.id.BackgroundLogin);
-        Background.setVisibility(View.VISIBLE);
+        // Background.setVisibility(View.VISIBLE);
         fetchData();
 
         mForgetBtn.setOnClickListener(new View.OnClickListener() {
@@ -106,18 +101,18 @@ public class Login extends AppCompatActivity {
                 studies=new ArrayList<>();
                 String email= mEmail.getText().toString().trim();
                 String pass =mPassword.getText().toString().trim();
-                if (util.getAgreement(Login.this)){
-                    LayoutInflater inflater= LayoutInflater.from(Login.this);
+                if (util.getAgreement(LoginActivity.this)){
+                    LayoutInflater inflater= LayoutInflater.from(LoginActivity.this);
                     View view=inflater.inflate(R.layout.disclaimer_layout, null);
 
 
-                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(Login.this);
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(LoginActivity.this);
                     alertDialog.setTitle("Terms of Service");
                     alertDialog.setView(view);
                     alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Toast.makeText(Login.this,"Agreement needed to login",Toast.LENGTH_LONG).show();
+                            Toast.makeText(LoginActivity.this,"Agreement needed to login",Toast.LENGTH_LONG).show();
                         }
 
                     });
@@ -126,7 +121,7 @@ public class Login extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 
-                            util.setAgreement(Login.this);
+                            util.setAgreement(LoginActivity.this);
                             login(email,pass);
                         }
                     });
@@ -151,7 +146,7 @@ public class Login extends AppCompatActivity {
 
     }
     private void saveStudies(ArrayList<String> studies){
-        SharedPreferences sharedPreferences = Login.this.getSharedPreferences("user",Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = LoginActivity.this.getSharedPreferences("user",Context.MODE_PRIVATE);
         SharedPreferences.Editor editor =sharedPreferences.edit();
 
 
@@ -161,7 +156,7 @@ public class Login extends AppCompatActivity {
         editor.apply();
     }
     private void saveMember (Member mem,String uid){
-        SharedPreferences sharedPreferences = Login.this.getSharedPreferences("user", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = LoginActivity.this.getSharedPreferences("user", Context.MODE_PRIVATE);
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
@@ -173,7 +168,7 @@ public class Login extends AppCompatActivity {
         editor.apply();
     }
     private boolean getAdmin(){
-        SharedPreferences sharedPreferences = Login.this.getSharedPreferences("Admin", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = LoginActivity.this.getSharedPreferences("Admin", Context.MODE_PRIVATE);
         return sharedPreferences.getBoolean("Admin",false);
 
     }
@@ -242,7 +237,7 @@ public class Login extends AppCompatActivity {
                 }
                 else{
 
-                    Toast.makeText(Login.this, "Error" + task.getException().getMessage(), Toast.LENGTH_LONG ).show();
+                    Toast.makeText(LoginActivity.this, "Error" + task.getException().getMessage(), Toast.LENGTH_LONG ).show();
 
                 }
 

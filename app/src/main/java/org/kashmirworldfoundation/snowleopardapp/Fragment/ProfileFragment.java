@@ -39,7 +39,7 @@ import com.google.firebase.storage.UploadTask;
 import com.google.gson.Gson;
 
 import org.kashmirworldfoundation.snowleopardapp.GlideApp;
-import org.kashmirworldfoundation.snowleopardapp.Login;
+import org.kashmirworldfoundation.snowleopardapp.LoginActivity;
 import org.kashmirworldfoundation.snowleopardapp.Member;
 import org.kashmirworldfoundation.snowleopardapp.R;
 
@@ -100,7 +100,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
             {
                 FirebaseAuth.getInstance().signOut();
                 clear();
-                Intent intent = new Intent(getActivity(), Login.class);
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
                 startActivity(intent);
             }
         });
@@ -127,7 +127,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
             public void onClick(View v) {
                 FirebaseAuth fauth= FirebaseAuth.getInstance();
                 fauth.signOut();
-                Intent intent = new Intent(getActivity(), Login.class);
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
                 startActivity(intent);
             }
         });
