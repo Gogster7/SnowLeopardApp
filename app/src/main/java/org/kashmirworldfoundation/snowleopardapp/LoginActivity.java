@@ -98,42 +98,46 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Utils util = new Utils();
 
-                studies=new ArrayList<>();
-                String email= mEmail.getText().toString().trim();
-                String pass =mPassword.getText().toString().trim();
-                if (util.getAgreement(LoginActivity.this)){
-                    LayoutInflater inflater= LayoutInflater.from(LoginActivity.this);
-                    View view=inflater.inflate(R.layout.disclaimer_layout, null);
+                studies = new ArrayList<>();
+                String email = mEmail.getText().toString().trim();
+                String pass = mPassword.getText().toString().trim();
+                if (email != null && !email.trim().isEmpty() && pass != null && !pass.trim().isEmpty()) {
+                    if (util.getAgreement(LoginActivity.this)) {
+                        LayoutInflater inflater = LayoutInflater.from(LoginActivity.this);
+                        View view = inflater.inflate(R.layout.disclaimer_layout, null);
 
 
-                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(LoginActivity.this);
-                    alertDialog.setTitle("Terms of Service");
-                    alertDialog.setView(view);
-                    alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Toast.makeText(LoginActivity.this,"Agreement needed to login",Toast.LENGTH_LONG).show();
-                        }
+                        AlertDialog.Builder alertDialog = new AlertDialog.Builder(LoginActivity.this);
+                        alertDialog.setTitle("Terms of Service");
+                        alertDialog.setView(view);
+                        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(LoginActivity.this, "Agreement needed to login", Toast.LENGTH_LONG).show();
+                            }
 
-                    });
+                        });
 
-                    alertDialog.setPositiveButton("Agree", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                        alertDialog.setPositiveButton("Agree", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
 
-                            util.setAgreement(LoginActivity.this);
-                            login(email,pass);
-                        }
-                    });
-                    AlertDialog alert = alertDialog.create();
-                    alert.show();
+                                util.setAgreement(LoginActivity.this);
+                                login(email, pass);
+                            }
+                        });
+                        AlertDialog alert = alertDialog.create();
+                        alert.show();
+                    } else {
+                        login(email, pass);
+                    }
+
                 }
                 else {
-                    login(email,pass);
+                    Toast.makeText(LoginActivity.this, "Please enter username and password", Toast.LENGTH_LONG ).show();
+
                 }
-
             }
-
         });
 
     }

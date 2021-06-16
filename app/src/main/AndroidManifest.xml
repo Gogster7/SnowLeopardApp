@@ -42,7 +42,7 @@
         <activity android:name=".ForgetPassword"></activity>
         <activity android:name=".PreyExpand" />
         <activity android:name=".Add_Prey" />
-        <activity android:name=".Login">
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
