@@ -9,7 +9,6 @@ import android.widget.Button;
 
 import androidx.fragment.app.Fragment;
 
-import org.kashmirworldfoundation.snowleopardapp.Expand;
 import org.kashmirworldfoundation.snowleopardapp.MapCreateList;
 import org.kashmirworldfoundation.snowleopardapp.R;
 

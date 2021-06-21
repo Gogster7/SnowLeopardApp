@@ -32,7 +32,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.kashmirworldfoundation.snowleopardapp.CameraStation;
 
 import org.kashmirworldfoundation.snowleopardapp.R;
-import org.kashmirworldfoundation.snowleopardapp.Station_List;
+import org.kashmirworldfoundation.snowleopardapp.StationListActivity;
 import org.kashmirworldfoundation.snowleopardapp.Study;
 
 
@@ -101,10 +101,10 @@ public class ListFragment extends Fragment implements View.OnClickListener  {
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        editor.putString("Study",selectiion.getTittle());
+        editor.putString("Study",selectiion.getTitle());
 
         editor.apply();
-        startActivity(new Intent(getContext(), Station_List.class));
+        startActivity(new Intent(getContext(), StationListActivity.class));
 
 
 

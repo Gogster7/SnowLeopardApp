@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context="org.kashmirworldfoundation.snowleopardapp.Add_Prey">
+    tools:context="org.kashmirworldfoundation.snowleopardapp.AddPreyActivity">
 
     <TextView
         android:id="@+id/PreyLattitudeLabel"

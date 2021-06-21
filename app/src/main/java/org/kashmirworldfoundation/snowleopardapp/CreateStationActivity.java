@@ -34,14 +34,6 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnSuccessListener;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -51,7 +43,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 
-public class CreateStation extends AppCompatActivity {
+public class CreateStationActivity extends AppCompatActivity {
     private static final String TAG = "Activity";
     private EditText stationIdInput;
     private EditText WatershedInput;
@@ -257,14 +249,14 @@ public class CreateStation extends AppCompatActivity {
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         //Toast.makeText(EditProfileActivity.this, "OK", Toast.LENGTH_SHORT).show();
-                        createToast(CreateStation.this,"Create Station Successful :"+currentTime.toString(), Toast.LENGTH_LONG);
+                        createToast(CreateStationActivity.this,"Create Station Successful :"+currentTime.toString(), Toast.LENGTH_LONG);
                         getInput();
                     }
                 });
 
                 builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        Toast.makeText(CreateStation.this, "CANCEL", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CreateStationActivity.this, "CANCEL", Toast.LENGTH_SHORT).show();
                     }
                 });
 

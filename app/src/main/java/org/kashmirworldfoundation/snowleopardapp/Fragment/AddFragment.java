@@ -254,7 +254,7 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
                             studies.add("Pick A Study");
                             for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
                                 Study study = documentSnapshot.toObject(Study.class);
-                                studies.add(study.getTittle());
+                                studies.add(study.getTitle());
                             }
                             if (studies.size()==1){
                                 studies.set(0,"No Studies");

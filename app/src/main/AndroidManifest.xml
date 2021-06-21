@@ -20,28 +20,28 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Register_Org_Admin"
+            android:name=".RegisterOrgAdminActivity"
             android:label="@string/title_activity_register__org__admin"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".Station_List" />
+        <activity android:name=".StationListActivity" />
         <activity android:name=".CreateStudy" />
         <activity android:name=".GoogleMapActivity" /> <!-- <activity android:name=".Expand2" /> -->
         <activity
-            android:name=".Expand"
+            android:name=".ExpandActivity"
             android:parentActivityName=".MainActivity" />
         <activity android:name=".MapCreateList" />
         <activity android:name=".MapCreateActivity" />
-        <activity android:name=".RegisterOrg" />
-        <activity android:name=".CreateStation" />
+        <activity android:name=".RegisterOrgActivity" />
+        <activity android:name=".CreateStationActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".OfflineManagerActivity" />
         <activity android:name=".RegisterSpinner1" />
         <activity android:name=".RegisterSpinner2" />
         <activity android:name=".RegisterSpinner0" />
-        <activity android:name=".Rebait_List"></activity>
-        <activity android:name=".ForgetPassword"></activity>
+        <activity android:name=".RebaitListActivity"></activity>
+        <activity android:name=".ForgetPasswordActivity"></activity>
         <activity android:name=".PreyExpand" />
-        <activity android:name=".Add_Prey" />
+        <activity android:name=".AddPreyActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

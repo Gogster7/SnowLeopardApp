@@ -13,8 +13,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import org.kashmirworldfoundation.snowleopardapp.Fragment.ListFragment;
-
 import java.util.ArrayList;
 
 public class StationAsyncTaskA extends AsyncTask<String, Void, String> {
@@ -30,9 +28,9 @@ public class StationAsyncTaskA extends AsyncTask<String, Void, String> {
     private int count;
     private int size;
 
-    private Station_List listFragment;
+    private StationListActivity listFragment;
     private String study;
-    StationAsyncTaskA(Station_List li,String stud){listFragment=li; study=stud;}
+    StationAsyncTaskA(StationListActivity li, String stud){listFragment=li; study=stud;}
 
     protected void update(){
         listFragment.updateStationList(CStations,paths);

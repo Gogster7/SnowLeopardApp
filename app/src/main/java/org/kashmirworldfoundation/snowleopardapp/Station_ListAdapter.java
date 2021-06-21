@@ -1,6 +1,5 @@
 package org.kashmirworldfoundation.snowleopardapp;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,19 +13,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import org.kashmirworldfoundation.snowleopardapp.Fragment.ListFragment;
-import org.kashmirworldfoundation.snowleopardapp.Fragment.ListFragmentViewholder;
-
 import java.util.ArrayList;
 
 public class Station_ListAdapter extends RecyclerView.Adapter<Station_List_ViewHolder> {
-    Station_List activity;
+    StationListActivity activity;
     //final public ListItemClickListener mOnClickListener;
 
     ArrayList<CameraStation> CstationList;
     Context mContext;
     CameraStation Cstation;
-    Station_ListAdapter(ArrayList<CameraStation> stationList,Station_List activity){
+    Station_ListAdapter(ArrayList<CameraStation> stationList, StationListActivity activity){
         this.activity=activity;
         this.CstationList=stationList;
 

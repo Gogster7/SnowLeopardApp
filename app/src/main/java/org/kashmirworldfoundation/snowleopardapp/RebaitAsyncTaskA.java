@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -26,9 +25,9 @@ public class RebaitAsyncTaskA extends AsyncTask<String,Void,String> {
     private int count;
     private int size;
 
-    private Rebait_List expand;
+    private RebaitListActivity expand;
 
-    RebaitAsyncTaskA(Rebait_List ex){expand=ex; }
+    RebaitAsyncTaskA(RebaitListActivity ex){expand=ex; }
 
     protected void update(){
         expand.updateStationList(CRebait);

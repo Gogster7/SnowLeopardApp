@@ -344,7 +344,6 @@
 
 package org.kashmirworldfoundation.snowleopardapp;
 
-import androidx.annotation.WorkerThread;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -360,47 +359,17 @@ import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.Tasks;
-import com.google.common.reflect.TypeToken;
-import com.google.firebase.Timestamp;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.WriteBatch;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Iterator;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
-import org.kashmirworldfoundation.snowleopardapp.Fragment.ListFragmentAdapter;
-
-import java.io.Serializable;
-
-public class Expand extends AppCompatActivity implements View.OnClickListener {
+public class ExpandActivity extends AppCompatActivity implements View.OnClickListener {
 
     ImageView imageView;
     TextView title, date,cameraid,substrate,lureType,potential,terrain,watershedid,author,notes;
@@ -491,7 +460,7 @@ public class Expand extends AppCompatActivity implements View.OnClickListener {
         Rebaitbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i= new Intent(getApplication().getApplicationContext(), Rebait_List.class);
+                Intent i= new Intent(getApplication().getApplicationContext(), RebaitListActivity.class);
 
                 i.putExtra("stationN",AuthorS);
                 i.putExtra("path",pathRecord);
@@ -504,7 +473,7 @@ public class Expand extends AppCompatActivity implements View.OnClickListener {
             @Override
             public void onClick(View v) {
                 final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(
-                        Expand.this, R.style.BottomSheetDialogTheme
+                        ExpandActivity.this, R.style.BottomSheetDialogTheme
                 );
                 View bottomSheetView = LayoutInflater.from(getApplicationContext())
                         .inflate(
@@ -562,7 +531,7 @@ public class Expand extends AppCompatActivity implements View.OnClickListener {
                                             System.out.println("sLureType"+sLureType);
                                             System.out.println("camWorks"+camWorks);
 
-                                            Toast.makeText(Expand.this, "Missing Inputs", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(ExpandActivity.this, "Missing Inputs", Toast.LENGTH_SHORT).show();
                                             bottomSheetDialog.dismiss();
                                         }
                                         else{
@@ -572,7 +541,7 @@ public class Expand extends AppCompatActivity implements View.OnClickListener {
                                                 e.printStackTrace();
                                             }
 
-                                            Toast.makeText(Expand.this, "Rebaited", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(ExpandActivity.this, "Rebaited", Toast.LENGTH_SHORT).show();
                                             bottomSheetDialog.dismiss();
                                         }
                                     }

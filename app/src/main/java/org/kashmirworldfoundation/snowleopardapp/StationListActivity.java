@@ -1,10 +1,7 @@
 package org.kashmirworldfoundation.snowleopardapp;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,37 +18,18 @@ import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.provider.DocumentsContract;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.common.reflect.TypeToken;
-import com.google.firebase.Timestamp;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import org.kashmirworldfoundation.snowleopardapp.Fragment.ListFragmentAdapter;
-import org.kashmirworldfoundation.snowleopardapp.Fragment.StationAsyncTask;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class Station_List extends AppCompatActivity implements View.OnClickListener {
+public class StationListActivity extends AppCompatActivity implements View.OnClickListener {
     // objects
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {
@@ -103,7 +81,7 @@ public class Station_List extends AppCompatActivity implements View.OnClickListe
         CameraStation selectiion=CStationArrayList.get(pos);
         selectiion.getaName();
         Log.e("value", selectiion.getaName());
-        Intent i= new Intent(getApplication().getApplicationContext(), Expand.class);
+        Intent i= new Intent(getApplication().getApplicationContext(), ExpandActivity.class);
 
         i.putExtra("stationz",selectiion);
         i.putExtra("pathRecord",CPathList.get(pos));
@@ -159,8 +137,8 @@ public class Station_List extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    public static Station_List newInstance() {
-        return new Station_List();
+    public static StationListActivity newInstance() {
+        return new StationListActivity();
     }
 
 

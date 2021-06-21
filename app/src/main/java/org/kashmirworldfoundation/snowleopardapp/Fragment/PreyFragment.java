@@ -38,8 +38,7 @@ import com.google.firebase.storage.UploadTask;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import org.kashmirworldfoundation.snowleopardapp.Add_Prey;
-import org.kashmirworldfoundation.snowleopardapp.Expand;
+import org.kashmirworldfoundation.snowleopardapp.AddPreyActivity;
 import org.kashmirworldfoundation.snowleopardapp.MyDateTypeAdapter;
 import org.kashmirworldfoundation.snowleopardapp.Prey;
 import org.kashmirworldfoundation.snowleopardapp.PreyExpand;
@@ -93,7 +92,7 @@ public class PreyFragment extends Fragment implements View.OnClickListener{
             @Override
             public void onClick(View v) {
 
-                startActivity(new Intent(getContext(), Add_Prey.class));
+                startActivity(new Intent(getContext(), AddPreyActivity.class));
             }
         });
 

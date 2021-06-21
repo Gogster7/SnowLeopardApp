@@ -70,7 +70,7 @@ public class Register extends AppCompatActivity {
         mRegisterOrgB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), RegisterOrg.class));
+                startActivity(new Intent(getApplicationContext(), RegisterOrgActivity.class));
             }
         });
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
@@ -255,7 +255,7 @@ public class Register extends AppCompatActivity {
                                                     if (task.isSuccessful()) {
                                                         for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
                                                             Study study = documentSnapshot.toObject(Study.class);
-                                                            studies.add(study.getTittle());
+                                                            studies.add(study.getTitle());
                                                         }
                                                         if (studies.size() == 1) {
                                                             studies.set(0, "No Studies");

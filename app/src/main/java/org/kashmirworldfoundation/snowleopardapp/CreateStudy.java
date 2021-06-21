@@ -1,7 +1,6 @@
 package org.kashmirworldfoundation.snowleopardapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -17,12 +16,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 public class CreateStudy extends AppCompatActivity {
-    private EditText TittleInput;
+    private EditText TitleInput;
     private EditText LocationInput;
     private EditText MissionInput;
     private TextView StartInput;
@@ -30,7 +28,7 @@ public class CreateStudy extends AppCompatActivity {
     private Button Post;
     private TextView Back;
     private FirebaseFirestore db;
-    private Button pickstartdateid;
+    private Button pickStartSateID;
     private Button studyDateEndLabel;
     String start = "";
     String end = "";
@@ -39,7 +37,7 @@ public class CreateStudy extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_study);
-        TittleInput=findViewById(R.id.StudyTittleInput);
+        TitleInput =findViewById(R.id.StudyTittleInput);
         LocationInput=findViewById(R.id.StudyLocationInput);
         MissionInput=findViewById(R.id.StudyMissionInput);
         StartInput=findViewById(R.id.studyDateStart);
@@ -47,7 +45,7 @@ public class CreateStudy extends AppCompatActivity {
         Post = findViewById(R.id.StudyPostBtn);
         Back= findViewById(R.id.StudyBack);
         db= FirebaseFirestore.getInstance();
-        pickstartdateid = findViewById(R.id.pickstartdateid);
+        pickStartSateID = findViewById(R.id.pickstartdateid);
         studyDateEndLabel = findViewById(R.id.pickenddateid);
 
         Back.setOnClickListener(new View.OnClickListener() {
@@ -60,7 +58,7 @@ public class CreateStudy extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Study study= new Study();
-                study.setTittle(TittleInput.getText().toString());
+                study.setTitle(TitleInput.getText().toString());
                 study.setLocation(LocationInput.getText().toString());
                 study.setMission(MissionInput.getText().toString());
 
@@ -98,7 +96,7 @@ public class CreateStudy extends AppCompatActivity {
             }
         });
 
-        pickstartdateid.setOnClickListener(new View.OnClickListener() {
+        pickStartSateID.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 datePickerStart(v);

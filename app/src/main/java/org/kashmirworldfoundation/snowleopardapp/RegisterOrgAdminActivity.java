@@ -28,7 +28,7 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 
 
-public class Register_Org_Admin extends AppCompatActivity {
+public class RegisterOrgAdminActivity extends AppCompatActivity {
     EditText mEmail, mPassword, mPhone, mJob,mName;
     Button mbRegisterA;
     FirebaseAuth fAuth2;
@@ -52,18 +52,18 @@ public class Register_Org_Admin extends AppCompatActivity {
                 Utils util = new Utils();
 
 
-                if (util.getAgreement(Register_Org_Admin.this)){
-                    LayoutInflater inflater= LayoutInflater.from(Register_Org_Admin.this);
+                if (util.getAgreement(RegisterOrgAdminActivity.this)){
+                    LayoutInflater inflater= LayoutInflater.from(RegisterOrgAdminActivity.this);
                     View view=inflater.inflate(R.layout.disclaimer_layout, null);
 
 
-                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(Register_Org_Admin.this);
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(RegisterOrgAdminActivity.this);
                     alertDialog.setTitle("Terms of Service");
                     alertDialog.setView(view);
                     alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Toast.makeText(Register_Org_Admin.this,"Agreement needed to register",Toast.LENGTH_LONG).show();
+                            Toast.makeText(RegisterOrgAdminActivity.this,"Agreement needed to register",Toast.LENGTH_LONG).show();
                         }
 
                     });
@@ -72,7 +72,7 @@ public class Register_Org_Admin extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 
-                            util.setAgreement(Register_Org_Admin.this);
+                            util.setAgreement(RegisterOrgAdminActivity.this);
                             registerAdmin();
                         }
                     });
@@ -138,7 +138,7 @@ public class Register_Org_Admin extends AppCompatActivity {
                                 studies=new ArrayList<>();
                                 studies.add("Pick a Study");
                                 for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
-                                    Toast.makeText(Register_Org_Admin.this,"Org Found", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(RegisterOrgAdminActivity.this,"Org Found", Toast.LENGTH_SHORT).show();
                                     memA.setOrg(documentSnapshot.getReference().getPath());
 
                                 }
@@ -154,7 +154,7 @@ public class Register_Org_Admin extends AppCompatActivity {
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if(task.isSuccessful()){
                                             saveMember(memA,user.getUid());
-                                            Toast.makeText(Register_Org_Admin.this,"User Created", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(RegisterOrgAdminActivity.this,"User Created", Toast.LENGTH_SHORT).show();
                                             saveAdmin();
 
                                             studies.set(0, "No Studies");
@@ -176,7 +176,7 @@ public class Register_Org_Admin extends AppCompatActivity {
         Toast.makeText(cont,"Fields are empty",Toast.LENGTH_LONG).show();
     }
     private void saveMember (Member mem,String uid){
-        SharedPreferences sharedPreferences = Register_Org_Admin.this.getSharedPreferences("user", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = RegisterOrgAdminActivity.this.getSharedPreferences("user", Context.MODE_PRIVATE);
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
@@ -186,13 +186,13 @@ public class Register_Org_Admin extends AppCompatActivity {
         editor.apply();
     }
     private void saveCamNum(){
-        SharedPreferences sharedPreferences = Register_Org_Admin.this.getSharedPreferences("camstations",Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = RegisterOrgAdminActivity.this.getSharedPreferences("camstations",Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("CamNum",0);
         editor.apply();
     }
     private void saveStudies(ArrayList<String> studies){
-        SharedPreferences sharedPreferences = Register_Org_Admin.this.getSharedPreferences("user",Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = RegisterOrgAdminActivity.this.getSharedPreferences("user",Context.MODE_PRIVATE);
         SharedPreferences.Editor editor =sharedPreferences.edit();
 
 
@@ -202,7 +202,7 @@ public class Register_Org_Admin extends AppCompatActivity {
         editor.apply();
     }
     private void saveAdmin(){
-        SharedPreferences sharedPreferences = Register_Org_Admin.this.getSharedPreferences("Admin", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = RegisterOrgAdminActivity.this.getSharedPreferences("Admin", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor =sharedPreferences.edit();
 
 

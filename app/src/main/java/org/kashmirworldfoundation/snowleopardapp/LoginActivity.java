@@ -73,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
         mForgetBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),ForgetPassword.class));
+                startActivity(new Intent(getApplicationContext(), ForgetPasswordActivity.class));
             }
         });
         mRegisterBtn.setOnClickListener(new View.OnClickListener() {
@@ -87,10 +87,10 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (getAdmin()){
-                    startActivity(new Intent(getApplicationContext(),Register_Org_Admin.class));
+                    startActivity(new Intent(getApplicationContext(), RegisterOrgAdminActivity.class));
                 }
 
-                startActivity(new Intent(getApplicationContext(), RegisterOrg.class));
+                startActivity(new Intent(getApplicationContext(), RegisterOrgActivity.class));
             }
         });
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
@@ -195,7 +195,7 @@ public class LoginActivity extends AppCompatActivity {
                                         if (task.isSuccessful()){
                                             for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
                                                 Study study = documentSnapshot.toObject(Study.class);
-                                                studies.add(study.getTittle());
+                                                studies.add(study.getTitle());
                                             }
                                             if (studies.size()==1){
                                                 studies.set(0,"No Studies");

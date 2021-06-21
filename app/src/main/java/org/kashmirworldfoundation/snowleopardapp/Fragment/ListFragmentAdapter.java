@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import org.kashmirworldfoundation.snowleopardapp.CameraStation;
 import org.kashmirworldfoundation.snowleopardapp.GlideApp;
 import org.kashmirworldfoundation.snowleopardapp.R;
 import org.kashmirworldfoundation.snowleopardapp.Study;
@@ -51,7 +50,7 @@ public class ListFragmentAdapter extends RecyclerView.Adapter<ListFragmentViewho
     public void onBindViewHolder(@NonNull ListFragmentViewholder holder, int position) {
         Cstation=CstationList.get(position);
 
-        holder.Study.setText(Cstation.getTittle());
+        holder.Study.setText(Cstation.getTitle());
         holder.dateId.setText(Cstation.getEnd().toDate().toString());
         holder.imgId.setImageResource(R.drawable.kwflogo);
 

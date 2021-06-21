@@ -30,7 +30,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 
 
-public class RegisterOrg extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+public class RegisterOrgActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     EditText mEmail, mOrgname, mPhone, mOrgWebsite, mRegion;
     Button mbRegister;
     TextView mbLogin;
@@ -95,7 +95,7 @@ public class RegisterOrg extends AppCompatActivity implements AdapterView.OnItem
                 }
 
                 if (country.equals("Country")){
-                    Toast.makeText(RegisterOrg.this, "Need to select a country", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterOrgActivity.this, "Need to select a country", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (TextUtils.isEmpty(region)){
@@ -115,7 +115,7 @@ public class RegisterOrg extends AppCompatActivity implements AdapterView.OnItem
 
 
 
-                final Intent i = new Intent(getApplicationContext(), Register_Org_Admin.class);
+                final Intent i = new Intent(getApplicationContext(), RegisterOrgAdminActivity.class);
 //Create the bundle
                 Bundle bundle = new Bundle();
 
@@ -138,14 +138,14 @@ public class RegisterOrg extends AppCompatActivity implements AdapterView.OnItem
                                         public void onComplete(@NonNull Task<DocumentReference> task) {
 
                                             if (task.isSuccessful()) {
-                                                Toast.makeText(RegisterOrg.this,"Organization Sucesfully Created",Toast.LENGTH_LONG).show();
+                                                Toast.makeText(RegisterOrgActivity.this,"Organization Sucesfully Created",Toast.LENGTH_LONG).show();
                                                 Log.e("Tag", "Sucess 1");
                                                 saveAdmin();
                                                 sendMessage(Orgname,phone,website,country,region);
                                                 startActivity(i);
                                             }
                                             else{
-                                                Toast.makeText(RegisterOrg.this,"Error submitting Organization",Toast.LENGTH_LONG).show();
+                                                Toast.makeText(RegisterOrgActivity.this,"Error submitting Organization",Toast.LENGTH_LONG).show();
                                                 Log.e("Tag", "Fail 1");
                                                 recreate();
                                             }
@@ -153,13 +153,13 @@ public class RegisterOrg extends AppCompatActivity implements AdapterView.OnItem
                                     });
                                 }
                                 else{
-                                    Toast.makeText(RegisterOrg.this,"Error Organization already registered",Toast.LENGTH_LONG).show();
+                                    Toast.makeText(RegisterOrgActivity.this,"Error Organization already registered",Toast.LENGTH_LONG).show();
                                     Log.e("Tag","Fail2");
                                     recreate();
                                 }
                         }
                         else{
-                            Toast.makeText(RegisterOrg.this,"Error checking for duplicate Organizations",Toast.LENGTH_LONG).show();
+                            Toast.makeText(RegisterOrgActivity.this,"Error checking for duplicate Organizations",Toast.LENGTH_LONG).show();
                         }
                     }
                 });
@@ -200,7 +200,7 @@ public class RegisterOrg extends AppCompatActivity implements AdapterView.OnItem
 
     }
     private void sendMessage(final String orgname, final String phone, final String website, final String country,final String region) {
-        final ProgressDialog dialog = new ProgressDialog(RegisterOrg.this);
+        final ProgressDialog dialog = new ProgressDialog(RegisterOrgActivity.this);
         dialog.setTitle("Sending Email");
         dialog.setMessage("Please wait");
         dialog.show();
@@ -226,7 +226,7 @@ public class RegisterOrg extends AppCompatActivity implements AdapterView.OnItem
     }
 
     private void saveAdmin(){
-        SharedPreferences sharedPreferences = RegisterOrg.this.getSharedPreferences("Admin", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = RegisterOrgActivity.this.getSharedPreferences("Admin", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor =sharedPreferences.edit();
 
 

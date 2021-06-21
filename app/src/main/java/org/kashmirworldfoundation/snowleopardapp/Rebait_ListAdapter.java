@@ -5,25 +5,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
 public class Rebait_ListAdapter extends RecyclerView.Adapter<Rebait_List_ViewHolder> {
 
-    Rebait_List activity;
+    RebaitListActivity activity;
     //final public ListItemClickListener mOnClickListener;
 
     ArrayList<Rebait> CrebaitList;
     Context mContext;
     Rebait Crebait;
-    Rebait_ListAdapter(ArrayList<Rebait> RebaitList,Rebait_List activity){
+    Rebait_ListAdapter(ArrayList<Rebait> RebaitList, RebaitListActivity activity){
         this.activity=activity;
         this.CrebaitList=RebaitList;
 

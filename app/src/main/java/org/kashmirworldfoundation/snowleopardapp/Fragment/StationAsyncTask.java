@@ -1,41 +1,27 @@
 package org.kashmirworldfoundation.snowleopardapp.Fragment;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.util.Pair;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.common.reflect.TypeToken;
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.gson.Gson;
 
-import org.kashmirworldfoundation.snowleopardapp.CameraStation;
 import org.kashmirworldfoundation.snowleopardapp.DeleteAsyncTask;
-import org.kashmirworldfoundation.snowleopardapp.Fragment.ListFragment;
 import org.kashmirworldfoundation.snowleopardapp.Member;
-import org.kashmirworldfoundation.snowleopardapp.Org;
 import org.kashmirworldfoundation.snowleopardapp.Study;
 
 
-
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 
 public class StationAsyncTask extends AsyncTask<String, Void, String> {
 
@@ -95,11 +81,11 @@ public class StationAsyncTask extends AsyncTask<String, Void, String> {
                                     if (stat != null && stat.getEnd() != null) {
                                         end1[0] = stat.getEnd().toDate();
                                         if (end1[0].compareTo(prevTime) < 0) {
-                                            stations.add(stat.getTittle());
+                                            stations.add(stat.getTitle());
                                         }
                                         if (end1[0].compareTo(currentTime) < 0) {
-                                            Log.e(TAG, stat.getTittle() + "/n" + end1[0].toString() + "/n" + currentTime.toString());
-                                            paths.add(new Pair<>(objectDocumentSnapshot.getReference().getPath(), stat.getTittle()));
+                                            Log.e(TAG, stat.getTitle() + "/n" + end1[0].toString() + "/n" + currentTime.toString());
+                                            paths.add(new Pair<>(objectDocumentSnapshot.getReference().getPath(), stat.getTitle()));
                                         }
 
                                         CStations.add(stat);

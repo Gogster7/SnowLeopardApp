@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import com.google.firebase.Timestamp;
 
 public class Study implements Parcelable {
-    String tittle;
+    String title;
     String org;
     String mission;
     String  location;
@@ -14,7 +14,7 @@ public class Study implements Parcelable {
     Timestamp end;
 
     public Study(Parcel in) {
-        tittle = in.readString();
+        title = in.readString();
         org = in.readString();
         mission = in.readString();
         location = in.readString();
@@ -24,12 +24,12 @@ public class Study implements Parcelable {
     public  Study(){
 
     }
-    public String getTittle() {
-        return tittle;
+    public String getTitle() {
+        return title;
     }
 
-    public void setTittle(String name) {
-        this.tittle = name;
+    public void setTitle(String name) {
+        this.title = name;
     }
 
     public String getOrg() {
@@ -79,7 +79,7 @@ public class Study implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(tittle);
+        dest.writeString(title);
         dest.writeString(org);
         dest.writeString(location);
         dest.writeString(mission);
