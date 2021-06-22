@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -79,19 +80,32 @@ public class CreateStudy extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                if (ts==null ||ts2==null){
-
-                }
-                else{
+                if (ts != null && ts2 != null){
                     study.setStart(ts);
                     study.setEnd(ts2);
                 }
-                db.collection("Study").add(study);
+                if (study.title.equals("")) {
+                    Toast.makeText(CreateStudy.this, "Please enter a title", Toast.LENGTH_LONG ).show();
+                }
+                else if (study.location.equals("")) {
+                    Toast.makeText(CreateStudy.this, "Please enter a location", Toast.LENGTH_LONG ).show();
+                }
+                else if (study.mission.equals("")) {
+                    Toast.makeText(CreateStudy.this, "Please enter a mission", Toast.LENGTH_LONG ).show();
+                }
+                else if (ts == null || ts2 == null) {
+                    Toast.makeText(CreateStudy.this, "Please enter the dates of the study", Toast.LENGTH_LONG ).show();
+                }
+                else if (ts.compareTo(ts2) > 0) {
+                    Toast.makeText(CreateStudy.this, "Please enter valid dates", Toast.LENGTH_LONG ).show();
+                }
+                else {
+                    db.collection("Study").add(study);
+                    Intent i= new Intent(getApplicationContext(), MainActivity.class);
 
-               Intent i= new Intent(getApplicationContext(), MainActivity.class);
-
-               i.putExtra("Study",study);
-               startActivity(i);
+                    i.putExtra("Study",study);
+                    startActivity(i);
+                }
 
             }
         });

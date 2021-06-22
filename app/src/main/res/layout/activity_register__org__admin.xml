@@ -48,7 +48,7 @@
         android:id="@+id/AdminJob"
         android:layout_width="300dp"
         android:layout_height="51dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="20dp"
         android:ems="10"
         android:fontFamily="@font/aclonica"
         android:hint="Job:"
@@ -56,7 +56,7 @@
         android:textColorHint="#F8F8F8"
         app:layout_constraintBottom_toTopOf="@+id/AdminRegisterB"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
@@ -71,16 +71,16 @@
         android:textColorHint="#F8F8F8"
         app:layout_constraintBottom_toTopOf="@+id/AdminEmail"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.51"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.9" />
+        app:layout_constraintVertical_bias="0.857" />
 
     <EditText
         android:id="@+id/AdminPhone"
         android:layout_width="300dp"
         android:layout_height="51dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="16dp"
         android:ems="10"
         android:fontFamily="@font/aclonica"
         android:hint="Phone Number:"
@@ -88,13 +88,14 @@
         android:textColorHint="#F8F8F8"
         app:layout_constraintBottom_toTopOf="@+id/AdminJob"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/AdminPassword"
         android:layout_width="300dp"
         android:layout_height="51dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="8dp"
         android:ems="10"
         android:fontFamily="@font/aclonica"
         android:hint="Password:"
@@ -117,15 +118,16 @@
         android:textColorHint="#F8F8F8"
         app:layout_constraintBottom_toTopOf="@+id/AdminPassword"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        app:layout_constraintVertical_bias="0.993" />
 
     <Button
         android:id="@+id/AdminRegisterB"
         android:layout_width="175dp"
         android:layout_height="41dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="152dp"
         android:background="#FFFF8D"
         android:fontFamily="@font/aclonica"
         android:text="REGISTER"
