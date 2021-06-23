@@ -185,7 +185,7 @@ public class AddPreyActivity extends AppCompatActivity {
         NoteInput.setVisibility(View.GONE);
         Post.setVisibility(View.GONE);
         img.setVisibility(View.VISIBLE);
-        findViewById(R.id.PreyTittleLabel).setVisibility(View.GONE);
+        findViewById(R.id.PreyTitleLabel).setVisibility(View.GONE);
         findViewById(R.id.PreyLattitudeLabel).setVisibility(View.GONE);
         findViewById(R.id.PreyLongitudeLabel).setVisibility(View.GONE);
         findViewById(R.id.PreyNoteLabel).setVisibility(View.GONE);
@@ -201,7 +201,7 @@ public class AddPreyActivity extends AppCompatActivity {
         NoteInput.setVisibility(View.VISIBLE);
         Post.setVisibility(View.VISIBLE);
         img.setVisibility(View.GONE);
-        findViewById(R.id.PreyTittleLabel).setVisibility(View.VISIBLE);
+        findViewById(R.id.PreyTitleLabel).setVisibility(View.VISIBLE);
         findViewById(R.id.PreyLattitudeLabel).setVisibility(View.VISIBLE);
         findViewById(R.id.PreyLongitudeLabel).setVisibility(View.VISIBLE);
         findViewById(R.id.PreyNoteLabel).setVisibility(View.VISIBLE);

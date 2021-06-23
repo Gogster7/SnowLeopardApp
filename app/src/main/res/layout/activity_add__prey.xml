@@ -18,7 +18,7 @@
         android:textColor="#FFFFFF"
         android:textSize="24dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/PreyTittleLabel"
+        app:layout_constraintTop_toBottomOf="@+id/PreyTitleLabel"
         tools:visibility="visible" />
 
     <TextView
@@ -37,7 +37,7 @@
         tools:visibility="visible" />
 
     <TextView
-        android:id="@+id/PreyTittleLabel"
+        android:id="@+id/PreyTitleLabel"
         android:layout_width="wrap_content"
         android:layout_height="29dp"
         android:layout_marginStart="16dp"
