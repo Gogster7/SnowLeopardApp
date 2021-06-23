@@ -37,7 +37,7 @@ public class CreateStudy extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_study);
-        TitleInput =findViewById(R.id.StudyTittleInput);
+        TitleInput =findViewById(R.id.StudyTitleInput);
         LocationInput=findViewById(R.id.StudyLocationInput);
         MissionInput=findViewById(R.id.StudyMissionInput);
         StartInput=findViewById(R.id.studyDateStart);

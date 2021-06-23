@@ -12,65 +12,65 @@
         android:id="@+id/RefreshSpin1"
         android:layout_width="301dp"
         android:layout_height="36dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginTop="32dp"
         android:fontFamily="@font/aclonica"
         android:gravity="center"
         android:text="Refresh"
         android:textColor="#FAF5F7"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/BackOrg" />
 
 
     <TextView
         android:id="@+id/BackOrg"
         android:layout_width="301dp"
         android:layout_height="36dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginTop="32dp"
         android:fontFamily="@font/aclonica"
         android:gravity="center"
         android:text="Choose Organization"
         android:textColor="#FAF5F7"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/RefreshSpin1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Submit1" />
 
     <TextView
-        android:id="@+id/tittle_reg1"
+        android:id="@+id/title_reg1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="116dp"
+        android:layout_marginTop="32dp"
         android:elegantTextHeight="true"
         android:fontFamily="@font/aclonica"
         android:shadowColor="#B4B1B1"
         android:text="Choose Country"
         android:textColor="#FFFFFF"
         android:textSize="36sp"
-        app:layout_constraintBottom_toTopOf="@+id/Spinner_Country"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.01999998" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/Submit1"
         android:layout_width="360dp"
         android:layout_height="55dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="32dp"
         android:text="Submit"
-        app:layout_constraintBottom_toTopOf="@+id/BackOrg"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Spinner_Country" />
 
     <Spinner
         android:id="@+id/Spinner_Country"
         android:layout_width="409dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="128dp"
-        app:layout_constraintBottom_toTopOf="@+id/Submit1"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_reg1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,60 +11,59 @@
         android:id="@+id/RefreshSpin0"
         android:layout_width="301dp"
         android:layout_height="36dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginTop="64dp"
         android:fontFamily="@font/aclonica"
         android:gravity="center"
         android:text="Refresh"
         android:textColor="#FAF5F7"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/GoBackLogin" />
 
     <Button
         android:id="@+id/submit0"
         android:layout_width="360dp"
         android:layout_height="55dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginTop="64dp"
         android:background="#FFFF8D"
         android:fontFamily="@font/aclonica"
         android:text="Submit"
         android:textColor="#FDFCFC"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/GoBackLogin"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/register_orgS3" />
 
     <TextView
         android:id="@+id/GoBackLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="64dp"
         android:fontFamily="@font/aclonica"
         android:gravity="center"
         android:text="Already have an account?"
         android:textColor="#FAF5F7"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/RefreshSpin0"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/submit0" />
 
     <Spinner
         android:id="@+id/register_orgS3"
         android:layout_width="375dp"
         android:layout_height="42dp"
-        android:backgroundTint="#FAFAFA"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="#E8E6E6"
         android:ems="10"
         android:fontFamily="@font/aclonica"
         android:hint="Select Country:"
-        android:textColor="#F8F8F8"
-        app:layout_constraintBottom_toTopOf="@+id/submit0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tittle_reg2" />
+        app:layout_constraintTop_toBottomOf="@+id/title_reg2" />
 
     <TextView
-        android:id="@+id/tittle_reg2"
+        android:id="@+id/title_reg2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

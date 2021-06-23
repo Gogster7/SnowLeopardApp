@@ -88,7 +88,7 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
     private EditText cameraIDInput;
     private EditText NotesInput;
     private EditText SdcardInput;
-    private TextView Tittle;
+    private TextView Title;
     private String stationId;
     private String watershedid;
     private String latitudeS;
@@ -137,7 +137,7 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
         post=fragmentView.findViewById(R.id.postbuttonCam);
         SdcardInput = fragmentView.findViewById(R.id.SdcardInput);
         SpinStudies = (Spinner) fragmentView.findViewById(R.id.StudySpinner);
-        Tittle= fragmentView.findViewById(R.id.createStationLabel);
+        Title = fragmentView.findViewById(R.id.createStationLabel);
         db=FirebaseFirestore.getInstance();
         fStorage= FirebaseStorage.getInstance();
         NotesInput =fragmentView.findViewById(R.id.NoteInput);
@@ -171,7 +171,7 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
                 if (cur.equals( "Pick A Study")==Boolean.FALSE && cur.equals("No Studies")==Boolean.FALSE) {
                     SStudy = cur;
                     SpinStudies.setVisibility(View.GONE);
-                    Tittle.setText("Add CameraStation");
+                    Title.setText("Add CameraStation");
                     fragmentView.findViewById(R.id.AddStudyBtn).setVisibility(View.GONE);
                     fragmentView.findViewById(R.id.RefreshStudyBtn).setVisibility(View.GONE);
                     stationIdInput.setVisibility(View.VISIBLE);
@@ -256,7 +256,7 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
                                 Study study = documentSnapshot.toObject(Study.class);
                                 studies.add(study.getTitle());
                             }
-                            if (studies.size()==1){
+                            if (studies == null || studies.size()==1){
                                 studies.set(0,"No Studies");
                             }
                             dataAdapter.clear();
@@ -710,8 +710,8 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
         return gson.fromJson(json,type);
     }
     private ArrayList<String> loadStudies(){
+        // TODO: studies are null or have no titles
         SharedPreferences sharedPreferences =getContext().getSharedPreferences("user",Context.MODE_PRIVATE);
-
 
         Gson gson= new Gson();
         String json = sharedPreferences.getString("studies",null);
@@ -806,7 +806,7 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
         SpinStudies.setVisibility(View.VISIBLE);
         SpinStudies.setAdapter(dataAdapter);
 
-        Tittle.setText("Choose Study");
+        Title.setText("Choose Study");
         fragmentView.findViewById(R.id.AddStudyBtn).setVisibility(View.VISIBLE);
         StudyRefresh.setVisibility(View.VISIBLE);
         stationIdInput.setVisibility(View.GONE);

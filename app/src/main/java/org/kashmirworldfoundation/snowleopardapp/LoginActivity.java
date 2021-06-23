@@ -35,6 +35,8 @@ import java.util.ArrayList;
 
 public class LoginActivity extends AppCompatActivity {
     EditText mEmail, mPassword;
+    private MyProjectSharedPreference sharedPreference;
+
     Button mLoginBtn;
     TextView mRegisterBtn,mRegisterOrgBtn, mForgetBtn;
     FirebaseAuth fAuth;
@@ -43,19 +45,18 @@ public class LoginActivity extends AppCompatActivity {
     ImageView Background;
     ConstraintLayout layout;
     ArrayList<String> studies;
+
+    String userEmail, userPassword;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         fAuth= FirebaseAuth.getInstance();
         layout = findViewById(R.id.LoginLayout);
-        /*
-        if(fAuth.getCurrentUser() != null){
+        /*  if(fAuth.getCurrentUser() != null){
             startActivity(new Intent(getApplicationContext(),MainActivity.class));
             finish();
-        }
-
-         */
+        } */
         mForgetBtn = findViewById(R.id.LoginForget);
         mEmail      = findViewById(R.id.email);
         mPassword   = findViewById(R.id.password);
@@ -70,6 +71,12 @@ public class LoginActivity extends AppCompatActivity {
         // Background.setVisibility(View.VISIBLE);
         fetchData();
 
+        sharedPreference = new MyProjectSharedPreference(this);
+        userEmail = sharedPreference.getValue("email");
+        userPassword = sharedPreference.getValue("password");
+        mEmail.setText(userEmail);
+        mPassword.setText(userPassword);
+
         mForgetBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,7 +87,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), RegisterSpinner0.class));
-               
             }
         });
         mRegisterOrgBtn.setOnClickListener(new View.OnClickListener() {
@@ -89,7 +95,6 @@ public class LoginActivity extends AppCompatActivity {
                 if (getAdmin()){
                     startActivity(new Intent(getApplicationContext(), RegisterOrgAdminActivity.class));
                 }
-
                 startActivity(new Intent(getApplicationContext(), RegisterOrgActivity.class));
             }
         });
@@ -99,13 +104,11 @@ public class LoginActivity extends AppCompatActivity {
                 Utils util = new Utils();
 
                 studies = new ArrayList<>();
-                String email = mEmail.getText().toString().trim();
-                String pass = mPassword.getText().toString().trim();
-                if (email != null && !email.trim().isEmpty() && pass != null && !pass.trim().isEmpty()) {
+
+                if (userEmail != null && !userEmail.trim().isEmpty() && userPassword != null && !userPassword.trim().isEmpty()) {
                     if (util.getAgreement(LoginActivity.this)) {
                         LayoutInflater inflater = LayoutInflater.from(LoginActivity.this);
                         View view = inflater.inflate(R.layout.disclaimer_layout, null);
-
 
                         AlertDialog.Builder alertDialog = new AlertDialog.Builder(LoginActivity.this);
                         alertDialog.setTitle("Terms of Service");
@@ -115,7 +118,6 @@ public class LoginActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 Toast.makeText(LoginActivity.this, "Agreement needed to login", Toast.LENGTH_LONG).show();
                             }
-
                         });
 
                         alertDialog.setPositiveButton("Agree", new DialogInterface.OnClickListener() {
@@ -123,19 +125,15 @@ public class LoginActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
 
                                 util.setAgreement(LoginActivity.this);
-                                login(email, pass);
+                                login(userEmail, userPassword);
                             }
                         });
                         AlertDialog alert = alertDialog.create();
                         alert.show();
-                    } else {
-                        login(email, pass);
-                    }
-
+                    } else {  login(userEmail, userPassword); }
                 }
                 else {
                     Toast.makeText(LoginActivity.this, "Please enter username and password", Toast.LENGTH_LONG ).show();
-
                 }
             }
         });
@@ -146,19 +144,17 @@ public class LoginActivity extends AppCompatActivity {
         GlideApp.with(this)
                 .load(ref)
                 .into(Background);
-
-
     }
     private void saveStudies(ArrayList<String> studies){
         SharedPreferences sharedPreferences = LoginActivity.this.getSharedPreferences("user",Context.MODE_PRIVATE);
         SharedPreferences.Editor editor =sharedPreferences.edit();
-
 
         Gson gson = new Gson();
         String json =gson.toJson(studies);
         editor.putString("studies",json);
         editor.apply();
     }
+
     private void saveMember (Member mem,String uid){
         SharedPreferences sharedPreferences = LoginActivity.this.getSharedPreferences("user", Context.MODE_PRIVATE);
 
@@ -171,11 +167,20 @@ public class LoginActivity extends AppCompatActivity {
         editor.putString("uid",uid);
         editor.apply();
     }
+
     private boolean getAdmin(){
         SharedPreferences sharedPreferences = LoginActivity.this.getSharedPreferences("Admin", Context.MODE_PRIVATE);
         return sharedPreferences.getBoolean("Admin",false);
-
     }
+
+    public void saveUserEmailPassword(View v) {
+        // TODO: add error handling for trying to save empty input. And a boolean flag as user could check and uncheck the checkbox
+        userEmail = mEmail.getText().toString();
+        userPassword = mPassword.getText().toString();
+        sharedPreference.save("email", userEmail);
+        sharedPreference.save("password", userPassword);
+    }
+
     private void login(String email, String pass){
         fAuth.signInWithEmailAndPassword(email,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override

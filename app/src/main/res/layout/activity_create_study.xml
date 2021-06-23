@@ -66,7 +66,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="50dp"
         android:fontFamily="@font/aclonica"
         android:text="Date Start"
         android:textColor="#FFFFFF"
@@ -80,7 +80,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
         android:fontFamily="@font/aclonica"
-        android:text="Date Start"
         android:textColor="#FFFFFF"
         android:textSize="24dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -107,7 +106,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="72dp"
         android:fontFamily="@font/aclonica"
-        android:text="Date End"
         android:textColor="#FFFFFF"
         android:textSize="24dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -116,7 +114,7 @@
         app:layout_constraintTop_toBottomOf="@+id/studyDateStart" />
 
     <EditText
-        android:id="@+id/StudyTittleInput"
+        android:id="@+id/StudyTitleInput"
         android:layout_width="199dp"
         android:layout_height="29dp"
         android:layout_marginTop="128dp"
@@ -139,7 +137,7 @@
         android:ems="10"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline11"
-        app:layout_constraintTop_toBottomOf="@+id/StudyTittleInput" />
+        app:layout_constraintTop_toBottomOf="@+id/StudyTitleInput" />
 
     <EditText
         android:id="@+id/StudyMissionInput"
@@ -158,26 +156,24 @@
         android:id="@+id/pickenddateid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
         android:text="pick end date"
-        app:layout_constraintBottom_toTopOf="@+id/StudyPostBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.547"
         app:layout_constraintStart_toStartOf="@+id/guideline11"
-        app:layout_constraintTop_toBottomOf="@+id/pickstartdateid"
-        app:layout_constraintVertical_bias="0.396" />
+        app:layout_constraintTop_toBottomOf="@+id/pickstartdateid" />
 
     <Button
         android:id="@+id/pickstartdateid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
+        android:layout_marginTop="50dp"
         android:text="pick start date"
-        app:layout_constraintBottom_toTopOf="@+id/StudyPostBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toEndOf="@+id/StudyDateStartLabel"
-        app:layout_constraintTop_toBottomOf="@+id/StudyMissionInput"
-        app:layout_constraintVertical_bias="0.247" />
+        app:layout_constraintTop_toBottomOf="@+id/StudyMissionInput" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline11"
@@ -190,23 +186,23 @@
         android:id="@+id/StudyPostBtn"
         android:layout_width="360dp"
         android:layout_height="55dp"
-        android:layout_marginTop="484dp"
+        android:layout_marginTop="60dp"
         android:text="Post Study"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/createStudyLabel" />
+        app:layout_constraintTop_toBottomOf="@+id/pickenddateid" />
 
     <TextView
         android:id="@+id/StudyBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         android:fontFamily="@font/aclonica"
         android:text="Back"
         android:textColor="#FFFFFF"
         android:textSize="24dp"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/StudyPostBtn" />
