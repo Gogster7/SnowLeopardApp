@@ -257,7 +257,7 @@ public class Register extends AppCompatActivity {
                                                             Study study = documentSnapshot.toObject(Study.class);
                                                             studies.add(study.getTitle());
                                                         }
-                                                        if (studies.size() == 1) {
+                                                        if (studies == null || studies.size() == 1) {
                                                             studies.set(0, "No Studies");
                                                         }
                                                         saveStudies(studies);

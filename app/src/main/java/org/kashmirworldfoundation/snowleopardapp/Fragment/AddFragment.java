@@ -283,7 +283,7 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
             public void onClick(View v) {
                 ArrayList<CameraStation> Clist= load();
                 if (Clist.size()==0){
-                    createToast(getContext(),"No Camerat stations saved", Toast.LENGTH_LONG);
+                    createToast(getContext(),"No Camera stations saved", Toast.LENGTH_LONG);
                 }
                 else{
                     Fireload(Clist);
