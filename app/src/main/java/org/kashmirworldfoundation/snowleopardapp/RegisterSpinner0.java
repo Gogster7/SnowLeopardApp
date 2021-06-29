@@ -80,15 +80,15 @@ public class RegisterSpinner0 extends AppCompatActivity {
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Check if the data is selected
+                if (Sorg == null || Sorg.equals("Select Org")){
+                    Toast.makeText(RegisterSpinner0.this, "Need to select an organization", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                //Add your data to bundle
                 Intent I = new Intent(getApplicationContext(), RegisterSpinner1.class);
                 Bundle bundle = new Bundle();
-
-//Add your data to bundle
                 bundle.putString("Orgname", Sorg);
-
-
-//Add your data to bundle
-
                 I.putExtras(bundle);
                 startActivity(I);
             }
@@ -125,16 +125,7 @@ public class RegisterSpinner0 extends AppCompatActivity {
         mOrg.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (parent.getItemAtPosition(position).equals("Select Org"))
-                {
-                    // do nothing
-                }
-                else
-                {
-                    // selecting a spinner item
-                    Sorg = parent.getItemAtPosition(position).toString();
-
-                }
+                Sorg = parent.getItemAtPosition(position).toString();
             }
 
             @Override

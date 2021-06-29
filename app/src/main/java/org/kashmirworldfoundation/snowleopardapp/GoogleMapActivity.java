@@ -277,7 +277,7 @@ public class GoogleMapActivity extends AppCompatActivity implements  OnMapReadyC
                     if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
                         setupLocationListener();
                     } else {
-                        Toast.makeText(this, "Location Permission not Granted", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Location permission not granted", Toast.LENGTH_SHORT).show();
                     }
                 }
             }

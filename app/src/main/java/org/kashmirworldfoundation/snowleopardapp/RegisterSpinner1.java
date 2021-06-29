@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -92,7 +93,7 @@ public class RegisterSpinner1 extends AppCompatActivity {
                     }
                     Countries=new ArrayList<>(set);
 
-                    Countries.add(0,"Select Region");
+                    Countries.add(0,"Select Country");
                     dataAdapter.addAll(Countries);
                 }
             }
@@ -104,16 +105,7 @@ public class RegisterSpinner1 extends AppCompatActivity {
         mCountry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (parent.getItemAtPosition(position).equals("Select Country"))
-                {
-                    // do nothing
-                }
-                else
-                {
-                    // selecting a spinner item
-                    Scountry = parent.getItemAtPosition(position).toString();
-
-                }
+                Scountry = parent.getItemAtPosition(position).toString();
             }
 
             @Override
@@ -124,6 +116,12 @@ public class RegisterSpinner1 extends AppCompatActivity {
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Check if data is selected
+                if (Scountry == null || Scountry.equals("Select Country")){
+                    Toast.makeText(RegisterSpinner1.this, "Need to select a country", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                //Add data to bundle
                 Intent i = new Intent(getApplicationContext(),RegisterSpinner2.class);
                 Bundle b = new Bundle();
                 b.putString("OrgName", Sorg);

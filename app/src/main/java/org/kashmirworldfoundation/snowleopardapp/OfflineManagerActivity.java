@@ -950,7 +950,7 @@ public class OfflineManagerActivity extends AppCompatActivity implements
     @Override
     public void onLocationComponentClick() {
         if (locationComponent.getLastKnownLocation() != null) {
-            Toast.makeText(this, String.format("current location",
+            Toast.makeText(this, String.format("Current location: ",
                     locationComponent.getLastKnownLocation().getLatitude(),
                     locationComponent.getLastKnownLocation().getLongitude()), Toast.LENGTH_LONG).show();
         }
@@ -1048,7 +1048,7 @@ public class OfflineManagerActivity extends AppCompatActivity implements
                 // Check result. If no regions have been
                 // downloaded yet, notify user and return
                 if (offlineRegions == null || offlineRegions.length == 0) {
-                    Toast.makeText(getApplicationContext(), "no regions", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "No regions", Toast.LENGTH_SHORT).show();
                     return;
                 }
 

@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
@@ -83,16 +84,7 @@ public class RegisterSpinner2 extends AppCompatActivity {
         mRegion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (parent.getItemAtPosition(position).equals("Select Region"))
-                {
-                    // do nothing
-                }
-                else
-                {
-                    // selecting a spinner item
-                    Sregion = parent.getItemAtPosition(position).toString();
-
-                }
+                Sregion = parent.getItemAtPosition(position).toString();
             }
 
             @Override
@@ -103,6 +95,12 @@ public class RegisterSpinner2 extends AppCompatActivity {
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Check if data is selected
+                if (Sregion == null || Sregion.equals("Select Region")){
+                    Toast.makeText(RegisterSpinner2.this, "Need to select a region", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                //Add data to bundle
                 Intent i= new Intent(getApplicationContext(),Register.class);
                 Bundle b = new Bundle();
                 b.putString("OrgName",Sorg);

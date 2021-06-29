@@ -283,7 +283,7 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
             public void onClick(View v) {
                 ArrayList<CameraStation> Clist= load();
                 if (Clist.size()==0){
-                    createToast(getContext(),"No Camera stations saved", Toast.LENGTH_LONG);
+                    createToast(getContext(),"No camera stations saved", Toast.LENGTH_LONG);
                 }
                 else{
                     Fireload(Clist);
@@ -332,7 +332,7 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
                 current=new CameraStation();
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
                 alertDialog.setTitle("SD Card");
-                alertDialog.setMessage("Has the SD Card been formatted");
+                alertDialog.setMessage("Has the SD Card been formatted?");
 
 
                 alertDialog.setPositiveButton("Done", new DialogInterface.OnClickListener() {

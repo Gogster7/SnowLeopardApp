@@ -96,27 +96,27 @@ public class Register extends AppCompatActivity {
                 final String region =i.getStringExtra("Region");
                 final String country = i.getStringExtra("Country");
                 if(TextUtils.isEmpty(fullName)){
-                    mFullName.setError("Full name is Required.");
+                    mFullName.setError("Full name is required.");
                     return;
                 }
                 if(TextUtils.isEmpty(organization)){
-                    mOrganization.setError("Organization is Required.");
+                    mOrganization.setError("Organization is required.");
                     return;
                 }
                 if(TextUtils.isEmpty(phoneNumber)){
-                    mPhonenumber.setError("Phone number is Required.");
+                    mPhonenumber.setError("Phone number is required.");
                     return;
                 }
                 if(TextUtils.isEmpty(email)){
-                    mEmail.setError("Email is Required.");
+                    mEmail.setError("Email is required.");
                     return;
                 }
                 if(TextUtils.isEmpty(password)){
-                    mPassword.setError("Password is Required.");
+                    mPassword.setError("Password is required.");
                     return;
                 }
                 if(password.length() < 6){
-                    mPassword.setError("Password must be at least 6 Characters");
+                    mPassword.setError("Password must be at least 6 characters");
                     return;
                 }
                 Utils util = new Utils();
