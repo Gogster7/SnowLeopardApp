@@ -14,8 +14,8 @@
         android:padding="15dp"
         android:text="Re-Bait Now"
         android:textColor="@color/rPrimaryText"
-        android:textSize="18sp"
-        android:textStyle="bold"/>
+        android:textSize="28dp"
+        android:textStyle="bold" />
 
     <View
         android:layout_width="match_parent"
@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:buttonTint="@color/rSecondaryText"
             android:checked="false"
-            android:fontFamily="@font/aclonica"
+            android:fontFamily="sans-serif"
             android:text="skunk + fish oil"
             android:textColor="@color/rSecondaryText"
             android:textSize="18sp" />
@@ -58,7 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:buttonTint="@color/rSecondaryText"
-            android:fontFamily="@font/aclonica"
+            android:fontFamily="sans-serif"
             android:text="castor +fish oil"
             android:textColor="@color/rSecondaryText"
             android:textSize="18sp" />
@@ -68,7 +68,7 @@
             android:layout_width="210dp"
             android:layout_height="38dp"
             android:buttonTint="@color/rSecondaryText"
-            android:fontFamily="@font/aclonica"
+            android:fontFamily="sans-serif"
             android:text="fish oil"
             android:textColor="@color/rSecondaryText"
             android:textSize="18sp" />
@@ -78,7 +78,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:buttonTint="@color/rSecondaryText"
-            android:fontFamily="@font/aclonica"
+            android:fontFamily="sans-serif"
             android:text="none"
             android:checked="true"
             android:textColor="@color/rSecondaryText"

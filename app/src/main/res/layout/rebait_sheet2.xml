@@ -15,8 +15,8 @@
         android:padding="15dp"
         android:text="Re-Bait Now"
         android:textColor="@color/rPrimaryText"
-        android:textSize="18sp"
-        android:textStyle="bold"/>
+        android:textSize="28dp"
+        android:textStyle="bold" />
 
     <View
         android:id="@+id/topL"
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:textSize="30sp"
             android:gravity="center"
-            android:fontFamily="@font/aclonica"
+            android:fontFamily="sans-serif"
             android:text="Any Camera Signs/Comments?"/>
 
 
@@ -71,7 +71,7 @@
             android:layout_alignParentEnd="true"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="168dp"
-            android:fontFamily="@font/aclonica"
+            android:fontFamily="sans-serif"
             android:gravity="center"
             android:text="New SD Card:"
             android:textSize="30sp" />
