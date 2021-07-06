@@ -338,7 +338,7 @@ public class AddFragment  extends Fragment implements View.OnClickListener{
                 alertDialog.setPositiveButton("Done", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        change();
+                        // change();
 
 
                     }
